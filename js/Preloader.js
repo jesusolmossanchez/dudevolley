@@ -29,6 +29,7 @@ DudeVolley.Preloader.prototype = {
 
 
 	    this.load.spritesheet('player1','assets/default_player.png',80,110)
+	    this.load.spritesheet('cpu','assets/cpu_player.png',80,110)
 
 	},
 

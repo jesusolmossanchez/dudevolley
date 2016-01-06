@@ -3,16 +3,28 @@
 /**************************************************
 ** GAME PLAYER CLASS
 **************************************************/
-var Player = function(juego) {
+var Player = function(juego, quien) {
 	
-	this.sprite =juego.add.sprite(32, juego.world.height - 250, 'player1');
-	this.sprite.animations.add('semueve', [0, 1], 7, true);
-	this.sprite.animations.add('senfada', [3], 5, true);
-	this.sprite.animations.add('salta', [2], 5, true);
-	this.sprite.limite_izquierda = 0;
-	this.sprite.limite_derecha = 330;
-    this.soyplayer1 = true;
-    this.frame_parao = 0; 
+	if (quien === "cpu"){
+        this.sprite =juego.add.sprite(juego.world.width - 52, juego.world.height - 250, quien);
+        this.sprite.animations.add('senfada', [0], 5, true);
+        this.sprite.animations.add('semueve', [2, 3], 7, true);
+        this.sprite.animations.add('salta', [1], 5, true);
+        this.sprite.limite_izquierda = 470;
+        this.sprite.limite_derecha = 800;
+        this.soyplayer1 = false; 
+        this.frame_parao = 3;
+    }
+    else{
+        this.sprite =juego.add.sprite(32, juego.world.height - 250, quien);
+        this.sprite.animations.add('semueve', [0, 1], 7, true);
+        this.sprite.animations.add('senfada', [3], 5, true);
+        this.sprite.animations.add('salta', [2], 5, true);
+        this.sprite.limite_izquierda = 0;
+        this.sprite.limite_derecha = 330;
+        this.soyplayer1 = true;
+        this.frame_parao = 0; 
+    }
 	
 
 	juego.physics.arcade.enable(this.sprite);
