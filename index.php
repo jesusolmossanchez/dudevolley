@@ -8,6 +8,7 @@
 	<script src="js/Boot.js"></script>
 	<script src="js/Preloader.js"></script>
 	<script src="js/MainMenu.js"></script>
+	<script src="js/GameOnePlayer.js"></script>
 
 
 
@@ -27,6 +28,7 @@ window.onload = function() {
 	game.state.add('Boot', DudeVolley.Boot);
 	game.state.add('Preloader', DudeVolley.Preloader);
 	game.state.add('MainMenu', DudeVolley.MainMenu);
+	game.state.add('GameOnePlayer', DudeVolley.GameOnePlayer);
 	
 	//empieza
 	game.state.start('Boot');

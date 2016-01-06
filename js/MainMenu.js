@@ -69,7 +69,7 @@ DudeVolley.MainMenu.prototype = {
 		if(L.isDown || Z.isDown || ENTER.isDown){
 			switch (this.menu_principal.frame){
 				case this.UN_JUGADOR:
-					console.log("UN_JUGADOR");
+					this.state.start('GameOnePlayer');
 					break;
 				case this.DOS_JUGADORES:
 					console.log("DOS_JUGADORES");

@@ -22,6 +22,10 @@ DudeVolley.Preloader.prototype = {
 	    this.load.spritesheet('menu_principal', 'assets/menu_sprite.png', 400, 400); // MENU PRINCIPAL
 	    this.load.image('titulo_estirado', 'assets/dude_volley.png');
 
+	    this.load.image('sky', 'assets/new_campo2.png'); // background principal -- cambiar
+	    this.load.image('ground', 'assets/platform2.png'); // suelo
+	    this.load.image('red', 'assets/new_red.png'); // red -- cambiar
+
 	},
 
 	create: function () {
