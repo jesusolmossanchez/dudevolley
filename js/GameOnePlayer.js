@@ -1,21 +1,5 @@
 DudeVolley.GameOnePlayer = function (game) {
 
-    this.game;      //  a reference to the currently running game (Phaser.Game)
-    this.add;       //  used to add sprites, text, groups, etc (Phaser.GameObjectFactory)
-    this.camera;    //  a reference to the game camera (Phaser.Camera)
-    this.cache;     //  the game cache (Phaser.Cache)
-    this.input;     //  the global input manager. You can access this.input.keyboard, this.input.mouse, as well from it. (Phaser.Input)
-    this.load;      //  for preloading assets (Phaser.Loader)
-    this.math;      //  lots of useful common math operations (Phaser.Math)
-    this.sound;     //  the sound manager - add a sound, play one, set-up markers, etc (Phaser.SoundManager)
-    this.stage;     //  the game stage (Phaser.Stage)
-    this.time;      //  the clock (Phaser.Time)
-    this.tweens;    //  the tween manager (Phaser.TweenManager)
-    this.state;     //  the state manager (Phaser.StateManager)
-    this.world;     //  the game world (Phaser.World)
-    this.particles; //  the particle manager (Phaser.Particles)
-    this.physics;   //  the physics manager (Phaser.Physics)
-    this.rnd;       //  the repeatable random number generator (Phaser.RandomDataGenerator)
 
 };
 
@@ -142,14 +126,40 @@ DudeVolley.GameOnePlayer.prototype = {
 
     update: function () {
 
-        this.physics.arcade.collide(Player1.sprite, platforms);
+        
         if (Player1.sprite.body.y > this.world.height-250){
             Player1.sprite.salta = false;
         }
 
         this.pelota.angle += this.pelota.body.velocity.x/20;
+        this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
         this.physics.arcade.collide(this.pelota, platforms);
+        this.physics.arcade.collide(Player1.sprite, platforms);
 
+
+
+        //CONTROL DE LA ACCION ENFADAO/GORRINO
+        if(this.time.now > (Player1.sprite.tiempo_gorrino - 100)){
+            Player1.sprite.body.rotation = 0;
+            Player1.sprite.hace_gorrino = false;
+        }
+
+        if(this.time.now > (Player1.sprite.tiempo_gorrino+100)){
+            Player1.sprite.para_gorrino = false;
+        }
+
+        if(superpika.isDown || superpika2.isDown){
+            if (!Player1.sprite.body.touching.down && !Player1.sprite.para_gorrino){
+                Player1.sprite.enfadao = true;
+                Player1.sprite.animations.play('senfada');
+                Player1.sprite.enfadao_time = this.time.now + 500;
+            }
+            else if (!Player1.sprite.para_gorrino){
+                Player1.sprite.hace_gorrino=true;
+                Player1.sprite.tiempo_gorrino = this.time.now + 400;
+            }
+        }
+        //FIN --- CONTROL DE LA ACCION ENFADAO/GORRINO
 
         if (cursors.left.isDown){
             Player1.mueve("izquierda");
@@ -174,6 +184,75 @@ DudeVolley.GameOnePlayer.prototype = {
     quitGame: function (pointer) {
 
         this.state.start('MainMenu');
+
+    },
+
+
+    rebote: function () {
+        
+        if (this.punto){
+            return true;
+        }
+
+        this.pelota.body.gravity.y = 900;
+        this.pelota.body.velocity.y = -600;
+
+
+        pos_pelota = this.pelota.body.position.x;
+        pos_player = Player1.sprite.body.position.x;
+        diferencia = pos_pelota - pos_player;
+        v_x_pelota = this.pelota.body.velocity.x;
+        v_y_pelota = this.pelota.body.velocity.y;
+        this.pelota.body.velocity.x = diferencia*3;
+
+
+        if (this.time.now < Player1.sprite.enfadao_time && Player1.sprite.enfadao){
+            //pulsado izquierda o derecha solo
+            if ((cursors.right.isDown || cursors.left.isDown) && !cursors.up.isDown && !cursors.down.isDown)
+            {
+                this.pelota.body.velocity.y = v_y_pelota*0.3;
+                this.pelota.body.velocity.x = 800;
+                this.pelota.body.gravity.y = 1500;
+            }
+            // arriba derecha
+            else if(cursors.right.isDown && cursors.up.isDown && !cursors.down.isDown)
+            {
+                this.pelota.body.velocity.y = -800;
+                this.pelota.body.velocity.x = 800;
+                this.pelota.body.gravity.y = 1400;
+            }
+            //arriba izquierda
+            else if(cursors.left.isDown && cursors.up.isDown && !cursors.down.isDown)
+            {
+                this.pelota.body.velocity.y = -800;
+                this.pelota.body.velocity.x = -800;
+                this.pelota.body.gravity.y = 1400;
+            }
+            // abajo y a un lado
+            else if((cursors.right.isDown || cursors.left.isDown) && !cursors.up.isDown && cursors.down.isDown){
+                this.pelota.body.velocity.y = 800;
+                this.pelota.body.velocity.x = 1000;
+                this.pelota.body.gravity.y = 1400;
+            }
+            // abajo solo
+            else if(!cursors.right.isDown && !cursors.left.isDown && !cursors.up.isDown && cursors.down.isDown){
+                this.pelota.body.velocity.y = 800;
+                this.pelota.body.velocity.x = 300;
+                this.pelota.body.gravity.y = 1400;
+            }
+            //sin pulsar ningun lado
+            else if(!cursors.right.isDown && !cursors.left.isDown && !cursors.up.isDown && !cursors.down.isDown){
+                this.pelota.body.velocity.y = -100;
+                this.pelota.body.velocity.x = 300;
+                this.pelota.body.gravity.y = 1400;
+            }
+            //arriba solo
+            else if(!cursors.right.isDown && !cursors.left.isDown && cursors.up.isDown && !cursors.down.isDown){
+                this.pelota.body.velocity.y = -1000;
+                this.pelota.body.velocity.x = 300;
+                this.pelota.body.gravity.y = 1400;
+            }
+        }
 
     },
 
