@@ -9,6 +9,7 @@
 	<script src="js/Preloader.js"></script>
 	<script src="js/MainMenu.js"></script>
 	<script src="js/GameOnePlayer.js"></script>
+	<script src="js/Player.js"></script>
 
 
 

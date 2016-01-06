@@ -32,7 +32,6 @@ DudeVolley.GameOnePlayer.prototype = {
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
 
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -58,6 +57,15 @@ DudeVolley.GameOnePlayer.prototype = {
         var red = platforms.create(390, this.world.height-320, 'red');
         red.body.immovable = true;
 
+        this.pelota = this.add.sprite(32, 0, 'pelota');
+        this.pelota.anchor.setTo(0.5, 0.5);
+        this.physics.arcade.enable(this.pelota);
+        this.pelota.body.gravity.y = 0;
+        this.pelota.body.bounce.y = 0.9;
+        this.pelota.body.bounce.x = 0.9;
+        this.pelota.body.gravity.y = 900;
+        this.pelota.body.collideWorldBounds = true;
+
 
         /***********************************************************************
         ***********************************************************************
@@ -65,6 +73,10 @@ DudeVolley.GameOnePlayer.prototype = {
         ***********************************************************************
         ***********************************************************************/
 
+
+
+
+        Player1 = new Player(this.game);
 
 
 
@@ -130,7 +142,31 @@ DudeVolley.GameOnePlayer.prototype = {
 
     update: function () {
 
-        
+        this.physics.arcade.collide(Player1.sprite, platforms);
+        if (Player1.sprite.body.y > this.world.height-250){
+            Player1.sprite.salta = false;
+        }
+
+        this.pelota.angle += this.pelota.body.velocity.x/20;
+        this.physics.arcade.collide(this.pelota, platforms);
+
+
+        if (cursors.left.isDown){
+            Player1.mueve("izquierda");
+        }
+        else if(cursors.right.isDown){
+            Player1.mueve("derecha");
+        }
+        else{
+            Player1.mueve("parao");
+        }
+
+        if(cursors.up.isDown){
+            Player1.mueve("arriba");
+        }
+        if(cursors.down.isDown){
+            
+        }
        
 
     },
