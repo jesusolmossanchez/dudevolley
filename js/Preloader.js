@@ -1,0 +1,41 @@
+DudeVolley.Preloader = function (game) {
+
+	this.background = null;
+	this.preloadBar = null;
+	this.ready = false;
+
+};
+
+DudeVolley.Preloader.prototype = {
+
+	preload: function () {
+
+		//situo el titulo y la barra de carga
+		var titulo = this.cache.getImage('titulo');
+		this.background = this.add.sprite(this.world.centerX - titulo.width/2.0, 120, 'titulo');
+		this.preloadBar = this.add.sprite(240, 400, 'preloaderBar');
+
+		//carga la barra horizontalmente(con crop)
+		this.load.setPreloadSprite(this.preloadBar);
+
+		//carga de imagenes
+	    this.load.spritesheet('menu_principal', 'assets/menu_sprite.png', 400, 400); // MENU PRINCIPAL
+	    this.load.image('titulo_estirado', 'assets/dude_volley.png');
+
+	},
+
+	create: function () {
+
+		this.preloadBar.cropEnabled = false;
+
+		this.ready = true;
+		this.state.start('MainMenu');
+		
+	},
+
+	update: function () {
+
+
+	}
+
+};
