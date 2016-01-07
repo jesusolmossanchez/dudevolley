@@ -50,6 +50,8 @@ DudeVolley.GameTwoPlayer.prototype = {
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
+        this.pelota.body.mass= 0.3;
+
 
         /***********************************************************************
         ***********************************************************************
@@ -76,7 +78,8 @@ DudeVolley.GameTwoPlayer.prototype = {
 
 
         this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.scoreText2 = this.add.text(this.world.width - 38, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText2 = this.add.text(this.world.width - 16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText2.anchor.x = 1;
         this.puntosPlayer1 = 0;
         this.puntosPlayer2 = 0;
 
@@ -160,6 +163,16 @@ DudeVolley.GameTwoPlayer.prototype = {
     update: function () {
 
 
+        this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
+        this.physics.arcade.collide(this.pelota, Player2.sprite, this.rebote2, null, this);
+
+        this.physics.arcade.collide(this.pelota, platforms);
+
+        this.physics.arcade.collide(Player1.sprite, platforms);
+        this.physics.arcade.collide(Player2.sprite, platforms);
+
+        this.pelota.angle += this.pelota.body.velocity.x/20;
+
         if (this.punto){
             if(this.time.now > this.enunratico){
                 this.punto = false;
@@ -176,17 +189,7 @@ DudeVolley.GameTwoPlayer.prototype = {
                 Player2.sprite.salta = false;
             }
 
-            this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
-            this.physics.arcade.collide(this.pelota, Player2.sprite, this.rebote2, null, this);
-
-            this.physics.arcade.collide(this.pelota, platforms);
-
-            this.physics.arcade.collide(Player1.sprite, platforms);
-            this.physics.arcade.collide(Player2.sprite, platforms);
-
-            this.pelota.angle += this.pelota.body.velocity.x/20;
-
-
+        
 
             //CONTROL DE LA ACCION ENFADAO/GORRINO
             if(this.time.now > (Player1.sprite.tiempoGorrino - 100)){
@@ -272,7 +275,7 @@ DudeVolley.GameTwoPlayer.prototype = {
 
 
             //LA PELOTA TOCA EL SUELO
-            if(this.pelota.body.position.y > 515){
+            if(this.pelota.body.position.y > 500){
                 this.procesapunto();
             }
 
@@ -294,10 +297,10 @@ DudeVolley.GameTwoPlayer.prototype = {
     procesapunto: function () {
 
         //Relentizo todo...
-        Player1.body.velocity.y = Player1.body.velocity.y * 0.2;
-        Player2.body.velocity.y = Player2.body.velocity.y * 0.2;
-        Player1.body.velocity.x = Player1.body.velocity.x * 0.2;
-        Player2.body.velocity.x = Player2.body.velocity.x * 0.2;
+        Player1.sprite.body.velocity.y = Player1.sprite.body.velocity.y * 0.2;
+        Player2.sprite.body.velocity.y = Player2.sprite.body.velocity.y * 0.2;
+        Player1.sprite.body.velocity.x = Player1.sprite.body.velocity.x * 0.2;
+        Player2.sprite.body.velocity.x = Player2.sprite.body.velocity.x * 0.2;
         this.pelota.body.velocity.y = this.pelota.body.velocity.y * 0.2;
         this.pelota.body.velocity.x = this.pelota.body.velocity.x * 0.2;
         this.pelota.body.gravity.y = 200;
@@ -305,9 +308,9 @@ DudeVolley.GameTwoPlayer.prototype = {
         //... veo que hago con el punto
 
         if(this.pelota.body.position.x > 390){
-            puntosPlayer1++;
-            this.scoreText1.text = puntosPlayer1;
-            if (puntosPlayer1 >= 15){
+            this.puntosPlayer1++;
+            this.scoreText1.text = this.puntosPlayer1;
+            if (this.puntosPlayer1 >= 15){
                 this.game.ganador = 1;
                 //this.state.start('GameOver');
             }
@@ -316,9 +319,9 @@ DudeVolley.GameTwoPlayer.prototype = {
             this.punto = true;
         }
         else{
-            puntosPlayer2++;
-            this.scoreText2.text = puntosPlayer2;
-            if (puntosPlayer2 >= 15){
+            this.puntosPlayer2++;
+            this.scoreText2.text = this.puntosPlayer2;
+            if (this.puntosPlayer2 >= 15){
                 this.game.ganador = 2;
                 //this.state.start('GameOver');
             }
@@ -331,17 +334,18 @@ DudeVolley.GameTwoPlayer.prototype = {
 
     empieza: function (quien) {
         this.pelota.body.gravity.y = 900;
-        Player1.body.position.x = 32;
-        Player1.body.position.y = this.world.height - 250;
-        Player1.body.velocity.x = 0;
-        Player1.body.velocity.y = 0;
+        Player1.sprite.body.position.x = 32;
+        Player1.sprite.body.position.y = this.world.height - 250;
+        Player1.sprite.body.velocity.x = 0;
+        Player1.sprite.body.velocity.y = 0;
 
-        Player2.body.position.x = this.world.width - 32;
-        Player2.body.position.y = this.world.height - 250;
-        Player2.body.velocity.x = 0;
-        Player2.body.velocity.y = 0;
+        Player2.sprite.body.position.x = this.world.width - 32;
+        Player2.sprite.body.position.y = this.world.height - 250;
+        Player2.sprite.body.velocity.x = 0;
+        Player2.sprite.body.velocity.y = 0;
 
         this.pelota.body.position.y = 0;
+        this.pelota.body.velocity.x = 0;
 
         if (quien == "uno"){
             this.pelota.body.position.x = 32;

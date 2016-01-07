@@ -1,9 +1,9 @@
-DudeVolley.GameOnePlayer = function (game) {
+DudeVolley.Demo = function (game) {
 
 
 };
 
-DudeVolley.GameOnePlayer.prototype = {
+DudeVolley.Demo.prototype = {
 
     init: function () {
 
@@ -50,8 +50,6 @@ DudeVolley.GameOnePlayer.prototype = {
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
-        this.pelota.body.mass= 0.3;
-
 
         /***********************************************************************
         ***********************************************************************
@@ -62,15 +60,12 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
 
-        Player1 = new Player(this.game, "player1", false);
-        PlayerCPU = new Player(this.game, "cpu", false);
+        Player1CPU = new Player(this.game, "player1", false);
+        Player2CPU = new Player(this.game, "cpu", false);
         this.game.level = 2;
 
-
-
         this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.scoreText2 = this.add.text(this.world.width - 16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.scoreText2.anchor.x = 1;
+        this.scoreText2 = this.add.text(this.world.width - 38, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.puntosPlayer1 = 0;
         this.puntosPlayer2 = 0;
 
@@ -144,91 +139,63 @@ DudeVolley.GameOnePlayer.prototype = {
 
     update: function () {
 
+        if(this.time.now > (Player1CPU.sprite.tiempoGorrino - 100)){
+            Player1CPU.sprite.body.velocity.x = 0;
+            Player1CPU.sprite.body.rotation = 0;
+            Player1CPU.sprite.haceGorrino = false;
+        }
+        if(this.time.now > (Player2CPU.sprite.tiempoGorrino - 100)){
+            Player2CPU.sprite.body.velocity.x = 0;
+            Player2CPU.sprite.body.rotation = 0;
+            Player2CPU.sprite.haceGorrino = false;
+        }
 
-        this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
-        this.physics.arcade.collide(this.pelota, PlayerCPU.sprite, this.rebote_CPU, null, this);
+        this.physics.arcade.collide(this.pelota, Player1CPU.sprite, this.rebote_CPU, null, this);
+        this.physics.arcade.collide(this.pelota, Player2CPU.sprite, this.rebote_CPU, null, this);
 
         this.physics.arcade.collide(this.pelota, platforms);
 
-        this.physics.arcade.collide(Player1.sprite, platforms);
-        this.physics.arcade.collide(PlayerCPU.sprite, platforms);
-        
+        this.physics.arcade.collide(Player1CPU.sprite, platforms);
+        this.physics.arcade.collide(Player2CPU.sprite, platforms);
+
+
+        this.pelota.angle += this.pelota.body.velocity.x/20;
+
         if (this.punto){
             if(this.time.now > this.enunratico){
                 this.punto = false;
                 this.empieza(this.quienEmpieza);
             }
         }
-
         else{
+        
+            if (Player1CPU.sprite.body.y > this.world.height-250){
+                Player1CPU.sprite.salta = false;
+            }
 
-            if(this.time.now > (PlayerCPU.sprite.tiempoGorrino - 100)){
-                PlayerCPU.sprite.body.velocity.x = 0;
-                PlayerCPU.sprite.body.rotation = 0;
-                PlayerCPU.sprite.haceGorrino = false;
+            if (Player2CPU.sprite.body.y > this.world.height-250){
+                Player2CPU.sprite.salta = false;
             }
 
 
-            if (Player1.sprite.body.y > this.world.height-250){
-                Player1.sprite.salta = false;
-            }
-
-            if (PlayerCPU.sprite.body.y > this.world.height-250){
-                PlayerCPU.sprite.salta = false;
-            }
-
-            
-
-
-            this.pelota.angle += this.pelota.body.velocity.x/20;
 
             //CONTROL DE LA ACCION ENFADAO/GORRINO
-            if(this.time.now > (Player1.sprite.tiempoGorrino - 100)){
-                Player1.sprite.body.rotation = 0;
-                Player1.sprite.haceGorrino = false;
+            if(this.time.now > (Player1CPU.sprite.tiempoGorrino - 100)){
+                Player1CPU.sprite.body.rotation = 0;
+                Player1CPU.sprite.haceGorrino = false;
             }
 
-            if(this.time.now > (Player1.sprite.tiempoGorrino+100)){
-                Player1.sprite.paraGorrino = false;
+            if(this.time.now > (Player1CPU.sprite.tiempoGorrino+100)){
+                Player1CPU.sprite.paraGorrino = false;
             }
 
-            if(this.time.now > (PlayerCPU.sprite.tiempoGorrino - 100)){
-                PlayerCPU.sprite.body.rotation = 0;
-                PlayerCPU.sprite.haceGorrino = false;
+            if(this.time.now > (Player2CPU.sprite.tiempoGorrino - 100)){
+                Player2CPU.sprite.body.rotation = 0;
+                Player2CPU.sprite.haceGorrino = false;
             }
 
-            if(this.time.now > (PlayerCPU.sprite.tiempoGorrino+100)){
-                PlayerCPU.sprite.paraGorrino = false;
-            }
-
-            if(SUPERPIKA.isDown || SUPERPIKA2.isDown){
-                if (!Player1.sprite.body.touching.down && !Player1.sprite.paraGorrino){
-                    Player1.sprite.enfadao = true;
-                    Player1.sprite.animations.play('senfada');
-                    Player1.sprite.enfadaoTime = this.time.now + 500;
-                }
-                else if (!Player1.sprite.paraGorrino){
-                    Player1.sprite.haceGorrino=true;
-                    Player1.sprite.tiempoGorrino = this.time.now + 400;
-                }
-            }
-            //FIN --- CONTROL DE LA ACCION ENFADAO/GORRINO
-
-            if (IZQUIERDA.isDown){
-                Player1.mueve("izquierda");
-            }
-            else if(DERECHA.isDown){
-                Player1.mueve("derecha");
-            }
-            else{
-                Player1.mueve("parao");
-            }
-
-            if(ARRIBA.isDown){
-                Player1.mueve("arriba");
-            }
-            if(ABAJO.isDown){
-                
+            if(this.time.now > (Player2CPU.sprite.tiempoGorrino+100)){
+                Player2CPU.sprite.paraGorrino = false;
             }
 
 
@@ -238,25 +205,28 @@ DudeVolley.GameOnePlayer.prototype = {
             if(this.pelota.body.position.y > 500){
                 this.procesapunto();
             }
-            
+
         }
-
-        
-
-        
        
 
     },
+
+    quitGame: function (pointer) {
+
+        this.state.start('MainMenu');
+
+    },
+
 
 
 
     procesapunto: function () {
 
         //Relentizo todo...
-        Player1.sprite.body.velocity.y = Player1.sprite.body.velocity.y * 0.2;
-        PlayerCPU.sprite.body.velocity.y = PlayerCPU.sprite.body.velocity.y * 0.2;
-        Player1.sprite.body.velocity.x = Player1.sprite.body.velocity.x * 0.2;
-        PlayerCPU.sprite.body.velocity.x = PlayerCPU.sprite.body.velocity.x * 0.2;
+        Player1CPU.sprite.body.velocity.y = Player1CPU.sprite.body.velocity.y * 0.2;
+        Player2CPU.sprite.body.velocity.y = Player2CPU.sprite.body.velocity.y * 0.2;
+        Player1CPU.sprite.body.velocity.x = Player1CPU.sprite.body.velocity.x * 0.2;
+        Player2CPU.sprite.body.velocity.x = Player2CPU.sprite.body.velocity.x * 0.2;
         this.pelota.body.velocity.y = this.pelota.body.velocity.y * 0.2;
         this.pelota.body.velocity.x = this.pelota.body.velocity.x * 0.2;
         this.pelota.body.gravity.y = 200;
@@ -282,15 +252,15 @@ DudeVolley.GameOnePlayer.prototype = {
 
     empieza: function (quien) {
         this.pelota.body.gravity.y = 900;
-        Player1.sprite.body.position.x = 32;
-        Player1.sprite.body.position.y = this.world.height - 250;
-        Player1.sprite.body.velocity.x = 0;
-        Player1.sprite.body.velocity.y = 0;
+        Player1CPU.sprite.body.position.x = 32;
+        Player1CPU.sprite.body.position.y = this.world.height - 250;
+        Player1CPU.sprite.body.velocity.x = 0;
+        Player1CPU.sprite.body.velocity.y = 0;
 
-        PlayerCPU.sprite.body.position.x = this.world.width - 32;
-        PlayerCPU.sprite.body.position.y = this.world.height - 250;
-        PlayerCPU.sprite.body.velocity.x = 0;
-        PlayerCPU.sprite.body.velocity.y = 0;
+        Player2CPU.sprite.body.position.x = this.world.width - 32;
+        Player2CPU.sprite.body.position.y = this.world.height - 250;
+        Player2CPU.sprite.body.velocity.x = 0;
+        Player2CPU.sprite.body.velocity.y = 0;
 
         this.pelota.body.position.y = 0;
         this.pelota.body.velocity.x = 0;
@@ -303,85 +273,20 @@ DudeVolley.GameOnePlayer.prototype = {
         }
     },
 
-    quitGame: function (pointer) {
 
-        this.state.start('MainMenu');
-
-    },
-
-
-    rebote: function () {
-        
+    rebote_CPU: function (pelota, jugador) {
         if (this.punto){
             return true;
         }
 
-
-        this.pelota.body.gravity.y = 900;
-        this.pelota.body.velocity.y = -600;
-
-
-        var posXPelota = this.pelota.body.position.x;
-        var posXPlayer = Player1.sprite.body.position.x;
-        var diferencia = posXPelota - posXPlayer;
-        var VxPelota = this.pelota.body.velocity.x;
-        var VyPelota = this.pelota.body.velocity.y;
-        this.pelota.body.velocity.x = diferencia*3;
-
-
-        if (this.time.now < Player1.sprite.enfadaoTime && Player1.sprite.enfadao){
-            //pulsado izquierda o derecha solo
-            if ((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && !ABAJO.isDown)
-            {
-                this.pelota.body.velocity.y = VyPelota*0.3;
-                this.pelota.body.velocity.x = 800;
-                this.pelota.body.gravity.y = 1500;
-            }
-            // arriba derecha
-            else if(DERECHA.isDown && ARRIBA.isDown && !ABAJO.isDown)
-            {
-                this.pelota.body.velocity.y = -800;
-                this.pelota.body.velocity.x = 800;
-                this.pelota.body.gravity.y = 1400;
-            }
-            //arriba izquierda
-            else if(IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown)
-            {
-                this.pelota.body.velocity.y = -800;
-                this.pelota.body.velocity.x = -800;
-                this.pelota.body.gravity.y = 1400;
-            }
-            // abajo y a un lado
-            else if((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && ABAJO.isDown){
-                this.pelota.body.velocity.y = 800;
-                this.pelota.body.velocity.x = 1000;
-                this.pelota.body.gravity.y = 1400;
-            }
-            // abajo solo
-            else if(!DERECHA.isDown && !IZQUIERDA.isDown && !ARRIBA.isDown && ABAJO.isDown){
-                this.pelota.body.velocity.y = 800;
-                this.pelota.body.velocity.x = 300;
-                this.pelota.body.gravity.y = 1400;
-            }
-            //sin pulsar ningun lado
-            else if(!DERECHA.isDown && !IZQUIERDA.isDown && !ARRIBA.isDown && !ABAJO.isDown){
-                this.pelota.body.velocity.y = -100;
-                this.pelota.body.velocity.x = 300;
-                this.pelota.body.gravity.y = 1400;
-            }
-            //arriba solo
-            else if(!DERECHA.isDown && !IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown){
-                this.pelota.body.velocity.y = -1000;
-                this.pelota.body.velocity.x = 300;
-                this.pelota.body.gravity.y = 1400;
-            }
+        var playerIzq;
+        if (jugador.key == "cpu"){
+            playerIzq = 1;
+            jugadorCPU = Player2CPU;
         }
-
-    },
-
-    rebote_CPU: function () {
-        if (this.punto){
-            return true;
+        else{
+            playerIzq = -1;
+            jugadorCPU = Player1CPU;
         }
 
         if (this.game.level == 0){
@@ -401,34 +306,34 @@ DudeVolley.GameOnePlayer.prototype = {
         this.pelota.body.velocity.y = -600;
 
         var posXPelota = this.pelota.body.position.x;
-        var posXPlayer = PlayerCPU.sprite.body.position.x;
+        var posXPlayer = jugadorCPU.sprite.body.position.x;
         var diferencia = posXPelota - posXPlayer;
         var VxPelota = this.pelota.body.velocity.x;
         var VyPelota = this.pelota.body.velocity.y;
         this.pelota.body.velocity.x = diferencia*3;
 
-        if (this.time.now < PlayerCPU.sprite.enfadaoTime && PlayerCPU.sprite.enfadao){
+        if (this.time.now < jugadorCPU.sprite.enfadaoTime && jugadorCPU.sprite.enfadao){
             //this.acho_audio2.play();
            quehago = Math.floor(Math.random() * 4);
            if (quehago == 0)
             {
                 this.pelota.body.velocity.y = VyPelota*0.3;
-                this.pelota.body.velocity.x = -800*this.factorFacilidadX;
-                this.pelota.body.gravity.y = 1500*this.factorFacilidadX;
+                this.pelota.body.velocity.x = playerIzq*(-800)*this.factorFacilidadX;
+                this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
             else if(quehago == 1){
                 this.pelota.body.velocity.y = -800*this.factorFacilidadY;
-                this.pelota.body.velocity.x = 800*this.factorFacilidadX;
+                this.pelota.body.velocity.x = playerIzq*800*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
             else if(quehago == 2){
                 this.pelota.body.velocity.y = -800*this.factorFacilidadY;
-                this.pelota.body.velocity.x = -800*this.factorFacilidadX;
+                this.pelota.body.velocity.x = playerIzq*(-800)*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
             else if(quehago == 3){
                 this.pelota.body.velocity.y = 800*this.factorFacilidadY;
-                this.pelota.body.velocity.x = -1000*this.factorFacilidadX;
+                this.pelota.body.velocity.x = playerIzq*(-1000)*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
         }
@@ -480,59 +385,108 @@ DudeVolley.GameOnePlayer.prototype = {
         //si cae en mi campo
         if(this.dondecae > 360){
             //si cae a mi izquierda, me muevo pallá
-            if(this.dondecae<PlayerCPU.sprite.position.x && !PlayerCPU.sprite.haceGorrino && PlayerCPU.sprite.position.x > PlayerCPU.sprite.limiteIzquierda){
-                PlayerCPU.sprite.body.velocity.x = -cuantocorre;
-                if (this.time.now > PlayerCPU.sprite.enfadaoTime && PlayerCPU.sprite.body.velocity.x != 0){
-                    PlayerCPU.sprite.animations.play('semueve');
+            if(this.dondecae<Player2CPU.sprite.position.x && !Player2CPU.sprite.haceGorrino  && Player2CPU.sprite.position.x > Player2CPU.sprite.limiteIzquierda){
+                Player2CPU.sprite.body.velocity.x = -cuantocorre;
+                if (this.time.now > Player2CPU.sprite.enfadaoTime && Player2CPU.sprite.body.velocity.x != 0){
+                    Player2CPU.sprite.animations.play('semueve');
                 }
             }
             //si cae a mi derecha, me muevo palla
             else{
-                if (!PlayerCPU.sprite.haceGorrino){
-                    PlayerCPU.sprite.body.velocity.x = cuantocorre;
-                    if (this.time.now > PlayerCPU.sprite.enfadaoTime && PlayerCPU.sprite.body.velocity.x != 0){
-                        PlayerCPU.sprite.animations.play('semueve');
+                if (!Player2CPU.sprite.haceGorrino){
+                    Player2CPU.sprite.body.velocity.x = cuantocorre;
+                    if (this.time.now > Player2CPU.sprite.enfadaoTime && Player2CPU.sprite.body.velocity.x != 0){
+                        Player2CPU.sprite.animations.play('semueve');
                     }
                 }
             }
             //si va a caer cerca, salto y me enfado
-            if(this.dondecae-PlayerCPU.sprite.position.x < 70 && x>440 && (PlayerCPU.sprite.position.y > this.world.height-200) && (Vx<120&&Vx>-120) && (this.pelota.position.y<this.world.height-300)){
-                PlayerCPU.sprite.body.velocity.y = -550;
-                PlayerCPU.sprite.enfadao = true;
-                PlayerCPU.sprite.animations.play('senfada');
-                PlayerCPU.sprite.enfadaoTime = this.time.now + cuantoTiempoEnfadao;
+            if(this.dondecae-Player2CPU.sprite.position.x < 70 && x>440 && (Player2CPU.sprite.position.y > this.world.height-200) && (Vx<120&&Vx>-120) && (this.pelota.position.y<this.world.height-300)){
+                Player2CPU.sprite.body.velocity.y = -550;
+                Player2CPU.sprite.enfadao = true;
+                Player2CPU.sprite.animations.play('senfada');
+                Player2CPU.sprite.enfadaoTime = this.time.now + cuantoTiempoEnfadao;
 
             }
-
+            //paradico si no cae en mi campo
+            Player1CPU.sprite.animations.stop();
+            Player1CPU.sprite.frame = 0;
             //si pongo aqui el gorrino, no se equivoca
         }
-        else{
+        else if(this.dondecae < 440){
+            //si cae a mi izquierda, me muevo pallá
+            if(this.dondecae<Player1CPU.sprite.position.x && !Player1CPU.sprite.haceGorrino){
+                Player1CPU.sprite.body.velocity.x = -cuantocorre;
+                if (this.time.now > Player1CPU.sprite.enfadaoTime && Player1CPU.sprite.body.velocity.x != 0){
+                    Player1CPU.sprite.animations.play('semueve');
+                }
+            }
+            //si cae a mi derecha, me muevo palla
+            else if(Player1CPU.sprite.position.x < Player1CPU.sprite.limiteDerecha){
+                if (!Player1CPU.sprite.haceGorrino){
+                    Player1CPU.sprite.body.velocity.x = cuantocorre;
+                    if (this.time.now > Player1CPU.sprite.enfadaoTime && Player1CPU.sprite.body.velocity.x != 0){
+                        Player1CPU.sprite.animations.play('semueve');
+                    }
+                }
+            }
+            //si va a caer cerca, salto y me enfado
+            if(this.dondecae-Player1CPU.sprite.position.x < 70 && x<360 && (Player1CPU.sprite.position.y > this.world.height-200) && (Vx<120&&Vx>-120) && (this.pelota.position.y<this.world.height-300)){
+                Player1CPU.sprite.body.velocity.y = -550;
+                Player1CPU.sprite.enfadao = true;
+                Player1CPU.sprite.animations.play('senfada');
+                Player1CPU.sprite.enfadaoTime = this.time.now + cuantoTiempoEnfadao;
+
+            }
             //paradico si no cae en mi campo
-            PlayerCPU.sprite.animations.stop();
-            PlayerCPU.sprite.frame = 3;
+            Player2CPU.sprite.animations.stop();
+            Player2CPU.sprite.frame = 3;
         }
+        
 
 
         //a veces no hay donde cae y la lia la maquina, jejej
         if (this.game.level != 0){
             if(H<200){
-                if(this.dondecae<PlayerCPU.sprite.position.x && PlayerCPU.sprite.position.x > PlayerCPU.sprite.limiteIzquierda){
-                    if(PlayerCPU.sprite.position.x - this.dondecae > 130 && x>440 && !PlayerCPU.sprite.haceGorrino){
+                if(this.dondecae<Player2CPU.sprite.position.x){
+                    if(Player2CPU.sprite.position.x - this.dondecae > 130 && x>440 && !Player2CPU.sprite.haceGorrino && Player2CPU.sprite.position.x > Player2CPU.sprite.limiteIzquierda){
                         //this.acho_audio2.play();
-                        PlayerCPU.sprite.body.velocity.x = -cuantocorreGorrino;
-                        PlayerCPU.sprite.body.rotation = -90;
-                        PlayerCPU.sprite.tiempoGorrino = this.time.now + cuantoTiempoGorrino;
-                        PlayerCPU.sprite.haceGorrino=true;
+                        Player2CPU.sprite.body.velocity.x = -cuantocorreGorrino;
+                        Player2CPU.sprite.body.rotation = -90;
+                        Player2CPU.sprite.tiempoGorrino = this.time.now + cuantoTiempoGorrino;
+                        Player2CPU.sprite.haceGorrino=true;
                     }
 
                 }
                 else{
-                    if(this.dondecae-PlayerCPU.sprite.position.x > 130 && x>440 && !PlayerCPU.sprite.haceGorrino){
+                    if(this.dondecae-Player2CPU.sprite.position.x > 130 && x>440 && !Player2CPU.sprite.haceGorrino){
                         //this.acho_audio2.play();
-                        PlayerCPU.sprite.body.velocity.x = cuantocorreGorrino;
-                        PlayerCPU.sprite.body.rotation = 90;
-                        PlayerCPU.sprite.tiempoGorrino = this.time.now + cuantoTiempoGorrino;
-                        PlayerCPU.sprite.haceGorrino=true;
+                        Player2CPU.sprite.body.velocity.x = cuantocorreGorrino;
+                        Player2CPU.sprite.body.rotation = 90;
+                        Player2CPU.sprite.tiempoGorrino = this.time.now + cuantoTiempoGorrino;
+                        Player2CPU.sprite.haceGorrino=true;
+                    }
+
+                }
+
+
+                if(this.dondecae<Player1CPU.sprite.position.x){
+                    if(Player1CPU.sprite.position.x - this.dondecae > 130 && x<360 && !Player1CPU.sprite.haceGorrino && Player1CPU.sprite.position.x > Player1CPU.sprite.limiteDerecha){
+                        //this.acho_audio2.play();
+                        Player1CPU.sprite.body.velocity.x = -cuantocorreGorrino;
+                        Player1CPU.sprite.body.rotation = -90;
+                        Player1CPU.sprite.tiempoGorrino = this.time.now + cuantoTiempoGorrino;
+                        Player1CPU.sprite.haceGorrino=true;
+                    }
+
+                }
+                else{
+                    if(this.dondecae-Player1CPU.sprite.position.x > 130 && x<360 && !Player1CPU.sprite.haceGorrino){
+                        //this.acho_audio2.play();
+                        Player1CPU.sprite.body.velocity.x = cuantocorreGorrino;
+                        Player1CPU.sprite.body.rotation = 90;
+                        Player1CPU.sprite.tiempoGorrino = this.time.now + cuantoTiempoGorrino;
+                        Player1CPU.sprite.haceGorrino=true;
                     }
 
                 }

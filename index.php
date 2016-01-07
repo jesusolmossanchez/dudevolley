@@ -12,6 +12,7 @@
 	<script src="js/Player.js"></script>
 	<script src="js/Entrenamiento.js"></script>
 	<script src="js/GameTwoPlayer.js"></script>
+	<script src="js/Demo.js"></script>
 
 
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -40,6 +41,7 @@ window.onload = function() {
 	game.state.add('GameOnePlayer', DudeVolley.GameOnePlayer);
 	game.state.add('Entrenamiento', DudeVolley.Entrenamiento);
 	game.state.add('GameTwoPlayer', DudeVolley.GameTwoPlayer);
+	game.state.add('Demo', DudeVolley.Demo);
 	
 	//empieza
 	game.state.start('Boot');

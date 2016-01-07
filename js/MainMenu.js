@@ -84,7 +84,9 @@ DudeVolley.MainMenu.prototype = {
 					console.log("MEJORES_PUNTUACIONES");
 					break;
 				case this.CREDITOS:
-					console.log("CREDITOS");
+					//Pongo la demo aqui de momento para probar
+					//TODO: Poner la demo donde corresponda
+					this.state.start('Demo');
 					break;
 			}
 		}
