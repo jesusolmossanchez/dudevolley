@@ -10,11 +10,19 @@
 	<script src="js/MainMenu.js"></script>
 	<script src="js/GameOnePlayer.js"></script>
 	<script src="js/Player.js"></script>
+	<script src="js/Entrenamiento.js"></script>
+	<script src="js/GameTwoPlayer.js"></script>
 
 
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.woff" />
+	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.svg#ArcadeClassic" />
+	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.eot" />
+	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.eot?#iefix" />
 
 </head>
 <body style="background-color:rgb(0,0,0); margin:0 !important;">
+<div class="fontPreload" style="font-family: ArcadeClassic;">.</div>
 <div id="gameContainer" style="margin:auto;">
 </div>
 
@@ -30,6 +38,8 @@ window.onload = function() {
 	game.state.add('Preloader', DudeVolley.Preloader);
 	game.state.add('MainMenu', DudeVolley.MainMenu);
 	game.state.add('GameOnePlayer', DudeVolley.GameOnePlayer);
+	game.state.add('Entrenamiento', DudeVolley.Entrenamiento);
+	game.state.add('GameTwoPlayer', DudeVolley.GameTwoPlayer);
 	
 	//empieza
 	game.state.start('Boot');

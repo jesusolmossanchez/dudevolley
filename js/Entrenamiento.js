@@ -57,7 +57,7 @@ DudeVolley.Entrenamiento.prototype = {
 
 
 
-        Player1 = new Player(this.game, "player1");
+        Player1 = new Player(this.game, "player1", true);
 
         this.game.level = 2;
 
@@ -214,6 +214,7 @@ DudeVolley.Entrenamiento.prototype = {
             this.pelota.body.velocity.y = -600;
         }
         
+        
         this.pelota.body.gravity.y = 900;
         this.pelota.body.velocity.y = -600;
 
@@ -224,6 +225,7 @@ DudeVolley.Entrenamiento.prototype = {
         var VxPelota = this.pelota.body.velocity.x;
         var VyPelota = this.pelota.body.velocity.y;
         this.pelota.body.velocity.x = diferencia*3;
+
 
 
         if (this.time.now < Player1.sprite.enfadaoTime && Player1.sprite.enfadao){

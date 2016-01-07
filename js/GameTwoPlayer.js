@@ -75,8 +75,8 @@ DudeVolley.GameTwoPlayer.prototype = {
         this.punto = false;
 
 
-        this.scoreText1 = this.add.text(16, 16, '0', { font: '44px Age', fill: "#eaff02", align: "center" });
-        this.scoreText2 = this.add.text(this.world.width - 38, 16, '0', { font: '44px Age', fill: "#eaff02", align: "center" });
+        this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText2 = this.add.text(this.world.width - 38, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.puntosPlayer1 = 0;
         this.puntosPlayer2 = 0;
 

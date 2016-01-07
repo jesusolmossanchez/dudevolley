@@ -72,13 +72,13 @@ DudeVolley.MainMenu.prototype = {
 					this.state.start('GameOnePlayer');
 					break;
 				case this.DOS_JUGADORES:
-					console.log("DOS_JUGADORES");
+					this.state.start('GameTwoPlayer');
 					break;
 				case this.JUGAR_ONLINE:
 					console.log("JUGAR_ONLINE");
 					break;
 				case this.ENTRENAMIENTO:
-					console.log("ENTRENAMIENTO");
+					this.state.start('Entrenamiento');
 					break;
 				case this.MEJORES_PUNTUACIONES:
 					console.log("MEJORES_PUNTUACIONES");
