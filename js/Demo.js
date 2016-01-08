@@ -50,6 +50,15 @@ DudeVolley.Demo.prototype = {
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
+        this.pelota.body.mass= 0.3;
+
+        this.sombra1 = this.add.sprite(32, this.world.height-200, 'sombra');
+        this.sombra_pelota = this.add.sprite(32, this.world.height-200, 'sombra');
+        this.sombra2 = this.add.sprite(this.world.width - 52, this.world.height-200, 'sombra');
+        this.sombra1.alpha = 0.5;
+        this.sombra2.alpha = 0.5;
+        this.sombra_pelota.alpha = 0.2;
+
 
         /***********************************************************************
         ***********************************************************************
@@ -150,6 +159,10 @@ DudeVolley.Demo.prototype = {
             Player2CPU.sprite.haceGorrino = false;
         }
 
+        this.sombra2.position.set(Player1CPU.sprite.body.position.x, this.world.height - 144);
+        this.sombra1.position.set(Player2CPU.sprite.body.position.x, this.world.height - 144);
+        this.sombra_pelota.position.set(this.pelota.body.position.x, this.world.height - 144);
+        
         this.physics.arcade.collide(this.pelota, Player1CPU.sprite, this.rebote_CPU, null, this);
         this.physics.arcade.collide(this.pelota, Player2CPU.sprite, this.rebote_CPU, null, this);
 
@@ -164,6 +177,7 @@ DudeVolley.Demo.prototype = {
         if (this.punto){
             if(this.time.now > this.enunratico){
                 this.punto = false;
+                this.explota.kill();
                 this.empieza(this.quienEmpieza);
             }
         }
@@ -221,6 +235,8 @@ DudeVolley.Demo.prototype = {
 
 
     procesapunto: function () {
+
+        this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
 
         //Relentizo todo...
         Player1CPU.sprite.body.velocity.y = Player1CPU.sprite.body.velocity.y * 0.2;

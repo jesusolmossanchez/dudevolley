@@ -27,6 +27,9 @@ DudeVolley.Preloader.prototype = {
 	    this.load.image('red', 'assets/new_red.png'); // red -- cambiar
 	    this.load.image('pelota', 'assets/new_pelota.png');
 
+	    this.load.image('sombra', 'assets/sombra.png'); //sombra -- OK
+	    this.load.image('explota', 'assets/explota.png');
+
 
 	    this.load.spritesheet('player1','assets/default_player.png',80,110)
 	    this.load.spritesheet('cpu','assets/cpu_player.png',80,110)
