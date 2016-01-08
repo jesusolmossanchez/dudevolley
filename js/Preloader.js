@@ -31,8 +31,15 @@ DudeVolley.Preloader.prototype = {
 	    this.load.image('explota', 'assets/explota.png');
 
 
-	    this.load.spritesheet('player1','assets/default_player.png',80,110)
-	    this.load.spritesheet('cpu','assets/cpu_player.png',80,110)
+	    this.load.spritesheet('player1','assets/default_player.png',80,110);
+	    this.load.spritesheet('cpu','assets/cpu_player.png',80,110);
+
+
+	    this.load.image('volver', 'assets/volver.png');
+	    this.load.image('tip1', 'assets/muevete.png');
+        this.load.image('tip2', 'assets/salta_arriba.png');
+        this.load.image('tip3', 'assets/gorrino.png');
+        this.load.image('tip4', 'assets/mate.png');
 
 	},
 

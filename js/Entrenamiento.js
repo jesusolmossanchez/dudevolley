@@ -5,6 +5,23 @@ DudeVolley.Entrenamiento = function (game) {
 
 DudeVolley.Entrenamiento.prototype = {
 
+    preload: function(){
+        this.tip1 = this.add.sprite(20, 20, 'tip1');
+        this.tip2 = this.add.sprite(220, 20, 'tip2');
+        this.tip3 = this.add.sprite(420, 20, 'tip3');
+        this.tip4 = this.add.sprite(620, 20, 'tip4');
+        
+        this.tip1.alpha = 0.5;
+        this.tip2.alpha = 0.5;
+        this.tip3.alpha = 0.5;
+        this.tip4.alpha = 0.5;
+
+        this.volver = this.add.sprite(650, 220, 'volver');
+        
+        this.volver.inputEnabled = true;
+        this.volver.input.sprite.events.onInputDown.add(this.volver_a_jugar, this);
+    },
+
     init: function () {
 
         
@@ -137,6 +154,8 @@ DudeVolley.Entrenamiento.prototype = {
 
         if (Player1.sprite.body.y > this.world.height-250){
             Player1.sprite.salta = false;
+            this.tip2.alpha = 0.5;
+            this.tip4.alpha = 0.5;
         }
 
 
@@ -154,6 +173,7 @@ DudeVolley.Entrenamiento.prototype = {
         if(this.time.now > (Player1.sprite.tiempoGorrino - 100)){
             Player1.sprite.body.rotation = 0;
             Player1.sprite.haceGorrino = false;
+            this.tip3.alpha = 0.5;
         }
 
         if(this.time.now > (Player1.sprite.tiempoGorrino+100)){
@@ -179,16 +199,31 @@ DudeVolley.Entrenamiento.prototype = {
         //MOVIMIENTOS
         if (IZQUIERDA.isDown){
             Player1.mueve("izquierda");
+            if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
+                this.tip3.alpha = 1;
+            }
+            else{
+                this.tip1.alpha = 1;
+            }
+            
         }
         else if(DERECHA.isDown){
             Player1.mueve("derecha");
+            if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
+                this.tip3.alpha = 1;
+            }
+            else{
+                this.tip1.alpha = 1;
+            }
         }
         else{
             Player1.mueve("parao");
+            this.tip1.alpha = 0.5;
         }
 
         if(ARRIBA.isDown){
             Player1.mueve("arriba");
+            this.tip2.alpha = 1;
         }
         if(ABAJO.isDown){
             
@@ -229,6 +264,7 @@ DudeVolley.Entrenamiento.prototype = {
 
 
         if (this.time.now < Player1.sprite.enfadaoTime && Player1.sprite.enfadao){
+            this.tip4.alpha = 1;
             //pulsado izquierda o derecha solo
             if ((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && !ABAJO.isDown)
             {
@@ -277,5 +313,9 @@ DudeVolley.Entrenamiento.prototype = {
         }
 
     },
+
+    volver_a_jugar: function () {
+        location.reload();
+    }
 
 };
