@@ -50,7 +50,7 @@ DudeVolley.GameOnePlayer.prototype = {
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
-        this.pelota.body.mass= 0.3;
+        this.pelota.body.mass= 0.2;
 
         this.sombra1 = this.add.sprite(32, this.world.height-200, 'sombra');
         this.sombra_pelota = this.add.sprite(32, this.world.height-200, 'sombra');
@@ -71,15 +71,22 @@ DudeVolley.GameOnePlayer.prototype = {
 
         Player1 = new Player(this.game, "player1", false);
         PlayerCPU = new Player(this.game, "cpu", false);
+
+        //TODO: LEVEL
         this.game.level = 2;
+
+
+        this.game.hasperdio = false;
+        this.game.unplayer = true;
+        this.game.empieza = this.time.now;
 
 
 
         this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2 = this.add.text(this.world.width - 16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2.anchor.x = 1;
-        this.puntosPlayer1 = 0;
-        this.puntosPlayer2 = 0;
+        this.game.puntosPlayer1 = 0;
+        this.game.puntosPlayer2 = 0;
 
 
 
@@ -277,18 +284,29 @@ DudeVolley.GameOnePlayer.prototype = {
         //... veo que hago con el punto
 
         if(this.pelota.body.position.x > 390){
-            this.puntosPlayer1++;
-            this.scoreText1.text = this.puntosPlayer1;
+            this.game.puntosPlayer1++;
+            this.scoreText1.text = this.game.puntosPlayer1;
             this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "uno";
             this.punto = true;
+            if (this.game.puntosPlayer1 >= 10){
+                this.game.ganador = Player1.sprite;
+                this.game.perdedor = PlayerCPU.sprite;
+                this.state.start('GameOver');
+            }
         }
         else{
-            this.puntosPlayer2++;
-            this.scoreText2.text = this.puntosPlayer2;
+            this.game.puntosPlayer2++;
+            this.scoreText2.text = this.game.puntosPlayer2;
             this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "dos";
             this.punto = true;
+            if (this.game.puntosPlayer2 >= 10){
+                this.game.hasperdio = true;
+                this.game.perdedor = Player1.sprite;
+                this.game.ganador = PlayerCPU.sprite;
+                this.state.start('GameOver');
+            }
         }
     },
 

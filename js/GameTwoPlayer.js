@@ -87,8 +87,8 @@ DudeVolley.GameTwoPlayer.prototype = {
         this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2 = this.add.text(this.world.width - 16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2.anchor.x = 1;
-        this.puntosPlayer1 = 0;
-        this.puntosPlayer2 = 0;
+        this.game.puntosPlayer1 = 0;
+        this.game.puntosPlayer2 = 0;
 
 
 
@@ -322,22 +322,27 @@ DudeVolley.GameTwoPlayer.prototype = {
         //... veo que hago con el punto
 
         if(this.pelota.body.position.x > 390){
-            this.puntosPlayer1++;
-            this.scoreText1.text = this.puntosPlayer1;
-            if (this.puntosPlayer1 >= 15){
-                this.game.ganador = 1;
-                //this.state.start('GameOver');
+            this.game.puntosPlayer1++;
+            this.scoreText1.text = this.game.puntosPlayer1;
+            if (this.game.puntosPlayer1 >= 15){
+                
+                this.game.ganador = Player1.sprite;
+                this.game.perdedor = Player2.sprite;
+                this.state.start('GameOver');
+            
             }
             this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "uno";
             this.punto = true;
         }
         else{
-            this.puntosPlayer2++;
-            this.scoreText2.text = this.puntosPlayer2;
-            if (this.puntosPlayer2 >= 15){
-                this.game.ganador = 2;
-                //this.state.start('GameOver');
+            this.game.puntosPlayer2++;
+            this.scoreText2.text = this.game.puntosPlayer2;
+            if (this.game.puntosPlayer2 >= 15){
+                this.game.ganador = Player2.sprite;
+                this.game.perdedor = Player1.sprite;
+                this.state.start('GameOver');
+                this.game.hasperdio = true;
             }
             this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "dos";

@@ -75,8 +75,8 @@ DudeVolley.Demo.prototype = {
 
         this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2 = this.add.text(this.world.width - 38, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.puntosPlayer1 = 0;
-        this.puntosPlayer2 = 0;
+        this.game.puntosPlayer1 = 0;
+        this.game.puntosPlayer2 = 0;
 
 
 
@@ -250,15 +250,15 @@ DudeVolley.Demo.prototype = {
         //... veo que hago con el punto
 
         if(this.pelota.body.position.x > 390){
-            this.puntosPlayer1++;
-            this.scoreText1.text = this.puntosPlayer1;
+            this.game.puntosPlayer1++;
+            this.scoreText1.text = this.game.puntosPlayer1;
             this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "uno";
             this.punto = true;
         }
         else{
-            this.puntosPlayer2++;
-            this.scoreText2.text = this.puntosPlayer2;
+            this.game.puntosPlayer2++;
+            this.scoreText2.text = this.game.puntosPlayer2;
             this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "dos";
             this.punto = true;
