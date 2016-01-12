@@ -44,13 +44,13 @@ DudeVolley.GameOnePlayer.prototype = {
         this.pelota = this.add.sprite(32, 0, 'pelota');
         this.pelota.anchor.setTo(0.5, 0.5);
         this.physics.arcade.enable(this.pelota);
-        this.pelota.body.gravity.y = 0;
+        
         this.pelota.body.bounce.y = 0.9;
         this.pelota.body.bounce.x = 0.9;
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
-        this.pelota.body.mass= 0.2;
+        this.pelota.body.mass= 0.15;
 
         this.sombra1 = this.add.sprite(32, this.world.height-200, 'sombra');
         this.sombra_pelota = this.add.sprite(32, this.world.height-200, 'sombra');
@@ -87,6 +87,12 @@ DudeVolley.GameOnePlayer.prototype = {
         this.scoreText2.anchor.x = 1;
         this.game.puntosPlayer1 = 0;
         this.game.puntosPlayer2 = 0;
+
+
+        this.esperaCollide1 = this.time.now;
+        this.esperaCollide2 = this.time.now;
+        this.cincoMovimientos = 0;
+        this.dondeVaCpu = -100;
 
 
 
@@ -162,8 +168,13 @@ DudeVolley.GameOnePlayer.prototype = {
         this.sombra1.position.set(PlayerCPU.sprite.body.position.x, this.world.height - 144);
         this.sombra_pelota.position.set(this.pelota.body.position.x, this.world.height - 144);
         
-        this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
-        this.physics.arcade.collide(this.pelota, PlayerCPU.sprite, this.rebote_CPU, null, this);
+        if (this.time.now > this.esperaCollide1){
+            this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
+        }
+        
+        if (this.time.now > this.esperaCollide1){
+            this.physics.arcade.collide(this.pelota, PlayerCPU.sprite, this.rebote_CPU, null, this);
+        }
 
         this.physics.arcade.collide(this.pelota, platforms);
 
@@ -249,7 +260,6 @@ DudeVolley.GameOnePlayer.prototype = {
                 
             }
 
-
             this.procesa_movimientos_maquina();
 
             //LA PELOTA TOCA EL SUELO
@@ -312,6 +322,8 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
     empieza: function (quien) {
+        this.dondecae = this.world.width-1;
+
         this.pelota.body.gravity.y = 900;
         Player1.sprite.body.position.x = 32;
         Player1.sprite.body.position.y = this.world.height - 250;
@@ -342,6 +354,8 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
     rebote: function () {
+
+        this.esperaCollide1 = this.time.now + 100;
         
         if (this.punto){
             return true;
@@ -415,6 +429,8 @@ DudeVolley.GameOnePlayer.prototype = {
             return true;
         }
 
+        this.esperaCollide2 = this.time.now + 100;
+
         if (this.game.level == 0){
             this.factorFacilidadX = 0.6;
             this.factorFacilidadY = 0.8;
@@ -487,8 +503,8 @@ DudeVolley.GameOnePlayer.prototype = {
             cuantoTiempoGorrino = 300;
         }
         else if (this.game.level == 2){
-            cuantocorre = 150;
-            cuantocorreGorrino = 400;
+            cuantocorre = 135;
+            cuantocorreGorrino = 300;
             cuantoTiempoEnfadao = 800;
             cuantoTiempoGorrino = 300;
         }
@@ -538,9 +554,29 @@ DudeVolley.GameOnePlayer.prototype = {
             //si pongo aqui el gorrino, no se equivoca
         }
         else{
-            //paradico si no cae en mi campo
-            PlayerCPU.sprite.animations.stop();
-            PlayerCPU.sprite.frame = 3;
+            
+            this.cincoMovimientos = (++this.cincoMovimientos % 60);
+            
+            if (this.cincoMovimientos > 58){
+                ale = Math.random();
+                
+                if (ale > 0.9 && PlayerCPU.sprite.position.y > this.world.height-200){
+                    PlayerCPU.sprite.body.velocity.y = -550;
+                }
+                if (ale>0.6 && PlayerCPU.sprite.body.position.x > 440){
+                    PlayerCPU.sprite.body.velocity.x = -100;
+                }
+                else if(ale <0.5){
+                    PlayerCPU.sprite.body.velocity.x = 100;
+                }
+                this.dondeVaCpu = PlayerCPU.sprite.body.velocity.x;
+            }
+            else{
+                
+                PlayerCPU.sprite.body.velocity.x = this.dondeVaCpu;
+            }
+
+            PlayerCPU.sprite.animations.play('semueve');
         }
 
 

@@ -21,7 +21,7 @@ DudeVolley.Boot.prototype = {
         {
             //si escritorio
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            //TODO: ver como se ve en pantallas enormes
+            //TODO: ver como se ve en pantallas grandes
             this.scale.maxHeight = $(window).height();
             this.scale.maxWidth = 800 * this.scale.maxHeight / 685;
         }
@@ -34,7 +34,7 @@ DudeVolley.Boot.prototype = {
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             
             this.scale.maxHeight = $(window).height();
-            this.scale.maxWidth = 800 * $(window).height() / 650;
+            this.scale.maxWidth = 800 * $(window).height() / 685;
 
         }
 

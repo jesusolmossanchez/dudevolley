@@ -78,6 +78,11 @@ DudeVolley.Demo.prototype = {
         this.game.puntosPlayer1 = 0;
         this.game.puntosPlayer2 = 0;
 
+        this.cincoMovimientos1 = 0;
+        this.cincoMovimientos2 = 0;
+        this.dondeVaCpu1 = 100;
+        this.dondeVaCpu2 = -100;
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,6 +272,8 @@ DudeVolley.Demo.prototype = {
 
 
     empieza: function (quien) {
+        
+
         this.pelota.body.gravity.y = 900;
         Player1CPU.sprite.body.position.x = 32;
         Player1CPU.sprite.body.position.y = this.world.height - 250;
@@ -283,9 +290,11 @@ DudeVolley.Demo.prototype = {
 
         if (quien == "uno"){
             this.pelota.body.position.x = 32;
+            this.dondecae = 1;
         }
         else{
             this.pelota.body.position.x = this.world.width - 32;
+            this.dondecae = this.world.width-1;
         }
     },
 
@@ -377,8 +386,8 @@ DudeVolley.Demo.prototype = {
             cuantoTiempoGorrino = 300;
         }
         else if (this.game.level == 2){
-            cuantocorre = 150;
-            cuantocorreGorrino = 400;
+            cuantocorre = 135;
+            cuantocorreGorrino = 300;
             cuantoTiempoEnfadao = 800;
             cuantoTiempoGorrino = 300;
         }
@@ -424,10 +433,30 @@ DudeVolley.Demo.prototype = {
                 Player2CPU.sprite.enfadaoTime = this.time.now + cuantoTiempoEnfadao;
 
             }
-            //paradico si no cae en mi campo
-            Player1CPU.sprite.animations.stop();
-            Player1CPU.sprite.frame = 0;
-            //si pongo aqui el gorrino, no se equivoca
+            
+            this.cincoMovimientos2 = (++this.cincoMovimientos2 % 60);
+            
+            if (this.cincoMovimientos2 > 58){
+                ale = Math.random();
+                
+                if (ale > 0.9 && Player1CPU.sprite.position.y > this.world.height-200){
+                    Player1CPU.sprite.body.velocity.y = -550;
+                }
+                if (ale>0.6 && Player1CPU.sprite.body.position.x < 360){
+                    Player1CPU.sprite.body.velocity.x = 100;
+                }
+                else if(ale <0.5){
+                    Player1CPU.sprite.body.velocity.x = -100;
+                }
+                this.dondeVaCpu1 = Player1CPU.sprite.body.velocity.x;
+            }
+            else{
+                
+                Player1CPU.sprite.body.velocity.x = this.dondeVaCpu1;
+            }
+
+            Player1CPU.sprite.animations.play('semueve');
+
         }
         else if(this.dondecae < 440){
             //si cae a mi izquierda, me muevo pallá
@@ -454,9 +483,31 @@ DudeVolley.Demo.prototype = {
                 Player1CPU.sprite.enfadaoTime = this.time.now + cuantoTiempoEnfadao;
 
             }
-            //paradico si no cae en mi campo
-            Player2CPU.sprite.animations.stop();
-            Player2CPU.sprite.frame = 3;
+            
+            this.cincoMovimientos1 = (++this.cincoMovimientos1 % 60);
+            
+            if (this.cincoMovimientos1 > 58){
+                ale = Math.random();
+                
+                if (ale > 0.9 && Player2CPU.sprite.position.y > this.world.height-200){
+                    Player2CPU.sprite.body.velocity.y = -550;
+                }
+                if (ale>0.6 && Player2CPU.sprite.body.position.x > 440){
+                    Player2CPU.sprite.body.velocity.x = -100;
+                }
+                else if(ale <0.5){
+                    Player2CPU.sprite.body.velocity.x = 100;
+                }
+                this.dondeVaCpu2 = Player2CPU.sprite.body.velocity.x;
+            }
+            else{
+                
+                Player2CPU.sprite.body.velocity.x = this.dondeVaCpu2;
+            }
+
+            Player2CPU.sprite.animations.play('semueve');
+        
+
         }
         
 
