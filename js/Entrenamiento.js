@@ -64,6 +64,8 @@ DudeVolley.Entrenamiento.prototype = {
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
+        this.pelota.body.mass= 0.15;
+
 
         /***********************************************************************
         ***********************************************************************
@@ -77,6 +79,8 @@ DudeVolley.Entrenamiento.prototype = {
         Player1 = new Player(this.game, "player1", true);
 
         this.game.level = 2;
+
+        this.esperaCollide1 = this.time.now;
 
 
 
@@ -158,9 +162,10 @@ DudeVolley.Entrenamiento.prototype = {
             this.tip4.alpha = 0.5;
         }
 
-
-        this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
-
+        if (this.time.now > this.esperaCollide1){
+            this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
+        }
+        
         this.physics.arcade.collide(this.pelota, platforms);
 
         this.physics.arcade.collide(Player1.sprite, platforms);
@@ -244,6 +249,8 @@ DudeVolley.Entrenamiento.prototype = {
         if (this.pelota.body.position.y > (Player1.sprite.body.position.y + 60)){
             return true;
         }
+
+        this.esperaCollide1 = this.time.now + 100;
 
         if ((this.pelota.body.position.y > 450)){
             this.pelota.body.velocity.y = -600;

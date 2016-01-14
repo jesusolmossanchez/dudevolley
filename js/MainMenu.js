@@ -41,9 +41,56 @@ DudeVolley.MainMenu.prototype = {
 
 		this.cambia_menu = this.time.now + 200;
 
+		this.game.best_player_got = false;
+
 
 
 	},
+
+
+	get_best_players: function (pointer) {
+		if(this.game.best_player_got){
+			return;
+		}
+		this.game.best_player_got = true;
+		eljuego = this;
+		$.ajax({
+			url: "best_players.php", 
+			type: "GET",             
+			contentType: false,   
+			cache: false,      
+			processData:false,    
+			success: function(data){
+				$("#mandapuntos").hide();
+				$("#contiene_mandapuntos").show();
+				$("#contiene_clasificacion").html("<dl id='titulo_nivel'></dl>");
+				acho = JSON.parse(data);
+				$.each(acho, function() {
+					var num = Number(this.tiempo);
+					var seconds = Math.floor(num / 1000);
+					var minutes = Math.floor(seconds / 60);
+					var seconds = seconds - (minutes * 60);
+					if (seconds<10){
+						seconds="0"+seconds;
+					}
+					var format = minutes + ':' + seconds;
+					$("#contiene_clasificacion").html($("#contiene_clasificacion").html()+"<dl><dt>"+this.nombre+"</dt><dd>"+this.puntuacion+"("+format+")</dd></dl>");
+				});
+				$("#contiene_clasificacion").html($("#contiene_clasificacion").html()+"<div style='text-align:center;'><input id='volver_menu' onclick='eljuego.cierra_best();' type='submit' value='volver' /></div>");
+				eljuego.menu_principal.visible = false;
+				$("#contiene_mandapuntos").css("top","120px");
+				
+			}
+		});
+	},
+
+	cierra_best: function(){
+		this.game.best_player_got = false;
+		$("#contiene_mandapuntos").slideDown();
+		$("#contiene_clasificacion").html('');
+		$("#contiene_mandapuntos").css("top","4vw");
+		this.menu_principal.visible = true;
+    },
 
 	//CONTROL DEL SWIPE PARA SELECCIÓN
 	beginSwipe: function () {
@@ -119,7 +166,7 @@ DudeVolley.MainMenu.prototype = {
 					this.state.start('Entrenamiento');
 					break;
 				case this.MEJORES_PUNTUACIONES:
-					console.log("MEJORES_PUNTUACIONES");
+					this.get_best_players();
 					break;
 				case this.CREDITOS:
 					//Pongo la demo aqui de momento para probar

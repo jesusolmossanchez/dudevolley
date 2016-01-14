@@ -50,7 +50,7 @@ DudeVolley.GameTwoPlayer.prototype = {
         this.pelota.body.gravity.y = 900;
         this.pelota.body.collideWorldBounds = true;
 
-        this.pelota.body.mass= 0.3;
+        this.pelota.body.mass= 0.15;
 
         this.sombra1 = this.add.sprite(32, this.world.height-200, 'sombra');
         this.sombra_pelota = this.add.sprite(32, this.world.height-200, 'sombra');
@@ -90,6 +90,8 @@ DudeVolley.GameTwoPlayer.prototype = {
         this.game.puntosPlayer1 = 0;
         this.game.puntosPlayer2 = 0;
 
+        this.esperaCollide1 = this.time.now;
+        this.esperaCollide2 = this.time.now;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,8 +176,13 @@ DudeVolley.GameTwoPlayer.prototype = {
         this.sombra1.position.set(Player2.sprite.body.position.x, this.world.height - 144);
         this.sombra_pelota.position.set(this.pelota.body.position.x, this.world.height - 144);
         
-        this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
-        this.physics.arcade.collide(this.pelota, Player2.sprite, this.rebote2, null, this);
+        if (this.time.now > this.esperaCollide1){
+            this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
+        }
+        
+        if (this.time.now > this.esperaCollide2){
+            this.physics.arcade.collide(this.pelota, Player2.sprite, this.rebote2, null, this);
+        }
 
         this.physics.arcade.collide(this.pelota, platforms);
 
@@ -381,6 +388,8 @@ DudeVolley.GameTwoPlayer.prototype = {
             return true;
         }
 
+        this.esperaCollide1 = this.time.now + 100;
+
         this.pelota.body.gravity.y = 900;
         this.pelota.body.velocity.y = -600;
 
@@ -448,6 +457,8 @@ DudeVolley.GameTwoPlayer.prototype = {
         if (this.punto){
             return true;
         }
+
+        this.esperaCollide2 = this.time.now + 100;
 
         this.pelota.body.gravity.y = 900;
         this.pelota.body.velocity.y = -600;

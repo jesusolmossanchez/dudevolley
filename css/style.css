@@ -163,7 +163,7 @@ canvas{
 #contiene_clasificacion{
     color: #f5f823;
     font-size: 40px;
-    font-size: 4vw;
+    font-size: 3vw;
     line-height: 1.1em;
     margin: 0;
     position: relative;
@@ -328,4 +328,14 @@ canvas{
 }
 #esperando_oponente{
     display:none;
+}
+
+#volver_menu {
+    color: #f5f823;
+    font-size: 40px;
+    font-size: 4vw;
+    background: none;
+    border: 1vw solid #f5f823;
+    padding: 1vw;
+    margin-top: 1vw;
 }

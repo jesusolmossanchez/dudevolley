@@ -172,7 +172,7 @@ DudeVolley.GameOnePlayer.prototype = {
             this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
         }
         
-        if (this.time.now > this.esperaCollide1){
+        if (this.time.now > this.esperaCollide2){
             this.physics.arcade.collide(this.pelota, PlayerCPU.sprite, this.rebote_CPU, null, this);
         }
 
