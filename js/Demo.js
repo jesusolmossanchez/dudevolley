@@ -538,7 +538,7 @@ DudeVolley.Demo.prototype = {
 
 
                 if(this.dondecae<Player1CPU.sprite.position.x){
-                    if(Player1CPU.sprite.position.x - this.dondecae > 130 && x<360 && !Player1CPU.sprite.haceGorrino && Player1CPU.sprite.position.x > Player1CPU.sprite.limiteDerecha){
+                    if(Player1CPU.sprite.position.x - this.dondecae > 130 && x<360 && !Player1CPU.sprite.haceGorrino && Player1CPU.sprite.position.x < Player1CPU.sprite.limiteDerecha){
                         //this.acho_audio2.play();
                         Player1CPU.sprite.body.velocity.x = -cuantocorreGorrino;
                         Player1CPU.sprite.body.rotation = -90;
