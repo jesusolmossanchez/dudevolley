@@ -13,7 +13,12 @@
 	<meta charset="UTF-8" />
 	<title>Dude Volley</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no">
+
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/phaser.min.js"></script>
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script src="js/socketiop2p.min.js"></script>
+
 	<script src="js/Boot.js"></script>
 	<script src="js/Preloader.js"></script>
 	<script src="js/MainMenu.js"></script>
@@ -23,7 +28,7 @@
 	<script src="js/GameTwoPlayer.js"></script>
 	<script src="js/Demo.js"></script>
 	<script src="js/GameOver.js"></script>
-	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="js/GameMultiplayer.js"></script>
 
 
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -52,6 +57,30 @@
 	</ul>
 </div>
 
+<div id="socket_overlay">
+	<div id="socket_overlay_inner">
+		<label id="volley_label"><span> Pon </span><span> tu </span><span> nombre </span></label>
+		<div id="botonera_socket">
+			<input class="volley_button" type="text" id="socket_nombre" maxlength="10"/>
+			<button id="socket_empezar"> Empezar </button>
+		</div>
+		<div id="reta_a_un_colega">
+			<div class="botonera_socket">
+				<button id="reta_a_un_colega_button"><span>Retar</span><span>a</span><span>un</span><span>colega</span></button>
+			</div>
+			<div class="botonera_socket">
+				<button id="juega_con_quien_sea"><span>Jugar</span><span>con</span><span>cualquiera</span></button>
+			</div>
+			<div id="pasa_el_enlace">
+				<span>Pasa</span><span>a</span><span>alguien</span><span>este</span><span>enlace:</span><span>http://projects.local/tuvolley?te_reto</span>
+			</div>
+			<div id="esperando_oponente">
+				<span>Esperando</span><span>oponente...</span>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 
 window.onload = function() {
@@ -69,6 +98,7 @@ window.onload = function() {
 	game.state.add('Entrenamiento', DudeVolley.Entrenamiento);
 	game.state.add('GameTwoPlayer', DudeVolley.GameTwoPlayer);
 	game.state.add('Demo', DudeVolley.Demo);
+	game.state.add('GameMultiplayer', DudeVolley.GameMultiplayer);
 	game.state.add('GameOver', DudeVolley.GameOver);
 	
 	//empieza

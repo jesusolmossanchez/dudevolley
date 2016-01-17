@@ -7,15 +7,7 @@ DudeVolley.Boot = function (game) {
 DudeVolley.Boot.prototype = {
     init: function () {
         //cuando no está activa la pestaña, el juego se pausa
-        /*
         this.stage.disableVisibilityChange = true;
-        
-        
-        this.scale.minWidth = 800/2.5;
-        this.scale.minHeight = 685/2.5;
-
-        this.scale.maxWidth = 800;
-        this.scale.maxHeight = 685;*/
 
         if (this.game.device.desktop)
         {

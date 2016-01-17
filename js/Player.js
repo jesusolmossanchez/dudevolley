@@ -3,7 +3,7 @@
 /**************************************************
 ** GAME PLAYER CLASS
 **************************************************/
-var Player = function(juego, quien, entrenamiento) {
+var Player = function(juego, quien, entrenamiento, id) {
 	
 	if (quien === "cpu"){
         this.sprite =juego.add.sprite(juego.world.width - 52, juego.world.height - 250, quien);
@@ -29,6 +29,10 @@ var Player = function(juego, quien, entrenamiento) {
         }
         this.soyplayer1 = true;
         this.frameParao = 0; 
+    }
+
+    if(id){
+        this.id = id;
     }
 	
 

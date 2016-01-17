@@ -126,24 +126,26 @@ DudeVolley.GameOver.prototype = {
 				}
 			});
 		}
-		else if(this.game.hasperdio == true){
-			$("#contiene_mandapuntos").show();
-			$("#contiene_mandapuntos").css("top","20vw");
-			$("#mandapuntos").show();
-			$("#envia_tus_puntos").hide();
-			$("#inputtunombre").hide();
-			$("#envia_tu_nombre").hide();
-			$("#texto_fin").text("Ganador: Player2");
-			$("#puntos").text(this.game.puntosPlayer1+" - "+this.game.puntosPlayer2);
-		}
+
 		else{
+			var nombreGanador;
+			
+			if (this.game.multiplayer){
+				nombreGanador = this.game.nombre_ganador;
+			}
+			else if(this.game.hasperdio){
+				nombreGanador = "Player2";
+			}
+			else{
+				nombreGanador = "Player1";
+			}
 			$("#contiene_mandapuntos").show();
 			$("#contiene_mandapuntos").css("top","20vw");
 			$("#mandapuntos").show();
 			$("#envia_tus_puntos").hide();
 			$("#inputtunombre").hide();
 			$("#envia_tu_nombre").hide();
-			$("#texto_fin").text("Ganador: Player1");
+			$("#texto_fin").text("Ganador: "+nombreGanador);
 			$("#puntos").text(this.game.puntosPlayer1+" - "+this.game.puntosPlayer2);
 		}
 		
