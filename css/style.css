@@ -82,6 +82,9 @@ canvas{
       cursor: pointer;
 }
 
+.jcrop-holder div{
+    border-radius: 50%;
+}
 .jcrop-tracker{
   border: none !important;
 }
@@ -338,4 +341,11 @@ canvas{
     border: 1vw solid #f5f823;
     padding: 1vw;
     margin-top: 1vw;
+}
+
+#explica_sube > span{
+    margin: 0 1vw;
+}
+#explica_sube {
+    word-break: break-word;
 }

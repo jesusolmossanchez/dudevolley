@@ -154,7 +154,8 @@ DudeVolley.MainMenu.prototype = {
 		if(L.isDown || Z.isDown || ENTER.isDown){
 			switch (this.menu_principal.frame){
 				case this.UN_JUGADOR:
-					this.state.start('GameOnePlayer');
+					//this.state.start('GameOnePlayer');
+					this.state.start('Menu1Player');
 					break;
 				case this.DOS_JUGADORES:
 					this.state.start('GameTwoPlayer');
