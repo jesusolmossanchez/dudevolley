@@ -17,9 +17,9 @@ DudeVolley.Menu1Player.prototype = {
 		this.titulo_estirado = this.add.sprite(this.world.centerX - titulo_estirado.width/2.0, 20, 'titulo_estirado');
 
 		
-		this.menu_principal = this.add.sprite(this.world.centerX, 300, 'menu_principal');
-		this.menu_principal.anchor.setTo(0.5, 0.5);
-		this.menu_principal.frame = 0;
+		this.menu_1player = this.add.sprite(this.world.centerX, 300, 'menu_1player');
+		this.menu_1player.anchor.setTo(0.5, 0.5);
+		this.menu_1player.frame = 0;
 
 
 		//Inputs
@@ -40,31 +40,31 @@ DudeVolley.Menu1Player.prototype = {
 		if ((this.cursors.down.isDown || this.mueveabajo) && this.cambia_menu<this.time.now){
 			this.mueveabajo = false;
 			this.cambia_menu = this.time.now + 200;
-			if (this.menu_principal.frame<1){
-				this.menu_principal.frame++;
+			if (this.menu_1player.frame<1){
+				this.menu_1player.frame++;
 			}
 			else{
-				this.menu_principal.frame = 0;
+				this.menu_1player.frame = 0;
 			}
 		}
 		if ((this.cursors.up.isDown || this.muevearriba) && this.cambia_menu<this.time.now){
 			this.muevearriba = false;
 			this.cambia_menu = this.time.now + 200;
-			if (this.menu_principal.frame==0){
-				this.menu_principal.frame = 1;
+			if (this.menu_1player.frame==0){
+				this.menu_1player.frame = 1;
 			}
 			else{
-				this.menu_principal.frame--;
+				this.menu_1player.frame--;
 			}
 		}
 
 		if(L.isDown || Z.isDown || ENTER.isDown){
-			switch (this.menu_principal.frame){
+			switch (this.menu_1player.frame){
 				case 0:
-					this.empieza();
+					this.juega(false);
 					break;
 				case 1:
-					this.juega(false);
+					this.empieza();
 					break;
 			}
 			
@@ -73,7 +73,7 @@ DudeVolley.Menu1Player.prototype = {
 
 	
 	empieza: function (pointer) {
-		this.menu_principal.destroy();
+		this.menu_1player.destroy();
 		this.game.normalplayer = false;
 		//dificultad jodia por defecto ( 2 )
 		yomismo = this;

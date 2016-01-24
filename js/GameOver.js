@@ -9,7 +9,8 @@ DudeVolley.GameOver.prototype = {
 
 	create: function () {
 
-		
+		var rutajuagdor = this.game.ruta_jugador;
+
 		relacion = $(window).height()/$(window).width();
 		//relacion = 1-relacion;
 		if (relacion < 1){
@@ -64,6 +65,18 @@ DudeVolley.GameOver.prototype = {
 			}
 			else{
 				resultado = "won";
+
+				if (rutajuagdor != false){
+					var post_data= {
+				        rutaplayer: rutajuagdor,
+				        token: window.token
+				    }
+					$.post("cambia_imagen_winner.php", post_data)
+						.done(function( data ) {
+							console.log(data);
+					});
+				}
+
 			}
 
 

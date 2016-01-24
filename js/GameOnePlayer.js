@@ -182,6 +182,7 @@ DudeVolley.GameOnePlayer.prototype = {
         this.physics.arcade.collide(PlayerCPU.sprite, platforms);
         
         if (this.punto){
+            this.pelota.angle += this.pelota.body.velocity.x/20;
             if(this.time.now > this.enunratico){
                 this.punto = false;
                 this.explota.kill();
@@ -337,9 +338,11 @@ DudeVolley.GameOnePlayer.prototype = {
 
         this.pelota.body.position.y = 0;
         this.pelota.body.velocity.x = 0;
+        
 
         if (quien == "uno"){
-            this.pelota.body.position.x = 32;
+            PlayerCPU.sprite.body.position.x = this.world.width - 150;
+            this.pelota.body.position.x = 10;
         }
         else{
             this.pelota.body.position.x = this.world.width - 32;
@@ -355,15 +358,17 @@ DudeVolley.GameOnePlayer.prototype = {
 
     rebote: function () {
 
-        this.esperaCollide1 = this.time.now + 100;
         
         if (this.punto){
+            this.esperaCollide1 = this.time.now + 2500;
             return true;
         }
 
+        this.esperaCollide1 = this.time.now + 100;
 
         this.pelota.body.gravity.y = 900;
         this.pelota.body.velocity.y = -600;
+
 
 
         var posXPelota = this.pelota.body.position.x;
@@ -385,14 +390,14 @@ DudeVolley.GameOnePlayer.prototype = {
             // arriba derecha
             else if(DERECHA.isDown && ARRIBA.isDown && !ABAJO.isDown)
             {
-                this.pelota.body.velocity.y = -800;
+                this.pelota.body.velocity.y = -700;
                 this.pelota.body.velocity.x = 800;
                 this.pelota.body.gravity.y = 1400;
             }
             //arriba izquierda
             else if(IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown)
             {
-                this.pelota.body.velocity.y = -800;
+                this.pelota.body.velocity.y = -700;
                 this.pelota.body.velocity.x = -800;
                 this.pelota.body.gravity.y = 1400;
             }
@@ -426,6 +431,7 @@ DudeVolley.GameOnePlayer.prototype = {
 
     rebote_CPU: function () {
         if (this.punto){
+            this.esperaCollide2 = this.time.now + 2500;
             return true;
         }
 
@@ -456,20 +462,22 @@ DudeVolley.GameOnePlayer.prototype = {
 
         if (this.time.now < PlayerCPU.sprite.enfadaoTime && PlayerCPU.sprite.enfadao){
             //this.acho_audio2.play();
-           quehago = Math.floor(Math.random() * 4);
-           if (quehago == 0)
-            {
+            quehago = Math.floor(Math.random() * 4);
+            if (PlayerCPU.sprite.position.x > 450 & quehago == 3){
+                quehago = Math.floor(Math.random() * 3);
+            }
+            if (quehago == 0){
                 this.pelota.body.velocity.y = VyPelota*0.3;
                 this.pelota.body.velocity.x = -800*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1500*this.factorFacilidadX;
             }
             else if(quehago == 1){
-                this.pelota.body.velocity.y = -800*this.factorFacilidadY;
+                this.pelota.body.velocity.y = -700*this.factorFacilidadY;
                 this.pelota.body.velocity.x = 800*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
             else if(quehago == 2){
-                this.pelota.body.velocity.y = -800*this.factorFacilidadY;
+                this.pelota.body.velocity.y = -700*this.factorFacilidadY;
                 this.pelota.body.velocity.x = -800*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
@@ -563,7 +571,7 @@ DudeVolley.GameOnePlayer.prototype = {
                 if (ale > 0.9 && PlayerCPU.sprite.position.y > this.world.height-200){
                     PlayerCPU.sprite.body.velocity.y = -550;
                 }
-                if (ale>0.6 && PlayerCPU.sprite.body.position.x > 440){
+                if (ale>0.5 && PlayerCPU.sprite.body.position.x > 440){
                     PlayerCPU.sprite.body.velocity.x = -100;
                 }
                 else if(ale <0.5){
@@ -582,7 +590,7 @@ DudeVolley.GameOnePlayer.prototype = {
 
         //a veces no hay donde cae y la lia la maquina, jejej
         if (this.game.level != 0){
-            if(H<200){
+            if(H<200 && PlayerCPU.sprite.body.touching.down){
                 if(this.dondecae<PlayerCPU.sprite.position.x && PlayerCPU.sprite.position.x > PlayerCPU.sprite.limiteIzquierda){
                     if(PlayerCPU.sprite.position.x - this.dondecae > 130 && x>440 && !PlayerCPU.sprite.haceGorrino){
                         //this.acho_audio2.play();
