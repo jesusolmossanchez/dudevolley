@@ -41,6 +41,8 @@ DudeVolley.MainMenu.prototype = {
 
 		this.cambia_menu = this.time.now + 200;
 
+		this.notocas = this.time.now + 10000;
+
 		this.game.best_player_got = false;
 
 
@@ -126,6 +128,15 @@ DudeVolley.MainMenu.prototype = {
 
 	update: function () {
 		//muevo el selector y salto al menu correspondiente
+
+		if (this.time.now > this.notocas){
+			this.state.start('Demo');
+		}
+		var juego = this;
+		$(document).keyup(function(e) {
+			juego.notocas = juego.time.now + 10000;
+		});
+		
 
 		//CAPTURA EL SWIPE
 		this.game.input.onDown.add(this.beginSwipe, this);

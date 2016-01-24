@@ -153,6 +153,10 @@ DudeVolley.Demo.prototype = {
 
     update: function () {
 
+        $(document).keyup(function(e) {
+            location.reload();
+        });
+
         if(this.time.now > (Player1CPU.sprite.tiempoGorrino - 100)){
             Player1CPU.sprite.body.velocity.x = 0;
             Player1CPU.sprite.body.rotation = 0;
@@ -347,12 +351,12 @@ DudeVolley.Demo.prototype = {
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
             else if(quehago == 1){
-                this.pelota.body.velocity.y = -800*this.factorFacilidadY;
+                this.pelota.body.velocity.y = -700*this.factorFacilidadY;
                 this.pelota.body.velocity.x = playerIzq*800*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
             else if(quehago == 2){
-                this.pelota.body.velocity.y = -800*this.factorFacilidadY;
+                this.pelota.body.velocity.y = -700*this.factorFacilidadY;
                 this.pelota.body.velocity.x = playerIzq*(-800)*this.factorFacilidadX;
                 this.pelota.body.gravity.y = 1400*this.factorFacilidadX;
             }
@@ -515,7 +519,7 @@ DudeVolley.Demo.prototype = {
         //a veces no hay donde cae y la lia la maquina, jejej
         if (this.game.level != 0){
             if(H<200){
-                if(this.dondecae<Player2CPU.sprite.position.x){
+                if(this.dondecae<Player2CPU.sprite.position.x && Player2CPU.sprite.body.touching.down){
                     if(Player2CPU.sprite.position.x - this.dondecae > 130 && x>440 && !Player2CPU.sprite.haceGorrino && Player2CPU.sprite.position.x > Player2CPU.sprite.limiteIzquierda){
                         //this.acho_audio2.play();
                         Player2CPU.sprite.body.velocity.x = -cuantocorreGorrino;
@@ -526,7 +530,7 @@ DudeVolley.Demo.prototype = {
 
                 }
                 else{
-                    if(this.dondecae-Player2CPU.sprite.position.x > 130 && x>440 && !Player2CPU.sprite.haceGorrino){
+                    if(this.dondecae-Player2CPU.sprite.position.x > 130 && x>440 && !Player2CPU.sprite.haceGorrino  && Player2CPU.sprite.body.touching.down){
                         //this.acho_audio2.play();
                         Player2CPU.sprite.body.velocity.x = cuantocorreGorrino;
                         Player2CPU.sprite.body.rotation = 90;
@@ -537,7 +541,7 @@ DudeVolley.Demo.prototype = {
                 }
 
 
-                if(this.dondecae<Player1CPU.sprite.position.x){
+                if(this.dondecae<Player1CPU.sprite.position.x  && Player1CPU.sprite.body.touching.down){
                     if(Player1CPU.sprite.position.x - this.dondecae > 130 && x<360 && !Player1CPU.sprite.haceGorrino && Player1CPU.sprite.position.x < Player1CPU.sprite.limiteDerecha){
                         //this.acho_audio2.play();
                         Player1CPU.sprite.body.velocity.x = -cuantocorreGorrino;
@@ -548,7 +552,7 @@ DudeVolley.Demo.prototype = {
 
                 }
                 else{
-                    if(this.dondecae-Player1CPU.sprite.position.x > 130 && x<360 && !Player1CPU.sprite.haceGorrino){
+                    if(this.dondecae-Player1CPU.sprite.position.x > 130 && x<360 && !Player1CPU.sprite.haceGorrino && Player1CPU.sprite.body.touching.down){
                         //this.acho_audio2.play();
                         Player1CPU.sprite.body.velocity.x = cuantocorreGorrino;
                         Player1CPU.sprite.body.rotation = 90;

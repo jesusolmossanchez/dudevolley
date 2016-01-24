@@ -134,7 +134,7 @@ DudeVolley.Menu1Player.prototype = {
 	},
 
 	juega: function (ruta_jugador) {
-		
+		this.game.normalplayer = true;
 		$("#contiene_foto_subida").css("display","none");
 		this.game.ruta_jugador = ruta_jugador;
 		this.state.start('PreOnePlayer');

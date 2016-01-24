@@ -967,13 +967,13 @@ DudeVolley.GameMultiplayer.prototype = {
                 }
                 else if((cursors.right.isDown || this.muevederecha)  && (cursors.up.isDown || this.muevearriba) 
                     && (!cursors.down.isDown && !this.mueveabajo)){
-                    this.pelota.body.velocity.y = -800*this.game.factor_slow_velocity;
+                    this.pelota.body.velocity.y = -700*this.game.factor_slow_velocity;
                     this.pelota.body.velocity.x = 800*this.game.factor_slow_velocity;
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
                 else if((cursors.left.isDown || this.mueveizquierda) && (cursors.up.isDown || this.muevearriba) 
                     && (!cursors.down.isDown && !this.mueveabajo)){
-                    this.pelota.body.velocity.y = -800*this.game.factor_slow_velocity;
+                    this.pelota.body.velocity.y = -700*this.game.factor_slow_velocity;
                     this.pelota.body.velocity.x = -800*this.game.factor_slow_velocity;
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
@@ -1053,12 +1053,12 @@ DudeVolley.GameMultiplayer.prototype = {
                     this.pelota.body.gravity.y = 1500*this.game.factor_slow_gravity;
                 }
                 else if(quehaceel2 == 9){
-                    this.pelota.body.velocity.y = -800*this.game.factor_slow_velocity;
+                    this.pelota.body.velocity.y = -700*this.game.factor_slow_velocity;
                     this.pelota.body.velocity.x = 800*this.game.factor_slow_velocity;
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
                 else if(quehaceel2 == 7){
-                    this.pelota.body.velocity.y = -800*this.game.factor_slow_velocity;
+                    this.pelota.body.velocity.y = -700*this.game.factor_slow_velocity;
                     this.pelota.body.velocity.x = -800*this.game.factor_slow_velocity;
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
