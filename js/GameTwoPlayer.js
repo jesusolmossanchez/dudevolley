@@ -116,21 +116,21 @@ DudeVolley.GameTwoPlayer.prototype = {
         PAUSE = this.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
         //INPUTS PLAYER1
-        ARRIBA = cursors.up;
-        ABAJO = cursors.down;
-        IZQUIERDA = cursors.left;
-        DERECHA = cursors.right;
+        ARRIBA2 = cursors.up;
+        ABAJO2 = cursors.down;
+        IZQUIERDA2 = cursors.left;
+        DERECHA2 = cursors.right;
 
-        SUPERPIKA = this.input.keyboard.addKey(Phaser.Keyboard.L);
+        SUPERPIKA2 = this.input.keyboard.addKey(Phaser.Keyboard.L);
 
 
         //INPUTS PLAYER 2
-        ARRIBA2 = this.input.keyboard.addKey(Phaser.Keyboard.R);
-        ABAJO2 = this.input.keyboard.addKey(Phaser.Keyboard.F);
-        IZQUIERDA2 = this.input.keyboard.addKey(Phaser.Keyboard.D);
-        DERECHA2 = this.input.keyboard.addKey(Phaser.Keyboard.G);
+        ARRIBA = this.input.keyboard.addKey(Phaser.Keyboard.R);
+        ABAJO = this.input.keyboard.addKey(Phaser.Keyboard.F);
+        IZQUIERDA = this.input.keyboard.addKey(Phaser.Keyboard.D);
+        DERECHA = this.input.keyboard.addKey(Phaser.Keyboard.G);
 
-        SUPERPIKA2 = this.input.keyboard.addKey(Phaser.Keyboard.Z);
+        SUPERPIKA = this.input.keyboard.addKey(Phaser.Keyboard.Z);
 
 
         /***********************************************************************
