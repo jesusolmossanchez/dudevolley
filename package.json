@@ -1,0 +1,24 @@
+{
+  "main": "index.html",
+  "name": "DUDE VOLLEY",
+  "description": "DUDE VOLLEY, PROBANDO COSICAS",
+  "version": "0.0.1",
+  "keywords": [ "DUDE_VOLLEY" ],
+  "window": {
+    "title": "DUDE VOLLEY",
+    "icon": "assets/pelota.png",
+    "toolbar": false,
+    "frame": false,
+    "width": 800,
+    "height": 600,
+    "position": "center",
+    "min_width": 400,
+    "min_height": 300,
+    "max_width": 1000,
+    "max_height": 750,
+    "fullscreen": true
+  },
+  "webkit": {
+    "plugin": true
+  }
+}
