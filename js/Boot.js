@@ -9,26 +9,12 @@ DudeVolley.Boot.prototype = {
         //cuando no está activa la pestaña, el juego se pausa
         this.stage.disableVisibilityChange = true;
 
-        if (this.game.device.desktop)
-        {
-            //si escritorio
-            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            //TODO: ver como se ve en pantallas grandes
-            this.scale.maxHeight = $(window).height();
-            this.scale.maxWidth = 800 * this.scale.maxHeight / 685;
-        }
-        else
-        {
-            //si no escritotio
-            window.onresize = this.rescale.bind(this);
-            //this.doOnOrientationChange();
-            //cosas del escalado
-            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            
-            this.scale.maxHeight = $(window).height();
-            this.scale.maxWidth = 800 * $(window).height() / 685;
-
-        }
+        //si escritorio
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        //TODO: ver como se ve en pantallas grandes
+        this.scale.maxHeight = $(window).height();
+        this.scale.maxWidth = 800 * this.scale.maxHeight / 685;
+        
 
     },
 

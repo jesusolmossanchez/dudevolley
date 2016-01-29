@@ -20,7 +20,6 @@ DudeVolley.Preloader.prototype = {
 
 		//carga de imagenes
 	    this.load.spritesheet('menu_principal', 'assets/menu_sprite.png', 400, 400); // MENU PRINCIPAL
-	    this.load.spritesheet('menu_1player', 'assets/menu_1player.png', 400, 270); // MENU 1 PLAYER
 	    this.load.image('titulo_estirado', 'assets/dude_volley.png');
 
 	    this.load.image('sky', 'assets/new_campo2.png'); // background principal -- cambiar
@@ -39,8 +38,6 @@ DudeVolley.Preloader.prototype = {
 	    this.load.spritesheet('cpu','cpu_player/cpu_player.png',80,110);
 
 	  
-
-
 	    this.load.image('volver', 'assets/volver.png');
 	    this.load.image('tip1', 'assets/muevete.png');
         this.load.image('tip2', 'assets/salta_arriba.png');
@@ -50,7 +47,7 @@ DudeVolley.Preloader.prototype = {
 	},
 
 	create: function () {
-
+		
 		this.preloadBar.cropEnabled = false;
 
 		this.ready = true;
