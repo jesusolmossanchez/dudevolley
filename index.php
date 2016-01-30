@@ -98,7 +98,7 @@
 				<button id="juega_con_quien_sea"><span>Jugar</span><span>con</span><span>cualquiera</span></button>
 			</div>
 			<div id="pasa_el_enlace">
-				<span>Pasa</span><span>a</span><span>alguien</span><span>este</span><span>enlace:</span><span>http://projects.local/tuvolley?te_reto</span>
+				<span>Pasa</span><span>a</span><span>alguien</span><span>este</span><span>enlace:</span><span>http://projects.local/dudevolley?te_reto</span>
 			</div>
 			<div id="esperando_oponente">
 				<span>Esperando</span><span>oponente...</span>

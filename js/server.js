@@ -67,6 +67,7 @@ function onClientDisconnect() {
     players_ready.pop();
     util.log(players);
     util.log(players_ready);
+    io.emit("disconnect");
 };
 
 //propaga el movimiento

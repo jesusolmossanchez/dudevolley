@@ -143,8 +143,12 @@ DudeVolley.GameOver.prototype = {
 		else{
 			var nombreGanador;
 			
+			var elotrosehapirao = "";
 			if (this.game.multiplayer){
 				nombreGanador = this.game.nombre_ganador;
+				if (this.game.desconectado){
+					var elotrosehapirao = "</br>...el otro se ha pirao";
+				}
 			}
 			else if(this.game.hasperdio){
 				nombreGanador = "Player2";
@@ -158,7 +162,7 @@ DudeVolley.GameOver.prototype = {
 			$("#envia_tus_puntos").hide();
 			$("#inputtunombre").hide();
 			$("#envia_tu_nombre").hide();
-			$("#texto_fin").text("Ganador: "+nombreGanador);
+			$("#texto_fin").html("Ganador: "+nombreGanador+elotrosehapirao);
 			$("#puntos").text(this.game.puntosPlayer1+" - "+this.game.puntosPlayer2);
 		}
 		
