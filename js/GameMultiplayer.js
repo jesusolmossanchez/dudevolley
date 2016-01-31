@@ -358,7 +358,13 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
         function onRemovePlayer(data) {
+        };
 
+        function onFueraMultiplayer(data) {
+            if (typeof(Player1) === 'undefined'){
+                location.reload();
+            }
+            
         };
 
         //manejador de eventos
@@ -377,6 +383,10 @@ DudeVolley.GameMultiplayer.prototype = {
             // Player move message received
             socket.on("situapelota", onSituaPelota);
             socket.on("situajugador1", onSituajugador1);
+
+
+            //TODO: Hacer esto bien
+            socket.on("fuera del multiplayer", onFueraMultiplayer);
 
 
             socket.on("goGameOver", onGoGameOver);

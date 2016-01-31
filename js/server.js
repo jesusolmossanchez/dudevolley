@@ -18,6 +18,15 @@ function onSocketConnection(client) {
     //Me llega que se ha conectao alguien
     util.log("New player has connected: "+client.id);
 
+
+    if(players.length > 1){
+        //TODO: Hacer algo con más de dos jugadores
+        util.log("YA HAY DOS");
+        this.emit("fuera del multiplayer", client.id);
+        return;
+
+    }
+
     //Creo el jugador correspondiente
     //-player1 si es el primero en entrar
     //-player2 si es el segundo
