@@ -46,6 +46,12 @@ DudeVolley.MainMenu.prototype = {
 		this.game.best_player_got = false;
 
 
+		//PRUEBAS MOVIL
+		this.movil_jugar = this.add.sprite(this.world.centerX, this.world.height - 100, 'volver');
+		this.movil_jugar.anchor.setTo(0.5, 0.5);
+		this.movil_jugar.inputEnabled = true;
+		this.movil_jugar.input.sprite.events.onInputDown.add(this.empieza, this);
+
 
 	},
 
@@ -114,11 +120,11 @@ DudeVolley.MainMenu.prototype = {
         
         if(Math.abs(distY)>60){
             if(distY>0){           
-                    this.muevearriba = true;
-               }
-               else{
-                    this.mueveabajo = true;
-               }
+				this.muevearriba = true;
+			}
+				else{
+				this.mueveabajo = true;
+			}
         }   
         // stop listening for the player to release finger/mouse, let's start listening for the player to click/touch
         this.game.input.onDown.add(this.beginSwipe);
@@ -127,6 +133,10 @@ DudeVolley.MainMenu.prototype = {
     },
 
 	update: function () {
+		//CAPTURA EL SWIPE
+		this.game.input.onDown.add(this.beginSwipe, this);
+
+		
 		//muevo el selector y salto al menu correspondiente
 
 		if (this.time.now > this.notocas){
@@ -138,8 +148,6 @@ DudeVolley.MainMenu.prototype = {
 		});
 		
 
-		//CAPTURA EL SWIPE
-		this.game.input.onDown.add(this.beginSwipe, this);
 
 		if ((this.cursors.down.isDown || this.mueveabajo) && this.cambia_menu<this.time.now){
 			this.mueveabajo = false;
@@ -163,31 +171,36 @@ DudeVolley.MainMenu.prototype = {
 		}
 
 		if(L.isDown || Z.isDown || ENTER.isDown){
-			switch (this.menu_principal.frame){
-				case this.UN_JUGADOR:
-					//this.state.start('GameOnePlayer');
-					this.state.start('Menu1Player');
-					break;
-				case this.DOS_JUGADORES:
-					this.state.start('GameTwoPlayer');
-					break;
-				case this.JUGAR_ONLINE:
-					this.state.start('GameMultiplayer');
-					break;
-				case this.ENTRENAMIENTO:
-					this.state.start('Entrenamiento');
-					break;
-				case this.MEJORES_PUNTUACIONES:
-					this.get_best_players();
-					break;
-				case this.CREDITOS:
-					//Pongo la demo aqui de momento para probar
-					//TODO: Poner la demo donde corresponda
-					this.state.start('Demo');
-					break;
-			}
+			this.empieza();
 		}
 
-	}
+	},
+
+	//CONTROL DEL SWIPE PARA SELECCIÓN
+	empieza: function () {
+        switch (this.menu_principal.frame){
+			case this.UN_JUGADOR:
+				//this.state.start('GameOnePlayer');
+				this.state.start('Menu1Player');
+				break;
+			case this.DOS_JUGADORES:
+				this.state.start('GameTwoPlayer');
+				break;
+			case this.JUGAR_ONLINE:
+				this.state.start('GameMultiplayer');
+				break;
+			case this.ENTRENAMIENTO:
+				this.state.start('Entrenamiento');
+				break;
+			case this.MEJORES_PUNTUACIONES:
+				this.get_best_players();
+				break;
+			case this.CREDITOS:
+				//Pongo la demo aqui de momento para probar
+				//TODO: Poner la demo donde corresponda
+				this.state.start('Demo');
+				break;
+		}
+    }
 
 };

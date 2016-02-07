@@ -99,7 +99,18 @@ DudeVolley.GameOnePlayer.prototype = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+        
+        //console.log(this.joy);
+        //var pin= this.game.add.sprite(0, 0, "volver");
+        //var holder= this.game.add.sprite(0, 0, "pelota");
+        this.joy = new Joystick(this.game, 120, this.world.height - 100);
 
+        //PRUEBAS MOVIL
+        this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'volver');
+        this.movil_accion.anchor.setTo(0.5, 0.5);
+        this.movil_accion.inputEnabled = true;
+        this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
+        this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,10 +170,18 @@ DudeVolley.GameOnePlayer.prototype = {
 
     },
 
+    entra_movil_accion: function (){
+        this.click_accion = true;
+    },
 
+    sal_movil_accion: function (){
+        this.click_accion = false;
+    },
 
 
     update: function () {
+
+        
 
         this.sombra2.position.set(Player1.sprite.body.position.x, this.world.height - 144);
         this.sombra1.position.set(PlayerCPU.sprite.body.position.x, this.world.height - 144);
@@ -188,6 +207,7 @@ DudeVolley.GameOnePlayer.prototype = {
                 this.explota.kill();
                 this.empieza(this.quienEmpieza);
             }
+            Player1.sprite.body.velocity.x = 0;
         }
 
         else{
@@ -216,6 +236,7 @@ DudeVolley.GameOnePlayer.prototype = {
             if(this.time.now > (Player1.sprite.tiempoGorrino - 100)){
                 Player1.sprite.body.rotation = 0;
                 Player1.sprite.haceGorrino = false;
+                Player1.sprite.body.velocity.x = 0;
             }
 
             if(this.time.now > (Player1.sprite.tiempoGorrino+100)){
@@ -231,7 +252,7 @@ DudeVolley.GameOnePlayer.prototype = {
                 PlayerCPU.sprite.paraGorrino = false;
             }
 
-            if(SUPERPIKA.isDown || SUPERPIKA2.isDown){
+            if(SUPERPIKA.isDown || SUPERPIKA2.isDown || this.click_accion){
                 if (!Player1.sprite.body.touching.down && !Player1.sprite.paraGorrino){
                     Player1.sprite.enfadao = true;
                     Player1.sprite.animations.play('senfada');
@@ -244,6 +265,10 @@ DudeVolley.GameOnePlayer.prototype = {
             }
             //FIN --- CONTROL DE LA ACCION ENFADAO/GORRINO
 
+            
+           
+
+
             if (IZQUIERDA.isDown){
                 Player1.mueve("izquierda");
             }
@@ -251,7 +276,7 @@ DudeVolley.GameOnePlayer.prototype = {
                 Player1.mueve("derecha");
             }
             else{
-                Player1.mueve("parao");
+                //Player1.mueve("parao");
             }
 
             if(ARRIBA.isDown){
@@ -260,6 +285,11 @@ DudeVolley.GameOnePlayer.prototype = {
             if(ABAJO.isDown){
                 
             }
+            this.joy.update();
+            this.joy.holder.events.onMove.add(this.procesaDragg, this);
+            this.joy.holder.events.onUp.add(this.paraDragg, this);
+
+
 
             this.procesa_movimientos_maquina();
 
@@ -352,6 +382,36 @@ DudeVolley.GameOnePlayer.prototype = {
     quitGame: function (pointer) {
 
         this.state.start('MainMenu');
+
+    },
+
+    paraDragg: function (pointer) {
+
+        Player1.mueve("parao");
+
+    },
+
+    procesaDragg: function (a, distance, radianes) {
+
+        var angulo = radianes*180/Math.PI;
+
+        if (distance < 30){
+            Player1.mueve("parao");
+            return;
+        }
+
+        if (angulo > -90 && angulo < 90){
+            Player1.mueve("derecha");
+        }
+        if (angulo > 90 || angulo < -90){
+            
+            Player1.mueve("izquierda");
+        }
+        
+        if (angulo > -135 && angulo < -45){
+            Player1.mueve("arriba");
+        }
+
 
     },
 

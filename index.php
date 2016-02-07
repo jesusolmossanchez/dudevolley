@@ -27,6 +27,7 @@
 	<script src="js/PreOnePlayer.js"></script>
 	<script src="js/GameOnePlayer.js"></script>
 	<script src="js/Player.js"></script>
+	<script src="js/Joystick.js"></script>
 	<script src="js/Entrenamiento.js"></script>
 	<script src="js/GameTwoPlayer.js"></script>
 	<script src="js/Demo.js"></script>
@@ -110,7 +111,7 @@
 <script type="text/javascript">
 
 window.onload = function() {
-
+	
 	window.token = '<?php echo $token;?>';
 
 	//creo el objeto del juego

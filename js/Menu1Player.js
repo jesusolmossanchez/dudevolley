@@ -31,10 +31,53 @@ DudeVolley.Menu1Player.prototype = {
 		
 
 		this.cambia_menu = this.time.now + 200;
+
+
+		//PRUEBAS MOVIL
+		this.movil_jugar = this.add.sprite(this.world.centerX, this.world.height - 100, 'volver');
+		this.movil_jugar.anchor.setTo(0.5, 0.5);
+		this.movil_jugar.inputEnabled = true;
+		this.movil_jugar.input.sprite.events.onInputDown.add(this.empieza_movil, this);
 	},
+
+	//CONTROL DEL SWIPE PARA SELECCIÓN
+	beginSwipe: function () {
+        startX = this.game.input.worldX;
+        startY = this.game.input.worldY;
+        
+        this.game.input.onDown.remove(this.beginSwipe);
+        this.game.input.onUp.add(this.endSwipe,this);
+    },
+
+    endSwipe: function () {
+
+        endX = this.game.input.worldX;
+        endY = this.game.input.worldY;
+
+        var distX = startX-endX;
+        var distY = startY-endY;
+        
+        
+        if(Math.abs(distY)>60){
+            if(distY>0){           
+				this.muevearriba = true;
+			}
+				else{
+				this.mueveabajo = true;
+			}
+        }   
+        // stop listening for the player to release finger/mouse, let's start listening for the player to click/touch
+        this.game.input.onDown.add(this.beginSwipe);
+        this.game.input.onUp.remove(this.endSwipe);
+
+    },
 
 
 	update: function () {
+
+		//CAPTURA EL SWIPE
+		this.game.input.onDown.add(this.beginSwipe, this);
+
 		//muevo el selector y salto al menu correspondiente
 
 		if ((this.cursors.down.isDown || this.mueveabajo) && this.cambia_menu<this.time.now){
@@ -138,6 +181,17 @@ DudeVolley.Menu1Player.prototype = {
 		$("#contiene_foto_subida").css("display","none");
 		this.game.ruta_jugador = ruta_jugador;
 		this.state.start('PreOnePlayer');
+	},
+
+	empieza_movil: function () {
+		switch (this.menu_1player.frame){
+			case 0:
+				this.juega(false);
+				break;
+			case 1:
+				this.empieza();
+				break;
+		}
 	},
 
 };
