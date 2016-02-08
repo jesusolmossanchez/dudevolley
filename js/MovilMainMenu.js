@@ -1,46 +1,44 @@
-DudeVolley.MainMenu = function (game) {
+DudeVolley.MovilMainMenu = function (game) {
 
     this.background = null;
     this.preloadBar = null;
 
     this.ready = false;
     this.UN_JUGADOR = 0;
-    this.DOS_JUGADORES = 1;
-    this.JUGAR_ONLINE = 2;
-    this.ENTRENAMIENTO = 3;
-    this.MEJORES_PUNTUACIONES = 4;
-    this.CREDITOS = 5;
+    this.JUGAR_ONLINE = 1;
+    this.ENTRENAMIENTO = 2;
+    this.MEJORES_PUNTUACIONES = 3;
+    this.CREDITOS = 4;
 
 };
 
-DudeVolley.MainMenu.prototype = {
+DudeVolley.MovilMainMenu.prototype = {
 
 
     create: function () {
         
+        
+
         //situo las cosas en la pantalla
         var titulo_estirado = this.cache.getImage('titulo_estirado');
         this.titulo_estirado = this.add.sprite(this.world.centerX - titulo_estirado.width/2.0, 20, 'titulo_estirado');
 
-        
         this.menu_principal = this.add.sprite(this.world.centerX, 300, 'menu_principal');
         this.menu_principal.anchor.setTo(0.5, 0.5);
         this.menu_principal.frame = 0;
-
-
-        //Inputs
-        this.cursors = this.input.keyboard.createCursorKeys();
-        
-        L = this.input.keyboard.addKey(Phaser.Keyboard.L);
-        Z = this.input.keyboard.addKey(Phaser.Keyboard.Z);
-        ENTER = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        
 
         this.cambia_menu = this.time.now + 200;
 
         this.notocas = this.time.now + 10000;
 
         this.game.best_player_got = false;
+
+
+        //TODO: Hacer boton de seleccionar
+        this.movil_jugar = this.add.sprite(this.world.centerX, this.world.height - 100, 'volver'); 
+        this.movil_jugar.anchor.setTo(0.5, 0.5);
+        this.movil_jugar.inputEnabled = true;
+        this.movil_jugar.input.sprite.events.onInputDown.add(this.empieza, this);
 
     },
 
@@ -105,8 +103,48 @@ DudeVolley.MainMenu.prototype = {
         this.menu_principal.visible = true;
     },
 
+    //CONTROL DEL SWIPE PARA SELECCIÓN
+    beginSwipe: function () {
+        //más delay para que se muestre la demo
+        
+        startX = this.game.input.worldX;
+        startY = this.game.input.worldY;
+        
+        this.game.input.onDown.remove(this.beginSwipe);
+        this.game.input.onUp.add(this.endSwipe,this);
+    },
+
+    endSwipe: function () {
+
+        endX = this.game.input.worldX;
+        endY = this.game.input.worldY;
+
+        var distX = startX-endX;
+        var distY = startY-endY;
+        
+        
+        if(Math.abs(distY)>60){
+            if(distY>0){           
+                this.mueveabajo = true;
+            }
+                else{
+                this.muevearriba = true;
+            }
+        }   
+        // stop listening for the player to release finger/mouse, let's start listening for the player to click/touch
+        this.game.input.onDown.add(this.beginSwipe);
+        this.game.input.onUp.remove(this.endSwipe);
+
+    },
 
     update: function () {
+        //CAPTURA EL SWIPE
+        this.game.input.onDown.add(this.beginSwipe, this);
+
+        eljuego = this.game;
+
+        document.addEventListener("touchend", function (event) {
+            eljuego.notocas = eljuego.time.now + 10000; }, false);
         
         //muevo el selector y salto al menu correspondiente
 
@@ -114,34 +152,27 @@ DudeVolley.MainMenu.prototype = {
             this.state.start('Demo');
         }
         var juego = this;
-        $(document).keyup(function(e) {
-            juego.notocas = juego.time.now + 10000;
-        });
         
 
-        if ((this.cursors.down.isDown || this.mueveabajo) && this.cambia_menu<this.time.now){
+        if (this.mueveabajo && this.cambia_menu<this.time.now){
             this.mueveabajo = false;
             this.cambia_menu = this.time.now + 200;
-            if (this.menu_principal.frame<5){
+            if (this.menu_principal.frame<4){
                 this.menu_principal.frame++;
             }
             else{
                 this.menu_principal.frame = 0;
             }
         }
-        if ((this.cursors.up.isDown || this.muevearriba) && this.cambia_menu<this.time.now){
+        if (this.muevearriba && this.cambia_menu<this.time.now){
             this.muevearriba = false;
             this.cambia_menu = this.time.now + 200;
             if (this.menu_principal.frame==0){
-                this.menu_principal.frame = 5;
+                this.menu_principal.frame = 4;
             }
             else{
                 this.menu_principal.frame--;
             }
-        }
-
-        if(L.isDown || Z.isDown || ENTER.isDown){
-            this.empieza();
         }
 
     },
@@ -152,9 +183,6 @@ DudeVolley.MainMenu.prototype = {
             case this.UN_JUGADOR:
                 //this.state.start('GameOnePlayer');
                 this.state.start('Menu1Player');
-                break;
-            case this.DOS_JUGADORES:
-                this.state.start('GameTwoPlayer');
                 break;
             case this.JUGAR_ONLINE:
                 this.state.start('GameMultiplayer');

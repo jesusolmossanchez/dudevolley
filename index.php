@@ -23,6 +23,7 @@
 	<script src="js/Boot.js"></script>
 	<script src="js/Preloader.js"></script>
 	<script src="js/MainMenu.js"></script>
+	<script src="js/MovilMainMenu.js"></script>
 	<script src="js/Menu1Player.js"></script>
 	<script src="js/PreOnePlayer.js"></script>
 	<script src="js/GameOnePlayer.js"></script>
@@ -122,6 +123,7 @@ window.onload = function() {
 	game.state.add('Preloader', DudeVolley.Preloader);
 	game.state.add('MainMenu', DudeVolley.MainMenu);
 	game.state.add('Menu1Player', DudeVolley.Menu1Player);
+	game.state.add('MovilMainMenu', DudeVolley.MovilMainMenu);
 	game.state.add('PreOnePlayer', DudeVolley.PreOnePlayer);
 	game.state.add('GameOnePlayer', DudeVolley.GameOnePlayer);
 	game.state.add('Entrenamiento', DudeVolley.Entrenamiento);

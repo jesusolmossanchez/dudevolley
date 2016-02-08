@@ -76,8 +76,10 @@ var Player = function(juego, quien, entrenamiento, id) {
                 this.sprite.rotation = 90;
                 this.sprite.paraGorrino = true;
             }
+
         }
         else{
+            
             if (adonde == "izquierda"){
                 if (juego.time.now > this.sprite.enfadaoTime && this.sprite.salta != true){
                     this.sprite.animations.play('semueve');
@@ -98,7 +100,7 @@ var Player = function(juego, quien, entrenamiento, id) {
                     this.sprite.body.velocity.x = 150;
                 }
                 else{
-                	this.sprite.body.velocity.x = 0;
+                    this.sprite.body.velocity.x = 0;
                 }
             }
             else

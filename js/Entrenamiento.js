@@ -89,6 +89,24 @@ DudeVolley.Entrenamiento.prototype = {
 
 
 
+        //MOVIL
+        if (!this.game.device.desktop){
+            this.joy = new Joystick(this.game, 120, this.world.height - 100);
+
+            //TODO: Pillar el correcto (boton de accion)
+            this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'volver');
+            this.movil_accion.anchor.setTo(0.5, 0.5);
+            this.movil_accion.inputEnabled = true;
+            this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
+            this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
+        }
+
+        this.mueveizquierda = false;
+        this.muevederecha = false;
+        this.muevearriba = false;
+        this.mueveabajo = false;
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,6 +169,15 @@ DudeVolley.Entrenamiento.prototype = {
     },
 
 
+    entra_movil_accion: function (){
+        this.click_accion = true;
+    },
+
+    sal_movil_accion: function (){
+        this.click_accion = false;
+    },
+
+
 
 
     update: function () {
@@ -185,8 +212,12 @@ DudeVolley.Entrenamiento.prototype = {
             Player1.sprite.paraGorrino = false;
         }
 
+        if(this.time.now > Player1.sprite.enfadaoTime){
+            Player1.sprite.enfadao = false;
+        }
 
-        if(SUPERPIKA.isDown || SUPERPIKA2.isDown){
+
+        if(SUPERPIKA.isDown || SUPERPIKA2.isDown || this.click_accion){
             if (!Player1.sprite.body.touching.down && !Player1.sprite.paraGorrino){
                 Player1.sprite.enfadao = true;
                 Player1.sprite.animations.play('senfada');
@@ -202,44 +233,111 @@ DudeVolley.Entrenamiento.prototype = {
         
 
         //MOVIMIENTOS
-        if (IZQUIERDA.isDown){
-            Player1.mueve("izquierda");
-            if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
-                this.tip3.alpha = 1;
+        if (this.game.device.desktop){
+            if (IZQUIERDA.isDown){
+                Player1.mueve("izquierda");
+                if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
+                    this.tip3.alpha = 1;
+                }
+                else{
+                    this.tip1.alpha = 1;
+                }
+                
+            }
+            else if(DERECHA.isDown){
+                Player1.mueve("derecha");
+                if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
+                    this.tip3.alpha = 1;
+                }
+                else{
+                    this.tip1.alpha = 1;
+                }
             }
             else{
-                this.tip1.alpha = 1;
+                Player1.mueve("parao");
+                this.tip1.alpha = 0.5;
             }
-            
-        }
-        else if(DERECHA.isDown){
-            Player1.mueve("derecha");
-            if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
-                this.tip3.alpha = 1;
+
+            if(ARRIBA.isDown){
+                Player1.mueve("arriba");
+                this.tip2.alpha = 1;
             }
-            else{
-                this.tip1.alpha = 1;
+            if(ABAJO.isDown){
+                
             }
         }
         else{
-            Player1.mueve("parao");
-            this.tip1.alpha = 0.5;
+            this.joy.update();
+            this.joy.holder.events.onMove.add(this.procesaDragg, this);
+            this.joy.holder.events.onUp.add(this.paraDragg, this);
         }
 
-        if(ARRIBA.isDown){
-            Player1.mueve("arriba");
-            this.tip2.alpha = 1;
-        }
-        if(ABAJO.isDown){
-            
-        }
+
         //FIN MOVIMIENTOS
+       
+        
+        
+        
 
     },
 
     quitGame: function (pointer) {
 
         this.state.start('MainMenu');
+
+    },
+
+
+    paraDragg: function (pointer) {
+
+        Player1.mueve("parao");
+        this.mueveizquierda = false;
+        this.muevederecha = false;
+        this.muevearriba = false;
+        this.mueveabajo = false;
+
+    },
+
+    procesaDragg: function (a, distance, radianes) {
+
+        var angulo = radianes*180/Math.PI;
+
+        if (distance < 30){
+            Player1.mueve("parao");
+            this.mueveizquierda = false;
+            this.muevederecha = false;
+            this.muevearriba = false;
+            this.mueveabajo = false;
+            return;
+        }
+
+        if (angulo > -90 && angulo < 90){
+            Player1.mueve("derecha");
+            this.mueveizquierda = false;
+            this.muevederecha = true;
+        }
+        if (angulo > 90 || angulo < -90){
+            
+            Player1.mueve("izquierda");
+            this.mueveizquierda = true;
+            this.muevederecha = false;
+        }
+        
+        if (angulo > -135 && angulo < -45){
+            Player1.mueve("arriba");
+            this.muevearriba = true;
+        }
+        else{
+            this.muevearriba = false;
+        }
+        
+        if (angulo < 135 && angulo > 45){
+            this.mueveabajo = true;
+        }
+        else{
+            this.mueveabajo = false;
+        }
+
 
     },
 
@@ -268,51 +366,49 @@ DudeVolley.Entrenamiento.prototype = {
         var VyPelota = this.pelota.body.velocity.y;
         this.pelota.body.velocity.x = diferencia*3;
 
-
-
         if (this.time.now < Player1.sprite.enfadaoTime && Player1.sprite.enfadao){
             this.tip4.alpha = 1;
             //pulsado izquierda o derecha solo
-            if ((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && !ABAJO.isDown)
+            if (((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && !ABAJO.isDown) || ((this.muevederecha || this.mueveizquierda) && !this.muevearriba && !this.mueveabajo))
             {
                 this.pelota.body.velocity.y = VyPelota*0.3;
                 this.pelota.body.velocity.x = 800;
                 this.pelota.body.gravity.y = 1500;
             }
             // arriba derecha
-            else if(DERECHA.isDown && ARRIBA.isDown && !ABAJO.isDown)
+            else if((DERECHA.isDown && ARRIBA.isDown && !ABAJO.isDown) || (this.muevederecha && this.muevearriba && !this.mueveabajo) )
             {
                 this.pelota.body.velocity.y = -800;
                 this.pelota.body.velocity.x = 800;
                 this.pelota.body.gravity.y = 1400;
             }
             //arriba izquierda
-            else if(IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown)
+            else if((IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown) || (this.mueveizquierda && this.muevearriba && !this.mueveabajo) )
             {
                 this.pelota.body.velocity.y = -800;
                 this.pelota.body.velocity.x = -800;
                 this.pelota.body.gravity.y = 1400;
             }
             // abajo y a un lado
-            else if((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && ABAJO.isDown){
+            else if(((DERECHA.isDown || IZQUIERDA.isDown) && !ARRIBA.isDown && ABAJO.isDown) || ((this.mueveizquierda || this.muevederecha) && !this.muevearriba && this.mueveabajo)){
                 this.pelota.body.velocity.y = 800;
                 this.pelota.body.velocity.x = 1000;
                 this.pelota.body.gravity.y = 1400;
             }
             // abajo solo
-            else if(!DERECHA.isDown && !IZQUIERDA.isDown && !ARRIBA.isDown && ABAJO.isDown){
+            else if((!DERECHA.isDown && !IZQUIERDA.isDown && !ARRIBA.isDown && ABAJO.isDown)||(!this.muevederecha && !this.mueveizquierda && !this.muevearriba && this.mueveabajo)){
                 this.pelota.body.velocity.y = 800;
                 this.pelota.body.velocity.x = 300;
                 this.pelota.body.gravity.y = 1400;
             }
             //sin pulsar ningun lado
-            else if(!DERECHA.isDown && !IZQUIERDA.isDown && !ARRIBA.isDown && !ABAJO.isDown){
+            else if((!DERECHA.isDown && !IZQUIERDA.isDown && !ARRIBA.isDown && !ABAJO.isDown)&&(!this.muevederecha && !this.mueveizquierda && !this.muevearriba && !this.mueveabajo)){
                 this.pelota.body.velocity.y = -100;
                 this.pelota.body.velocity.x = 300;
                 this.pelota.body.gravity.y = 1400;
             }
             //arriba solo
-            else if(!DERECHA.isDown && !IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown){
+            else if((!DERECHA.isDown && !IZQUIERDA.isDown && ARRIBA.isDown && !ABAJO.isDown)||(!this.muevederecha && !this.mueveizquierda && this.muevearriba && !this.mueveabajo)){
                 this.pelota.body.velocity.y = -1000;
                 this.pelota.body.velocity.x = 300;
                 this.pelota.body.gravity.y = 1400;

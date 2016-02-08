@@ -156,6 +156,13 @@ DudeVolley.Demo.prototype = {
         $(document).keyup(function(e) {
             location.reload();
         });
+        $(document).click(function(e) {
+            location.reload();
+        });
+        document.addEventListener("touchend", function (event) {
+            location.reload(); }, false);
+
+
 
         if(this.time.now > (Player1CPU.sprite.tiempoGorrino - 100)){
             Player1CPU.sprite.body.velocity.x = 0;
