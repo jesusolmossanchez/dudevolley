@@ -18,9 +18,9 @@ DudeVolley.GameMultiplayer.prototype = {
         ***********************************************************************/
 
         if (typeof io == "undefined"){
-        	alert("sin definir");
-        	//TODO: no seguir, hacer algo
-        	location.reload();
+            alert("sin definir");
+            //TODO: no seguir, hacer algo
+            location.reload();
         }
 
         //conecto con socket
@@ -229,13 +229,11 @@ DudeVolley.GameMultiplayer.prototype = {
                 }
                 if (data.U == "1"){
                     OTROPLAYER.mueve("arriba");   
-                    OTROPLAYER.pulsa_arriba = true;
                 }
                 if (data.P == "1"){
                     OTROPLAYER.mueve("parao");
                 }
                 if (data.D == "1"){
-                    OTROPLAYER.pulsa_abajo = true;
                 }
             }
         };
@@ -263,10 +261,10 @@ DudeVolley.GameMultiplayer.prototype = {
 
         function onActualizaMarcador(data) {
             if (!Player1.soyplayer1){
-            	eljuego.scoreText1.text = data.puntos1;
-            	eljuego.scoreText2.text = data.puntos2;
-            	eljuego.game.puntosPlayer1 = data.puntos1;
-        		eljuego.game.puntosPlayer2 = data.puntos2;
+                eljuego.scoreText1.text = data.puntos1;
+                eljuego.scoreText2.text = data.puntos2;
+                eljuego.game.puntosPlayer1 = data.puntos1;
+                eljuego.game.puntosPlayer2 = data.puntos2;
             }
         };
 
@@ -340,19 +338,19 @@ DudeVolley.GameMultiplayer.prototype = {
         }
 
         function onGoGameOver(data){
-        	if (data.ganador_id == Player1.id){
-        		eljuego.game.hasperdio = true;
-	            eljuego.game.perdedor = OTROPLAYER.sprite;
-	            eljuego.game.ganador = Player1.sprite;
-	            eljuego.game.nombre_ganador = Player1.nombre;
-        	}
-        	else{
-        		eljuego.game.hasperdio = false;
-	            eljuego.game.perdedor = Player1.sprite;
-	            eljuego.game.ganador = OTROPLAYER.sprite;
-	            eljuego.game.nombre_ganador = OTROPLAYER.nombre;
-        	}
-        	
+            if (data.ganador_id == Player1.id){
+                eljuego.game.hasperdio = true;
+                eljuego.game.perdedor = OTROPLAYER.sprite;
+                eljuego.game.ganador = Player1.sprite;
+                eljuego.game.nombre_ganador = Player1.nombre;
+            }
+            else{
+                eljuego.game.hasperdio = false;
+                eljuego.game.perdedor = Player1.sprite;
+                eljuego.game.ganador = OTROPLAYER.sprite;
+                eljuego.game.nombre_ganador = OTROPLAYER.nombre;
+            }
+            
             eljuego.state.start('GameOver');
         }
 
@@ -505,33 +503,17 @@ DudeVolley.GameMultiplayer.prototype = {
 
         //cosas de movil
         if (!this.game.device.desktop){
-            this.movil_izq = this.add.sprite(5,this.world.height-120,'movil_izq');
-            this.movil_der = this.add.sprite(150,this.world.height-120,'movil_der');
-            this.movil_arr = this.add.sprite(510,this.world.height-120,'movil_arr');
-            this.movil_pika = this.add.sprite(655,this.world.height-120,'movil_pika');
-            this.movil_izq.alpha = 0.5;
-            this.movil_der.alpha = 0.5;
-            this.movil_arr.alpha = 0.5;
-            this.movil_pika.alpha = 0.5;
+            //MOVIL
+        
+            this.joy = new Joystick(this.game, 120, this.world.height - 100);
 
-            //clicando en cosas
-            this.movil_izq.inputEnabled = true;
-            this.movil_der.inputEnabled = true;
-            this.movil_arr.inputEnabled = true;
-            this.movil_pika.inputEnabled = true;
-
-
-            //eventos de los botones movil
-            this.movil_izq.input.sprite.events.onInputDown.add(this.movil_vete_izquierda, this);
-            this.movil_der.input.sprite.events.onInputDown.add(this.movil_vete_derecha, this);
-            this.movil_arr.input.sprite.events.onInputDown.add(this.movil_vete_arriba, this);
-            this.movil_pika.input.sprite.events.onInputDown.add(this.movil_vete_pika, this);
-            
-            this.movil_izq.input.sprite.events.onInputUp.add(this.movil_vete_izquierda_out, this);
-            this.movil_der.input.sprite.events.onInputUp.add(this.movil_vete_derecha_out, this);
-            this.movil_arr.input.sprite.events.onInputUp.add(this.movil_vete_arriba_out, this);
-            this.movil_pika.input.sprite.events.onInputUp.add(this.movil_vete_pika_out, this);
-
+            //TODO: Pillar el correcto (boton de accion)
+            this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'volver');
+            this.movil_accion.anchor.setTo(0.5, 0.5);
+            this.movil_accion.inputEnabled = true;
+            this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
+            this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
+        
             //SLOW MOTION!!
             //this.game.factor_slow_velocity = 0.8;
             //this.game.factor_slow_gravity = 0.64;
@@ -625,7 +607,6 @@ DudeVolley.GameMultiplayer.prototype = {
         this.mueveizquierda = false;
         this.muevearriba = false;
         this.mueveabajo = false;
-        this.haceGorrino_tap = false;
 
         this.game.hasperdio = false;
         this.game.unplayer = false;
@@ -669,73 +650,16 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
 
-
-    /***********************************************************************
-    ***********************************************************************
-                    START -- MOVIMIENTOS MOVIL
-    ***********************************************************************
-    ***********************************************************************/   
-
-    movil_vete_izquierda: function () {  
-        //console.log("izquierda");
-        this.muevederecha = false;
-        this.mueveizquierda = true;
-        this.movil_izq.alpha = 0.9; 
-    },
-    movil_vete_derecha: function () {  
-       // console.log("dere");
-        this.muevederecha = true;
-        this.mueveizquierda = false;
-        this.movil_der.alpha = 0.9;
-    },
-    movil_vete_arriba: function () {  
-        //console.log("arr");
-        this.muevearriba = true;
-        this.mueveabajo = false;
-        this.movil_arr.alpha = 0.9; 
-    },
-    movil_vete_pika: function () {  
-        //console.log("pij");
-        tiempoGorrino = this.time.now + 400;
-        this.haceGorrino_tap = true;
-        this.movil_pika.alpha = 0.9; 
+    entra_movil_accion: function (){
+        this.click_accion = true;
     },
 
-    movil_vete_izquierda_out: function () {  
-        this.muevederecha = false;
-        this.mueveizquierda = false;
-        this.movil_izq.alpha = 0.5; 
+    sal_movil_accion: function (){
+        this.click_accion = false;
     },
-    movil_vete_derecha_out: function () {  
-        this.muevederecha = false;
-        this.mueveizquierda = false;
-        this.movil_der.alpha = 0.5;
-    },
-    movil_vete_arriba_out: function () {  
-        this.muevearriba = false;
-        this.mueveabajo = false;
-        this.movil_arr.alpha = 0.5; 
-    },
-    movil_vete_pika_out: function () {  
-        //tiempoGorrino = this.time.now + 400;
-        this.haceGorrino_tap = false;
-        this.movil_pika.alpha = 0.5; 
-    },
-
-    /***********************************************************************
-    ***********************************************************************
-                    END -- MOVIMIENTOS MOVIL
-    ***********************************************************************
-    ***********************************************************************/   
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
     update: function () {
 
@@ -847,7 +771,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 }
 
                 //MOVIMIENTOS PLAYER1
-                if(SUPERPIKA.isDown || this.haceGorrino_tap || SUPERPIKA2.isDown){
+                if(SUPERPIKA.isDown || this.click_accion || SUPERPIKA2.isDown){
                     if (!Player1.sprite.body.touching.down && !Player1.sprite.paraGorrino){
                         Player1.sprite.enfadao = true;
                         Player1.sprite.animations.play('senfada');
@@ -895,7 +819,11 @@ DudeVolley.GameMultiplayer.prototype = {
                     d=1;
                 }
 
-
+                if (!this.game.device.desktop){
+                    this.joy.update();
+                    this.joy.holder.events.onMove.add(this.procesaDragg, this);
+                    this.joy.holder.events.onUp.add(this.paraDragg, this);
+                }
 
                 socket.emit("teclas",{id: Player1.id, L:l, R:r, U:u, D:d, P:p});
                 if (!Player1.soyplayer1){
@@ -910,9 +838,9 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
             //LA PELOTA TOCA EL SUELO
-	        if(typeof this.pelota !== 'undefined' && Player1.soyplayer1 && this.pelota.body.position.y > 500 ){
-	            this.procesapunto();
-	        }
+            if(typeof this.pelota !== 'undefined' && Player1.soyplayer1 && this.pelota.body.position.y > 500 ){
+                this.procesapunto();
+            }
 
         }
 
@@ -932,11 +860,63 @@ DudeVolley.GameMultiplayer.prototype = {
 
     },
 
+    paraDragg: function (pointer) {
+
+        Player1.mueve("parao");
+        this.mueveizquierda = false;
+        this.muevederecha = false;
+        this.muevearriba = false;
+        this.mueveabajo = false;
+
+    },
+
+    procesaDragg: function (a, distance, radianes) {
+        var angulo = radianes*180/Math.PI;
+
+        if (distance < 30){
+            Player1.mueve("parao");
+            this.mueveizquierda = false;
+            this.muevederecha = false;
+            this.muevearriba = false;
+            this.mueveabajo = false;
+            return;
+        }
+
+        if (angulo > -90 && angulo < 90){
+            Player1.mueve("derecha");
+            this.mueveizquierda = false;
+            this.muevederecha = true;
+        }
+        if (angulo > 90 || angulo < -90){
+            
+            Player1.mueve("izquierda");
+            this.mueveizquierda = true;
+            this.muevederecha = false;
+        }
+        
+        if (angulo > -135 && angulo < -45){
+            Player1.mueve("arriba");
+            this.muevearriba = true;
+        }
+        else{
+            this.muevearriba = false;
+        }
+        
+        if (angulo < 135 && angulo > 45){
+            this.mueveabajo = true;
+        }
+        else{
+            this.mueveabajo = false;
+        }
+
+
+    },
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	procesapunto: function () {
+    procesapunto: function () {
 
         this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
 
@@ -958,7 +938,7 @@ DudeVolley.GameMultiplayer.prototype = {
             this.quienEmpieza = "uno";
             this.punto = true;
             if (this.game.puntosPlayer1 >= 15){
-            	socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
+                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
             }
         }
         else{
@@ -968,7 +948,7 @@ DudeVolley.GameMultiplayer.prototype = {
             this.quienEmpieza = "dos";
             this.punto = true;
             if (this.game.puntosPlayer2 >= 15){
-            	socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
+                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
             }
         }
         try { 
@@ -1180,28 +1160,28 @@ DudeVolley.GameMultiplayer.prototype = {
         }
 
         else{
-        	this.dondecae = this.world.width-1;
+            this.dondecae = this.world.width-1;
 
-	        this.pelota.body.gravity.y = 900;
-	        Player1.sprite.body.position.x = 32;
-	        Player1.sprite.body.position.y = this.world.height - 250;
-	        Player1.sprite.body.velocity.x = 0;
-	        Player1.sprite.body.velocity.y = 0;
+            this.pelota.body.gravity.y = 900;
+            Player1.sprite.body.position.x = 32;
+            Player1.sprite.body.position.y = this.world.height - 250;
+            Player1.sprite.body.velocity.x = 0;
+            Player1.sprite.body.velocity.y = 0;
 
-	        OTROPLAYER.sprite.body.position.x = this.world.width - 32;
-	        OTROPLAYER.sprite.body.position.y = this.world.height - 250;
-	        OTROPLAYER.sprite.body.velocity.x = 0;
-	        OTROPLAYER.sprite.body.velocity.y = 0;
+            OTROPLAYER.sprite.body.position.x = this.world.width - 32;
+            OTROPLAYER.sprite.body.position.y = this.world.height - 250;
+            OTROPLAYER.sprite.body.velocity.x = 0;
+            OTROPLAYER.sprite.body.velocity.y = 0;
 
-	        this.pelota.body.position.y = 0;
-	        this.pelota.body.velocity.x = 0;
+            this.pelota.body.position.y = 0;
+            this.pelota.body.velocity.x = 0;
 
-	        if (quien == "uno"){
-	            this.pelota.body.position.x = 32;
-	        }
-	        else{
-	            this.pelota.body.position.x = this.world.width - 32;
-	        }
+            if (quien == "uno"){
+                this.pelota.body.position.x = 32;
+            }
+            else{
+                this.pelota.body.position.x = this.world.width - 32;
+            }
         }
         
         

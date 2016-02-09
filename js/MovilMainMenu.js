@@ -46,7 +46,8 @@ DudeVolley.MovilMainMenu.prototype = {
         if(this.game.creditos_got){
             return;
         }
-        eljuego.menu_principal.visible = false;
+        this.menu_principal.visible = false;
+        this.movil_jugar.visible = false;
         this.game.creditos_got = true;
         eljuego = this;
         $("#contiene_creditos").show();
@@ -55,7 +56,8 @@ DudeVolley.MovilMainMenu.prototype = {
     cierra_creditos: function(){
         this.game.creditos_got = false;
         $("#contiene_creditos").hide();
-        eljuego.menu_principal.visible = true;
+        this.menu_principal.visible = true;
+        this.movil_jugar.visible = true;
     },
 
 
@@ -64,7 +66,7 @@ DudeVolley.MovilMainMenu.prototype = {
             return;
         }
         this.game.best_player_got = true;
-        eljuego = this;
+        self = this;
         $.ajax({
             url: "best_players.php", 
             type: "GET",             
@@ -87,8 +89,9 @@ DudeVolley.MovilMainMenu.prototype = {
                     var format = minutes + ':' + seconds;
                     $("#contiene_clasificacion").html($("#contiene_clasificacion").html()+"<dl><dt>"+this.nombre+"</dt><dd>"+this.puntuacion+"("+format+")</dd></dl>");
                 });
-                $("#contiene_clasificacion").html($("#contiene_clasificacion").html()+"<div style='text-align:center;'><input id='volver_menu' onclick='eljuego.cierra_best();' type='submit' value='volver' /></div>");
-                eljuego.menu_principal.visible = false;
+                $("#contiene_clasificacion").html($("#contiene_clasificacion").html()+"<div style='text-align:center;'><input id='volver_menu' onclick='self.cierra_best();' type='submit' value='volver' /></div>");
+                self.menu_principal.visible = false;
+                self.movil_jugar.visible = false;
                 $("#contiene_mandapuntos").css("top","120px");
                 
             }
@@ -101,6 +104,7 @@ DudeVolley.MovilMainMenu.prototype = {
         $("#contiene_clasificacion").html('');
         $("#contiene_mandapuntos").css("top","4vw");
         this.menu_principal.visible = true;
+        this.movil_jugar.visible = true;
     },
 
     //CONTROL DEL SWIPE PARA SELECCIÓN

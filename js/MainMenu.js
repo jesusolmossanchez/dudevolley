@@ -48,7 +48,7 @@ DudeVolley.MainMenu.prototype = {
         if(this.game.creditos_got){
             return;
         }
-        eljuego.menu_principal.visible = false;
+        this.menu_principal.visible = false;
         this.game.creditos_got = true;
         eljuego = this;
         $("#contiene_creditos").show();

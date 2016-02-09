@@ -134,7 +134,7 @@ canvas{
     margin-right: auto;
     left: 0;
     right: 0;
-    }
+}
 
 #puntos{
     color: #f5f823;
@@ -348,4 +348,33 @@ canvas{
 }
 #explica_sube {
     word-break: break-word;
+}
+
+#contiene_creditos{
+    display: none;
+    text-align: center;
+    position: absolute;
+    top: 400px;
+    top: 16vw;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+#creditos{
+    margin: 0;
+    padding: 0;
+}
+#creditos li.titulo_credito{
+    color: #f5f823;
+    font-size: 40px;
+    font-size: 4vw;
+    list-style: none;
+}
+#creditos li.nombre_credito{
+    color: #f5f823;
+    font-size: 40px;
+    font-size: 5vw;
+    list-style: none;
+    margin-bottom: 2vw;
 }
