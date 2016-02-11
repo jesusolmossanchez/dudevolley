@@ -39,24 +39,24 @@ DudeVolley.Preloader.prototype = {
         this.load.spritesheet('player1','assets/default_player.png',80,110);
         this.load.spritesheet('cpu','cpu_player/cpu_player.png',80,110);
 
+
+        this.load.image('volver', 'assets/volver.png');
+        this.load.image('tip1', 'assets/muevete.png');
+        this.load.image('tip2', 'assets/salta_arriba.png');
+        this.load.image('tip3', 'assets/gorrino.png');
+        this.load.image('tip4', 'assets/mate.png');
+
       
 
         if (this.game.device.desktop){
             this.load.spritesheet('menu_principal', 'assets/menu_sprite.png', 400, 400); // MENU PRINCIPAL
-            this.load.image('volver', 'assets/volver.png');
-            this.load.image('tip1', 'assets/muevete.png');
-            this.load.image('tip2', 'assets/salta_arriba.png');
-            this.load.image('tip3', 'assets/gorrino.png');
-            this.load.image('tip4', 'assets/mate.png');
+            
         }
         else{
-            //TODO: imagenes explicativas para el movil
-            this.load.spritesheet('menu_principal', 'assets/menu_sprite.png', 400, 400); // MENU PRINCIPAL
-            this.load.image('volver', 'assets/volver.png');
-            this.load.image('tip1', 'assets/muevete_movil.png');
-            this.load.image('tip2', 'assets/salta_arriba_movil.png');
-            this.load.image('tip3', 'assets/gorrino_movil.png');
-            this.load.image('tip4', 'assets/mate_movil.png');
+            this.load.spritesheet('menu_principal', 'assets/menu_sprite_movil.png', 400, 400); // MENU PRINCIPAL
+            this.load.image('joy_back', 'assets/joy_back2.png');
+            this.load.image('joy_front', 'assets/joy_front.png');
+            this.load.image('pika', 'assets/pika.png');
         }
 
     },

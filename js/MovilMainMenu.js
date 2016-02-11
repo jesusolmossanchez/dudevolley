@@ -110,7 +110,7 @@ DudeVolley.MovilMainMenu.prototype = {
     //CONTROL DEL SWIPE PARA SELECCIÓN
     beginSwipe: function () {
         //más delay para que se muestre la demo
-        
+        this.notocas = this.time.now + 10000;
         startX = this.game.input.worldX;
         startY = this.game.input.worldY;
         
@@ -145,17 +145,16 @@ DudeVolley.MovilMainMenu.prototype = {
         //CAPTURA EL SWIPE
         this.game.input.onDown.add(this.beginSwipe, this);
 
-        eljuego = this.game;
+        var juego = this;
 
         document.addEventListener("touchend", function (event) {
-            eljuego.notocas = eljuego.time.now + 10000; }, false);
+            juego.notocas = juego.time.now + 10000; }, false);
         
         //muevo el selector y salto al menu correspondiente
 
         if (this.time.now > this.notocas){
             this.state.start('Demo');
         }
-        var juego = this;
         
 
         if (this.mueveabajo && this.cambia_menu<this.time.now){

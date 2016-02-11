@@ -94,7 +94,7 @@ DudeVolley.Entrenamiento.prototype = {
             this.joy = new Joystick(this.game, 120, this.world.height - 100);
 
             //TODO: Pillar el correcto (boton de accion)
-            this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'volver');
+            this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'pika');
             this.movil_accion.anchor.setTo(0.5, 0.5);
             this.movil_accion.inputEnabled = true;
             this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
