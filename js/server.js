@@ -109,8 +109,8 @@ function onTeclaspika(data) {
 };
 
 //propaga el teclaspika
-function onPunto(x,y) {
-    io.emit("punto", x,y);
+function onPunto(data) {
+    io.emit("punto", data);
 };
 
 //Propaga la pelota
