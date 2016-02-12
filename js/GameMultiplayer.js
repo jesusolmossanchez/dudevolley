@@ -206,7 +206,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
         function onTeclas(data) {
-            if (data.id === Player1.id && Player1.soyplayer1){
+            if (data.id === Player1.id){
                 if (data.R == "1"){
                     Player1.mueve("derecha");
                 }
@@ -256,13 +256,6 @@ DudeVolley.GameMultiplayer.prototype = {
                 
                 //tween = eljuego.add.tween(eljuego.pelota).to( { x: [ eljuego.pelota.x, data.x ], y: [ eljuego.pelota.y, data.y ] }, 5, Phaser.Easing.Linear.None, true);
             }
-        };
-
-
-        function onHay_punto(pos_pelota_x, pos_pelota_y) {
-            eljuego.explota = eljuego.add.sprite(pos_pelota_x, pos_pelota_y+5, 'explota');
-            eljuego.punto = true;
-            eljuego.enunratico = eljuego.time.now + 2500;
         };
 
 
@@ -403,7 +396,6 @@ DudeVolley.GameMultiplayer.prototype = {
             p2p.on("posicion pelota", onSituaPelota);
             p2p.on("posicion jugador1", onSituajugador1);
             p2p.on("actualiza_marcador", onActualizaMarcador);
-            p2p.on("hay_punto", onHay_punto);
 
 
             p2p.on("enfadao2", onEnfadao2);
@@ -931,6 +923,9 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
     procesapunto: function () {
+
+        this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
+
         //Relentizo todo...
         Player1.sprite.body.velocity.y = Player1.sprite.body.velocity.y * 0.2;
         OTROPLAYER.sprite.body.velocity.y = OTROPLAYER.sprite.body.velocity.y * 0.2;
@@ -940,10 +935,14 @@ DudeVolley.GameMultiplayer.prototype = {
         this.pelota.body.velocity.x = this.pelota.body.velocity.x * 0.2;
         this.pelota.body.gravity.y = 200;
 
+        //... veo que hago con el punto
+
         if(this.pelota.body.position.x > 390){
             this.game.puntosPlayer1++;
             this.scoreText1.text = this.game.puntosPlayer1;
+            this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "uno";
+            this.punto = true;
             if (this.game.puntosPlayer1 >= 15){
                 socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
             }
@@ -951,21 +950,22 @@ DudeVolley.GameMultiplayer.prototype = {
         else{
             this.game.puntosPlayer2++;
             this.scoreText2.text = this.game.puntosPlayer2;
+            this.enunratico = this.time.now + 2500;
             this.quienEmpieza = "dos";
+            this.punto = true;
             if (this.game.puntosPlayer2 >= 15){
                 socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
             }
         }
-        
         try { 
             p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2});
-            p2p.emit("hay_punto", this.pelota.body.position.x, this.pelota.body.position.y);
         }
         catch (e) {
           console.log("mierror",e); 
         }
         
     },
+
 
     /***********************************************************************
     ***********************************************************************

@@ -62,7 +62,6 @@ function onSocketConnection(client) {
     client.on("enfadao2", onEnfadao2);
     client.on("hacegorrino2", onHacegorrino2);
     client.on("teclaspika", onTeclaspika);
-    client.on("hay_punto", onHaypunto);
     client.on("game_over", onGameOver);
 
 
@@ -106,11 +105,6 @@ function onHacegorrino2(data) {
 //propaga el teclaspika
 function onTeclaspika(data) {
     io.emit("teclaspika", data);
-};
-
-//propaga el punto
-function onHaypunto(data) {
-    io.emit("hay_punto", data);
 };
 
 //Propaga la pelota
