@@ -260,36 +260,36 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
         function onHay_punto() {
-            this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
+            eljuego.explota = eljuego.add.sprite(eljuego.pelota.body.position.x, eljuego.pelota.body.position.y+5, 'explota');
 
             //Relentizo todo...
             Player1.sprite.body.velocity.y = Player1.sprite.body.velocity.y * 0.2;
             OTROPLAYER.sprite.body.velocity.y = OTROPLAYER.sprite.body.velocity.y * 0.2;
             Player1.sprite.body.velocity.x = Player1.sprite.body.velocity.x * 0.2;
             OTROPLAYER.sprite.body.velocity.x = OTROPLAYER.sprite.body.velocity.x * 0.2;
-            this.pelota.body.velocity.y = this.pelota.body.velocity.y * 0.2;
-            this.pelota.body.velocity.x = this.pelota.body.velocity.x * 0.2;
-            this.pelota.body.gravity.y = 200;
+            eljuego.pelota.body.velocity.y = eljuego.pelota.body.velocity.y * 0.2;
+            eljuego.pelota.body.velocity.x = eljuego.pelota.body.velocity.x * 0.2;
+            eljuego.pelota.body.gravity.y = 200;
 
             //... veo que hago con el punto
 
-            if(this.pelota.body.position.x > 390){
-                this.game.puntosPlayer1++;
-                this.scoreText1.text = this.game.puntosPlayer1;
-                this.enunratico = this.time.now + 2500;
-                this.quienEmpieza = "uno";
-                this.punto = true;
-                if (this.game.puntosPlayer1 >= 15){
+            if(eljuego.pelota.body.position.x > 390){
+                eljuego.game.puntosPlayer1++;
+                eljuego.scoreText1.text = eljuego.game.puntosPlayer1;
+                eljuego.enunratico = eljuego.time.now + 2500;
+                eljuego.quienEmpieza = "uno";
+                eljuego.punto = true;
+                if (eljuego.game.puntosPlayer1 >= 15){
                     socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
                 }
             }
             else{
-                this.game.puntosPlayer2++;
-                this.scoreText2.text = this.game.puntosPlayer2;
-                this.enunratico = this.time.now + 2500;
-                this.quienEmpieza = "dos";
-                this.punto = true;
-                if (this.game.puntosPlayer2 >= 15){
+                eljuego.game.puntosPlayer2++;
+                eljuego.scoreText2.text = eljuego.game.puntosPlayer2;
+                eljuego.enunratico = eljuego.time.now + 2500;
+                eljuego.quienEmpieza = "dos";
+                eljuego.punto = true;
+                if (eljuego.game.puntosPlayer2 >= 15){
                     socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
                 }
             }
