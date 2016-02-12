@@ -59,6 +59,9 @@ function onSocketConnection(client) {
     client.on("move player", onMovePlayer);
     client.on("player_ready", onPlayerReady);
     client.on("teclas", onTeclas);
+    client.on("enfadao2", onEnfadao2);
+    client.on("hacegorrino2", onHacegorrino2);
+    client.on("teclaspika", onTeclaspika);
     client.on("game_over", onGameOver);
 
 
@@ -87,6 +90,21 @@ function onMovePlayer(data) {
 //propaga el movimiento
 function onTeclas(data) {
     io.emit("recibeteclas", data);
+};
+
+//propaga el enfadao
+function onEnfadao2(data) {
+    io.emit("enfadao2", data);
+};
+
+//propaga el gorrino2
+function onHacegorrino2(data) {
+    io.emit("hacegorrino2", data);
+};
+
+//propaga el teclaspika
+function onTeclaspika(data) {
+    io.emit("teclaspika", data);
 };
 
 //Propaga la pelota

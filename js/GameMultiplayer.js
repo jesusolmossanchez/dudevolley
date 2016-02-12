@@ -796,6 +796,14 @@ DudeVolley.GameMultiplayer.prototype = {
                     }
                 }
 
+
+                if (!this.game.device.desktop){
+                    this.joy.update();
+                    this.joy.holder.events.onMove.add(this.procesaDragg, this);
+                    this.joy.holder.events.onUp.add(this.paraDragg, this);
+                }
+                
+
                 var l = 0;
                 var r = 0;
                 var u = 0;
@@ -819,11 +827,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     d=1;
                 }
 
-                if (!this.game.device.desktop){
-                    this.joy.update();
-                    this.joy.holder.events.onMove.add(this.procesaDragg, this);
-                    this.joy.holder.events.onUp.add(this.paraDragg, this);
-                }
+                
 
                 socket.emit("teclas",{id: Player1.id, L:l, R:r, U:u, D:d, P:p});
                 if (!Player1.soyplayer1){
