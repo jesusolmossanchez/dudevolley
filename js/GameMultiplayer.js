@@ -293,9 +293,11 @@ DudeVolley.GameMultiplayer.prototype = {
         };
 
         function onEnfadao2(){
-            OTROPLAYER.sprite.enfadao = true;
-            OTROPLAYER.sprite.animations.play('senfada');
-            OTROPLAYER.sprite.enfadaoTime = eljuego.time.now + 500;
+            if(!Player1.soyplayer1){
+                OTROPLAYER.sprite.enfadao = true;
+                OTROPLAYER.sprite.animations.play('senfada');
+                OTROPLAYER.sprite.enfadaoTime = eljuego.time.now + 500;
+            }
         }
         function onHacegorrino2(){
             OTROPLAYER.sprite.haceGorrino=true;
@@ -802,7 +804,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     this.joy.holder.events.onMove.add(this.procesaDragg, this);
                     this.joy.holder.events.onUp.add(this.paraDragg, this);
                 }
-                
+
 
                 var l = 0;
                 var r = 0;
