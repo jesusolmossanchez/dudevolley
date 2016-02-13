@@ -57,7 +57,7 @@ DudeVolley.GameMultiplayer.prototype = {
             eljuego.game.ganador = OTROPLAYER.sprite;
             eljuego.game.nombre_ganador = OTROPLAYER.nombre;
 
-            
+
             eljuego.state.start('GameOver');
 
         };
@@ -926,7 +926,6 @@ DudeVolley.GameMultiplayer.prototype = {
 
         this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
         this.punto = true;
-        this.need_sync = true;
 
         //Relentizo todo...
         Player1.sprite.body.velocity.y = Player1.sprite.body.velocity.y * 0.2;
@@ -936,17 +935,6 @@ DudeVolley.GameMultiplayer.prototype = {
         this.pelota.body.velocity.y = this.pelota.body.velocity.y * 0.2;
         this.pelota.body.velocity.x = this.pelota.body.velocity.x * 0.2;
         this.pelota.body.gravity.y = 200;
-
-        //... veo que hago con el punto
-
-        try { 
-            p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2});
-            p2p.emit("punto",{x:this.pelota.body.position.x, y:this.pelota.body.position.y});
-        }
-        catch (e) {
-          console.log("mierror",e); 
-        }
-        
 
         if(this.pelota.body.position.x > 390){
             this.game.puntosPlayer1++;
@@ -967,6 +955,15 @@ DudeVolley.GameMultiplayer.prototype = {
             if (this.game.puntosPlayer2 >= 15){
                 socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
             }
+        }
+
+
+        try { 
+            p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2});
+            p2p.emit("punto",{x:this.pelota.body.position.x, y:this.pelota.body.position.y});
+        }
+        catch (e) {
+          console.log("mierror",e); 
         }
         
     },
@@ -1186,6 +1183,13 @@ DudeVolley.GameMultiplayer.prototype = {
             this.pelota.body.position.y = 0;
             this.pelota.body.velocity.x = 0;
 
+            try { 
+                p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y});
+            }
+            catch (e) {
+              console.log("mierror",e); 
+            }
+            
             if (quien == "uno"){
                 this.pelota.body.position.x = 32;
             }
