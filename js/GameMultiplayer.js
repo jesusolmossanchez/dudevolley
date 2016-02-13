@@ -46,7 +46,7 @@ DudeVolley.GameMultiplayer.prototype = {
         setEventHandlers();
 
         function onSocketConnected() {
-            console.log("Me conecto");
+            //console.log("Me conecto");
         };
 
         function onSocketDisconnect() {
@@ -56,16 +56,15 @@ DudeVolley.GameMultiplayer.prototype = {
             eljuego.game.perdedor = Player1.sprite;
             eljuego.game.ganador = OTROPLAYER.sprite;
             eljuego.game.nombre_ganador = OTROPLAYER.nombre;
-            
-            console.log(eljuego.game.desconectado);
 
+            
             eljuego.state.start('GameOver');
 
         };
 
         function onNewPlayer(data) {
             //Me viene uno nuevo, lo creo
-            console.log("New player connected: "+data);
+            //console.log("New player connected: "+data);
             if (typeof Player1 === 'undefined'){
                 Player1 = new Player(eljuego, 'player1', null, data);
 
@@ -81,7 +80,6 @@ DudeVolley.GameMultiplayer.prototype = {
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.Z);
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.L);
                 $("#socket_empezar").click(function(){
-                    console.log("conectaoo");
                     ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
                     ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
                     IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
@@ -120,7 +118,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
         function onNewPlayer2(data) {
             //Me viene uno nuevo, lo creo
-            console.log("New player2 connected: "+data);
+            //console.log("New player2 connected: "+data);
 
             //Si es el segundo jugador que ha entrado en el juego, no tiene definido Player 1, así que lo creo
             //En la posición derecha de la pantalla 
@@ -135,7 +133,6 @@ DudeVolley.GameMultiplayer.prototype = {
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.Z);
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.L);
                 $("#socket_empezar").click(function(){
-                    console.log("conectaoo");
                     ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
                     ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
                     IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
@@ -242,8 +239,6 @@ DudeVolley.GameMultiplayer.prototype = {
 
         function onSituaPelota(data) {
             if (!Player1.soyplayer1){
-                //console.log("recivo",eljuego.time.now);
-                
                 eljuego.pelota.angle = data.angulo;
                 
                 //if ((eljuego.pelota.x > data.x + 30) || (eljuego.pelota.x < data.x - 30)){
@@ -274,28 +269,23 @@ DudeVolley.GameMultiplayer.prototype = {
         };
 
         function onSituajugador1(data) {
+
             if (!Player1.soyplayer1){
-                //console.log("recivo",eljuego.time.now);
-                //eljuego.pelota.angle = data.angulo;
                 if ((OTROPLAYER.sprite.x > data.P1x+40) || (OTROPLAYER.sprite.x < data.P1x-40)){
-                    this.need_sync = false;
                     OTROPLAYER.sprite.x = data.P1x;
                     tween = eljuego.add.tween(OTROPLAYER.sprite).to( { x: [ OTROPLAYER.sprite.x, data.P1x ] }, 2, Phaser.Easing.Linear.None, true);
-                }   
-               /* if ((OTROPLAYER.sprite.y > data.P1y+40) || (OTROPLAYER.sprite.y < data.P1y-40)){
-                    OTROPLAYER.sprite.y = data.P1y;
-                } 
-                */  
+                }    
                 if ((Player1.sprite.x > data.P2x+40) || (Player1.sprite.x < data.P2x-40)){
-                    this.need_sync = false;
                     Player1.sprite.x = data.P2x;
                     tween2 = eljuego.add.tween(Player1.sprite).to( { x: [ Player1.sprite.x, data.P2x ] }, 2, Phaser.Easing.Linear.None, true);
                 } 
                 /*
+                if ((OTROPLAYER.sprite.y > data.P1y+40) || (OTROPLAYER.sprite.y < data.P1y-40)){
+                    OTROPLAYER.sprite.y = data.P1y;
+                } 
                 if ((Player1.sprite.y > data.P2y+40) || (Player1.sprite.y < data.P2y-40)){
                     Player1.sprite.y = data.P2y;
                 }  */ 
-                
             }
         };
 
@@ -359,7 +349,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 eljuego.game.ganador = OTROPLAYER.sprite;
                 eljuego.game.nombre_ganador = OTROPLAYER.nombre;
             }
-            
+            p2p.emit("disconnect");
             eljuego.state.start('GameOver');
         }
 
@@ -723,15 +713,14 @@ DudeVolley.GameMultiplayer.prototype = {
             try { 
                 p2p.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, angulo: this.pelota.angle});
                 if (this.need_sync){
+                    this.need_sync = false;
                     p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y});
                 }
-            
             }
             catch (e) {
               console.log("mierror",e); 
             }
             if (this.time.now > this.sincronizapelotatime){
-                //console.log("emito",eljuego.time.now);
                 this.sincronizapelotatime = this.time.now + 20;        
             }
         }
@@ -937,6 +926,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
         this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
         this.punto = true;
+        this.need_sync = true;
 
         //Relentizo todo...
         Player1.sprite.body.velocity.y = Player1.sprite.body.velocity.y * 0.2;
@@ -1003,10 +993,9 @@ DudeVolley.GameMultiplayer.prototype = {
 
             this.esperaCollide1 = this.time.now + 100;
 
-            //////console.log(this.pelota.body.newVelocity.y);
             this.pelota.body.gravity.y = 900*this.game.factor_slow_gravity;
             this.pelota.body.velocity.y = -600*this.game.factor_slow_velocity;
-            //this.pelota.body.velocity.y = this.pelota.body.velocity.y * (-7);
+
             pos_pelota = this.pelota.body.position.x;
             pos_player = Player1.sprite.body.position.x;
             diferencia = pos_pelota - pos_player;
@@ -1016,7 +1005,6 @@ DudeVolley.GameMultiplayer.prototype = {
 
             if (this.time.now < Player1.sprite.enfadaoTime && Player1.sprite.enfadao){
                 //this.acho_audio2.play("",0,0.3);
-
 
                 if ((cursors.right.isDown || cursors.left.isDown || this.mueveizquierda || this.muevederecha || !this.game.device.desktop) 
                     && (!cursors.up.isDown && !this.muevearriba)  && (!cursors.down.isDown && !this.mueveabajo))
@@ -1062,9 +1050,6 @@ DudeVolley.GameMultiplayer.prototype = {
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
             }
-
-            //console.log(this.time.now)
-            //socket.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, vx: this.pelota.body.velocity.x, vy:this.pelota.body.velocity.y});
         }
     },
 
@@ -1095,10 +1080,8 @@ DudeVolley.GameMultiplayer.prototype = {
 
             this.esperaCollide2 = this.time.now + 100;
             
-            //////console.log(this.pelota.body.newVelocity.y);
             this.pelota.body.gravity.y = 900*this.game.factor_slow_gravity;
             this.pelota.body.velocity.y = -600*this.game.factor_slow_velocity;
-            //this.pelota.body.velocity.y = this.pelota.body.velocity.y * (-7);
             pos_pelota = this.pelota.body.position.x;
             pos_player = OTROPLAYER.sprite.body.position.x;
             diferencia = pos_pelota - pos_player;
@@ -1179,10 +1162,8 @@ DudeVolley.GameMultiplayer.prototype = {
                 this.pelota.body.bounce.x = 0.900;
                 this.pelota.body.gravity.y = 900*this.game.factor_slow_gravity;
                 this.pelota.body.collideWorldBounds = true;
-                //this.pelota.body.deltaMax = (400,400);
                 
                 this.pelota.body.mass= 0.15;
-                //console.log(this.pelota.body.position);
             }
             primeraVez = false;
 
