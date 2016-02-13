@@ -745,9 +745,7 @@ DudeVolley.GameMultiplayer.prototype = {
             if(this.time.now > this.enunratico){
                 this.punto = false;
                 this.explota.kill();
-                if(Player1.soyplayer1){
-                    this.empieza(this.quienEmpieza);
-                }
+                this.empieza(this.quienEmpieza);
             }
         }
         else{
@@ -1167,9 +1165,16 @@ DudeVolley.GameMultiplayer.prototype = {
         }
 
         else{
-            this.dondecae = this.world.width-1;
-
-            this.pelota.body.gravity.y = 900;
+            if (Player1.soyplayer1){
+                this.dondecae = this.world.width-1;
+                this.pelota.body.gravity.y = 900;
+                if (quien == "uno"){
+                    this.pelota.body.position.x = 32;
+                }
+                else{
+                    this.pelota.body.position.x = this.world.width - 32;
+                }
+            }
             Player1.sprite.body.position.x = 32;
             Player1.sprite.body.position.y = this.world.height - 250;
             Player1.sprite.body.velocity.x = 0;
@@ -1182,26 +1187,6 @@ DudeVolley.GameMultiplayer.prototype = {
 
             this.pelota.body.position.y = 0;
             this.pelota.body.velocity.x = 0;
-
-            try { 
-                p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y});
-            }
-            catch (e) {
-              console.log("mierror",e); 
-            }
-            
-            if (quien == "uno"){
-                this.pelota.body.position.x = 32;
-            }
-            else{
-                this.pelota.body.position.x = this.world.width - 32;
-            }
-        }
-        
-        
-        
+        } 
     }
-
-
-
 };
