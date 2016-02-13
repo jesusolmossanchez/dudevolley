@@ -1174,19 +1174,33 @@ DudeVolley.GameMultiplayer.prototype = {
                 else{
                     this.pelota.body.position.x = this.world.width - 32;
                 }
+
+                this.pelota.body.position.y = 0;
+                this.pelota.body.velocity.x = 0;
+
+                Player1.sprite.body.position.x = 32;
+                Player1.sprite.body.position.y = this.world.height - 250;
+                Player1.sprite.body.velocity.x = 0;
+                Player1.sprite.body.velocity.y = 0;
+
+                OTROPLAYER.sprite.body.position.x = this.world.width - 32;
+                OTROPLAYER.sprite.body.position.y = this.world.height - 250;
+                OTROPLAYER.sprite.body.velocity.x = 0;
+                OTROPLAYER.sprite.body.velocity.y = 0;
             }
-            Player1.sprite.body.position.x = 32;
-            Player1.sprite.body.position.y = this.world.height - 250;
-            Player1.sprite.body.velocity.x = 0;
-            Player1.sprite.body.velocity.y = 0;
+            else{
+                OTROPLAYER.sprite.body.position.x = 32;
+                OTROPLAYER.sprite.body.position.y = this.world.height - 250;
+                OTROPLAYER.sprite.body.velocity.x = 0;
+                OTROPLAYER.sprite.body.velocity.y = 0;
 
-            OTROPLAYER.sprite.body.position.x = this.world.width - 32;
-            OTROPLAYER.sprite.body.position.y = this.world.height - 250;
-            OTROPLAYER.sprite.body.velocity.x = 0;
-            OTROPLAYER.sprite.body.velocity.y = 0;
+                Player1.sprite.body.position.x = this.world.width - 32;
+                Player1.sprite.body.position.y = this.world.height - 250;
+                Player1.sprite.body.velocity.x = 0;
+                Player1.sprite.body.velocity.y = 0;
+            }
+            
 
-            this.pelota.body.position.y = 0;
-            this.pelota.body.velocity.x = 0;
         } 
     }
 };
