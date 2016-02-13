@@ -289,8 +289,8 @@ DudeVolley.GameMultiplayer.prototype = {
             }
         };
 
-        function onEnfadao2(){
-            if(Player1.soyplayer1){
+        function onEnfadao2(data){
+            if(Player1.id != data.id){
                 OTROPLAYER.sprite.enfadao = true;
                 OTROPLAYER.sprite.animations.play('senfada');
                 OTROPLAYER.sprite.enfadaoTime = eljuego.time.now + 500;
@@ -744,6 +744,7 @@ DudeVolley.GameMultiplayer.prototype = {
         if (this.punto){
             if(this.time.now > this.enunratico){
                 this.punto = false;
+                console.log("mata?",this.explota);
                 this.explota.kill();
                 this.empieza(this.quienEmpieza);
             }
@@ -777,7 +778,7 @@ DudeVolley.GameMultiplayer.prototype = {
                         Player1.sprite.animations.play('senfada');
                         Player1.sprite.enfadaoTime = this.time.now + 500;
                         try { 
-                           p2p.emit("enfadao2");
+                           p2p.emit("enfadao2",{id:Player1.id});
                         }
                         catch (e) {
                           console.log("mierror",e); 
@@ -967,9 +968,11 @@ DudeVolley.GameMultiplayer.prototype = {
     },
 
     procesapunto_sync: function(x,y){
-        this.explota = eljuego.add.sprite(x, y, 'explota');
-        this.punto = true;
-        this.enunratico = this.time.now + 2400;
+        if (!Player1.soyplayer1){
+            this.explota = this.add.sprite(x, y, 'explota');
+            this.punto = true;
+            this.enunratico = this.time.now + 2400;
+        }
     },
 
 
