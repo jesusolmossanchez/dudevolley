@@ -25,6 +25,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
         //conecto con socket
         socket = io.connect("http://192.168.0.194:8080", {port: 8080, transports: ["websocket"]});
+        //socket = io.connect("http://188.166.12.42:8080", {port: 8080, transports: ["websocket"]});
         p2p = new P2P(socket);
 
 
@@ -269,8 +270,7 @@ DudeVolley.GameMultiplayer.prototype = {
         };
 
         function onPunto(data) {
-            eljuego.explota = eljuego.add.sprite(data.x, data.y+5, 'explota');
-            eljuego.punto = true;
+            eljuego.procesapunto_sync(data.x, data.y+5);
         };
 
         function onSituajugador1(data) {
@@ -278,6 +278,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 //console.log("recivo",eljuego.time.now);
                 //eljuego.pelota.angle = data.angulo;
                 if ((OTROPLAYER.sprite.x > data.P1x+40) || (OTROPLAYER.sprite.x < data.P1x-40)){
+                    this.need_sync = false;
                     OTROPLAYER.sprite.x = data.P1x;
                     tween = eljuego.add.tween(OTROPLAYER.sprite).to( { x: [ OTROPLAYER.sprite.x, data.P1x ] }, 2, Phaser.Easing.Linear.None, true);
                 }   
@@ -286,6 +287,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 } 
                 */  
                 if ((Player1.sprite.x > data.P2x+40) || (Player1.sprite.x < data.P2x-40)){
+                    this.need_sync = false;
                     Player1.sprite.x = data.P2x;
                     tween2 = eljuego.add.tween(Player1.sprite).to( { x: [ Player1.sprite.x, data.P2x ] }, 2, Phaser.Easing.Linear.None, true);
                 } 
@@ -623,7 +625,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
         //control para nivel de dificultad
         //this.game.level = 2;
-
+        this.need_sync = false;
 
         /***********************************************************************
         ***********************************************************************
@@ -720,7 +722,9 @@ DudeVolley.GameMultiplayer.prototype = {
             this.physics.arcade.collide(this.pelota, platforms);
             try { 
                 p2p.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, angulo: this.pelota.angle});
-                p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y});
+                if (this.need_sync){
+                    p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y});
+                }
             
             }
             catch (e) {
@@ -945,6 +949,15 @@ DudeVolley.GameMultiplayer.prototype = {
 
         //... veo que hago con el punto
 
+        try { 
+            p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2});
+            p2p.emit("punto",{x:this.pelota.body.position.x, y:this.pelota.body.position.y});
+        }
+        catch (e) {
+          console.log("mierror",e); 
+        }
+        
+
         if(this.pelota.body.position.x > 390){
             this.game.puntosPlayer1++;
             this.scoreText1.text = this.game.puntosPlayer1;
@@ -965,14 +978,13 @@ DudeVolley.GameMultiplayer.prototype = {
                 socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
             }
         }
-        try { 
-            p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2});
-            p2p.emit("punto",{x:this.pelota.body.position.x, y:this.pelota.body.position.y});
-        }
-        catch (e) {
-          console.log("mierror",e); 
-        }
         
+    },
+
+    procesapunto_sync: function(x,y){
+        this.explota = eljuego.add.sprite(x, y, 'explota');
+        this.punto = true;
+        this.enunratico = this.time.now + 2400;
     },
 
 
@@ -1073,6 +1085,8 @@ DudeVolley.GameMultiplayer.prototype = {
     ***********************************************************************/
 
     pika_OTRO: function () {
+
+        this.need_sync = true;
 
         if (typeof this.pelota !== 'undefined'){
             if (this.punto){
