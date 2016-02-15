@@ -206,8 +206,8 @@ DudeVolley.GameOver.prototype = {
         this.ganador.animations.add('senfada', [2, 3], 7, true);
         this.perdedor.animations.add('senfada2', [2, 3], 7, true);
 
-        var play_again = this.cache.getImage('play_again');
-        this.play_again = this.add.sprite(this.world.centerX - play_again.width/2.0,470,'play_again');
+        var play_again = this.cache.getImage('volver_a_jugar');
+        this.play_again = this.add.sprite(this.world.centerX - play_again.width/2.0,470,'volver_a_jugar');
         this.play_again.inputEnabled = true;
         this.play_again.input.sprite.events.onInputDown.add(this.empieza, this);
 

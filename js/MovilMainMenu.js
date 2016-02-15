@@ -35,7 +35,7 @@ DudeVolley.MovilMainMenu.prototype = {
 
 
         //TODO: Hacer boton de seleccionar
-        this.movil_jugar = this.add.sprite(this.world.centerX, this.world.height - 100, 'volver'); 
+        this.movil_jugar = this.add.sprite(this.world.centerX, this.world.height - 100, 'seleccionar'); 
         this.movil_jugar.anchor.setTo(0.5, 0.5);
         this.movil_jugar.inputEnabled = true;
         this.movil_jugar.input.sprite.events.onInputDown.add(this.empieza, this);

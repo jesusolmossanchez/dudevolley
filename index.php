@@ -17,6 +17,7 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/phaser.min.js"></script>
 	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<!-- <script src="http://http://192.168.0.194:8080/socket.io/socket.io.js"></script> -->
 	<script src="js/socketiop2p.min.js"></script>
 	<script src="js/jquery.Jcrop.min.js"></script>
 
@@ -76,7 +77,7 @@
 	<form id="mandapuntos">
 		<p id="texto_fin"></p>
 		<p id="puntos"></p>
-		<p id="envia_tus_puntos">Send  your  score:</p>
+		<p id="envia_tus_puntos">Manda tu puntuacion:</p>
 		<input id="inputtunombre" type="text" name="tu_nombre" maxlength="10"/>
 		<button id="envia_tu_nombre"> Enviar </button> 
 	</form>

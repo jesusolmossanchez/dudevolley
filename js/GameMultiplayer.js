@@ -744,7 +744,7 @@ DudeVolley.GameMultiplayer.prototype = {
         if (this.punto){
             if(this.time.now > this.enunratico){
                 this.punto = false;
-                console.log("mata?",this.explota);
+                this.need_sync = true;
                 this.explota.kill();
                 this.empieza(this.quienEmpieza);
             }
@@ -1117,7 +1117,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 }
                 else if(quehaceel2 == 5){
                     this.pelota.body.velocity.y = -100*this.game.factor_slow_velocity;
-                    this.pelota.body.velocity.x = 300*this.game.factor_slow_velocity;
+                    this.pelota.body.velocity.x = -300*this.game.factor_slow_velocity;
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
                 else if(quehaceel2 == 8){

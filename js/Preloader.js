@@ -33,7 +33,8 @@ DudeVolley.Preloader.prototype = {
 
         this.load.image('game_over_back', 'assets/game_over_back.png'); //background final -- cambiar
 
-        this.load.image('play_again', 'assets/play_again.png'); //TODO: Poner en español!
+        this.load.image('volver_a_jugar', 'assets/volver_a_jugar.png');
+        this.load.image('seleccionar', 'assets/seleccionar.png');
 
 
         this.load.spritesheet('player1','assets/default_player.png',80,110);
