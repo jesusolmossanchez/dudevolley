@@ -17,7 +17,7 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/phaser.min.js"></script>
 	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-	<!-- <script src="http://http://192.168.0.194:8080/socket.io/socket.io.js"></script> -->
+	<!-- <script src="http://http://188.166.12.42:8080/socket.io/socket.io.js"></script> -->
 	<script src="js/socketiop2p.min.js"></script>
 	<script src="js/jquery.Jcrop.min.js"></script>
 
@@ -36,6 +36,14 @@
 	<script src="js/GameOver.js"></script>
 	<script src="js/GameMultiplayer.js"></script>
 
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-66368910-2', 'auto');
+		ga('send', 'pageview', '/Index');
+	</script>
 
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css" />

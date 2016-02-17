@@ -6,6 +6,9 @@ DudeVolley.Boot = function (game) {
 
 DudeVolley.Boot.prototype = {
     init: function () {
+
+        ga('send', 'pageview', '/Boot');
+
         //cuando no está activa la pestaña, el juego se pausa
         this.stage.disableVisibilityChange = true;
 

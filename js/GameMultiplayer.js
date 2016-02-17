@@ -7,6 +7,8 @@ DudeVolley.GameMultiplayer.prototype = {
 
     init: function () {
 
+        ga('send', 'pageview', '/GameMultiplayer');
+
         //alias para el objeto del juego
         eljuego = this;
         primeraVez = true;

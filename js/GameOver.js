@@ -9,6 +9,8 @@ DudeVolley.GameOver.prototype = {
 
     create: function () {
 
+        ga('send', 'pageview', '/GameOver');
+
         var rutajuagdor = this.game.ruta_jugador;
 
         relacion = $(window).height()/$(window).width();

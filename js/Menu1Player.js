@@ -11,6 +11,8 @@ DudeVolley.Menu1Player.prototype = {
 
 
 	create: function () {
+
+		ga('send', 'pageview', '/Menu1Player');
 		
 		//situo las cosas en la pantalla
 		var titulo_estirado = this.cache.getImage('titulo_estirado');
