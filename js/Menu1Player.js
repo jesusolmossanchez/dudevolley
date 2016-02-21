@@ -145,6 +145,8 @@ DudeVolley.Menu1Player.prototype = {
 					cache: false,      
 					processData:false,    
 					success: function(data){
+						this.movil_jugar.visible = false;
+
 						$("#subefoto").hide();
 						$("#contiene_foto_subida").show();
 						lo_que_habia = $("#contiene_foto_subida").html();
