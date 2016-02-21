@@ -145,7 +145,7 @@ DudeVolley.Menu1Player.prototype = {
 					cache: false,      
 					processData:false,    
 					success: function(data){
-						this.movil_jugar.visible = false;
+						yomismo.movil_jugar.visible = false;
 
 						$("#subefoto").hide();
 						$("#contiene_foto_subida").show();
