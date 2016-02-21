@@ -106,6 +106,7 @@ DudeVolley.Menu1Player.prototype = {
 		if(L.isDown || Z.isDown || ENTER.isDown){
 			switch (this.menu_1player.frame){
 				case 0:
+					this.game.normalplayer = true;
 					this.juega(false);
 					break;
 				case 1:
@@ -149,8 +150,6 @@ DudeVolley.Menu1Player.prototype = {
 						lo_que_habia = $("#contiene_foto_subida").html();
 						$("#contiene_foto_subida").html(lo_que_habia+data);
 
-
-
 						$("#sube_img_cortada").on('submit',(function(e) {
 							e.preventDefault();
 							if (window.sube2 < 1){
@@ -163,9 +162,6 @@ DudeVolley.Menu1Player.prototype = {
 									cache: false,      
 									processData:false,    
 									success: function(data){
-										//window.ruta_jugador = data;
-										
-
 										yomismo.juega(data);
 									}
 								});
@@ -179,7 +175,7 @@ DudeVolley.Menu1Player.prototype = {
 	},
 
 	juega: function (ruta_jugador) {
-		this.game.normalplayer = true;
+		
 		$("#contiene_foto_subida").css("display","none");
 		this.game.ruta_jugador = ruta_jugador;
 		this.state.start('PreOnePlayer');
@@ -189,6 +185,7 @@ DudeVolley.Menu1Player.prototype = {
 		switch (this.menu_1player.frame){
 			case 0:
 				this.juega(false);
+				this.game.normalplayer = true;
 				break;
 			case 1:
 				this.empieza();
