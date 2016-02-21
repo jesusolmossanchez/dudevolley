@@ -273,31 +273,17 @@ DudeVolley.GameOnePlayer.prototype = {
             if (this.game.device.desktop){
                 if (IZQUIERDA.isDown){
                     Player1.mueve("izquierda");
-                    if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
-                        this.tip3.alpha = 1;
-                    }
-                    else{
-                        this.tip1.alpha = 1;
-                    }
                     
                 }
                 else if(DERECHA.isDown){
                     Player1.mueve("derecha");
-                    if(this.time.now < (Player1.sprite.tiempoGorrino - 100)){
-                        this.tip3.alpha = 1;
-                    }
-                    else{
-                        this.tip1.alpha = 1;
-                    }
                 }
                 else{
                     Player1.mueve("parao");
-                    this.tip1.alpha = 0.5;
                 }
 
                 if(ARRIBA.isDown){
                     Player1.mueve("arriba");
-                    this.tip2.alpha = 1;
                 }
                 if(ABAJO.isDown){
                     
