@@ -48,6 +48,10 @@ function onSocketConnection(client) {
             //this.emit("ya estamos todos");
         }
     }
+    else if(players.length > 2){
+        players.pop();
+        client.disconnect();
+    }
     else{
         yasta = false;
     }
