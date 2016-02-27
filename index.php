@@ -17,7 +17,7 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
 	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
-	<script src="http://http://188.166.12.42:8080/socket.io/socket.io.js"></script>
+	<script src="http://188.166.12.42:8080/socket.io/socket.io.js"></script>
 	<script src="js/lib/socketiop2p.min.js"></script>
 	<script src="js/lib/jquery.Jcrop.min.js"></script>
 
@@ -97,7 +97,7 @@
 				<button id="juega_con_quien_sea"><span>Jugar</span><span>con</span><span>cualquiera</span></button>
 			</div>
 			<div id="pasa_el_enlace">
-				<span>Pasa</span><span>a</span><span>alguien</span><span>este</span><span>enlace:</span><span>http://projects.local/dudevolley?te_reto</span>
+				<span>Pasa</span><span>a</span><span>alguien</span><span>este</span><span>enlace:</span><span>http://www.dudevolley.com/?te_reto</span>
 			</div>
 			<div id="esperando_oponente">
 				<span>Esperando</span><span>oponente...</span>
