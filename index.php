@@ -15,26 +15,14 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-	<script src="js/phaser.min.js"></script>
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-	<!-- <script src="http://http://188.166.12.42:8080/socket.io/socket.io.js"></script> -->
-	<script src="js/socketiop2p.min.js"></script>
-	<script src="js/jquery.Jcrop.min.js"></script>
+	<script src="js/lib/phaser_dudevolley.min.js"></script>
+	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
+	<script src="http://http://188.166.12.42:8080/socket.io/socket.io.js"></script>
+	<script src="js/lib/socketiop2p.min.js"></script>
+	<script src="js/lib/jquery.Jcrop.min.js"></script>
 
-	<script src="js/Boot.js"></script>
-	<script src="js/Preloader.js"></script>
-	<script src="js/MainMenu.js"></script>
-	<script src="js/MovilMainMenu.js"></script>
-	<script src="js/Menu1Player.js"></script>
-	<script src="js/PreOnePlayer.js"></script>
-	<script src="js/GameOnePlayer.js"></script>
-	<script src="js/Player.js"></script>
-	<script src="js/Joystick.js"></script>
-	<script src="js/Entrenamiento.js"></script>
-	<script src="js/GameTwoPlayer.js"></script>
-	<script src="js/Demo.js"></script>
-	<script src="js/GameOver.js"></script>
-	<script src="js/GameMultiplayer.js"></script>
+	<script src="js/src/out.min.js"></script>
+
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
