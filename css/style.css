@@ -10,6 +10,7 @@
 
 * {
 	font-family: 'ArcadeClassic';
+     word-spacing: 1vw;
 }
 
 canvas{
@@ -58,7 +59,7 @@ canvas{
     right: 0;
     color: #f5f823;
     font-size: 40px;
-    font-size: 4vw;
+    font-size: 3vw;
 }
 
 #subefoto input{
@@ -72,14 +73,14 @@ canvas{
 
 
 #fakeinput{
-      border: 1vw solid #f5f823;
-      font-size: 4vw;
-      width: 50%;
-      text-align: center;
-      margin-left: 23%;
-      padding: 2%;
-      margin-top: 3vw;
-      cursor: pointer;
+    border: 1vw solid #f5f823;
+    font-size: 3vw;
+    width: 40%;
+    text-align: center;
+    margin-left: 27%;
+    padding: 2%;
+    margin-top: 3vw;
+    cursor: pointer;
 }
 
 .jcrop-holder div{
@@ -99,16 +100,14 @@ canvas{
     display: none;
     text-align: center;
     position: absolute;
-    top: 400px;
-    top: 10vw;
-    /* margin-top: -400px; */
+    top: calc(5vw + 80px);
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
     color: #f5f823;
     font-size: 40px;
-    font-size: 4vw;
+    font-size: 3vw;
 }
 
 #contiene_foto_subida input{
@@ -348,6 +347,7 @@ canvas{
 }
 #explica_sube {
     word-break: break-word;
+    word-spacing: 1vw;
 }
 
 #contiene_creditos{

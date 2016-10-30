@@ -1,4 +1,6 @@
 <?php
+
+	//COSAS CONTRA EL PIRATEO
 	session_start();
 	$token = md5(rand(1000,9999));
 	$_SESSION['token'] = $token;
@@ -6,6 +8,11 @@
 	$_SESSION['suebeajax1'] = 0;
 	$_SESSION['suebeajax2'] = 0;
 	$_SESSION['winner_cambiado'] = 0;
+
+	//SOCIALS
+	$descripcion = "Dude Volley - The game!";
+	$titulo = "Dude Volley";
+	$img_share = "img_share/share_dudevolley.png";
 ?>
 <!DOCTYPE HTML>
 <html style="margin:0 !important;">
@@ -13,6 +20,22 @@
 	<meta charset="UTF-8" />
 	<title>Dude Volley</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta name="description" content="<?php echo $descripcion?>">
+    <meta name="keywords" content="dude volley, indiegame, gamedev">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+	<meta property="og:url" content="http://www.dudevolley.com" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dude_volley">
+    <meta name="twitter:creator" content="@dude_volley">
+    <meta property="og:title" content="<?php echo $titulo?>" />
+    <meta name="twitter:title" content="<?php echo $titulo?>">
+    <meta property="og:description" content="<?php echo $descripcion?>" />
+    <meta name="twitter:description" content="<?php echo $descripcion?>">
+    <meta property="og:image" content="<?php echo $img_share?>" />
+    <meta name="twitter:image" content="<?php echo $img_share?>" />
+
+    <link rel="shortcut icon" href="assets/favicon.ico">
+
 
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
@@ -46,77 +69,11 @@
 <div id="gameContainer" style="margin:auto;">
 </div>
 
-<form id="subefoto" action="sube2.php" method="post" enctype="multipart/form-data" style="display:none;">
-	<div id="explica_sube">
-		<span>Sube</span><span>tu</span><span>imagen</span><span>para</span><span>crear</span><span>tu</span><span>jugador.</span>
-		<br/>
-		<span>Si</span><span>le</span><span>ganas</span><span>a</span><span>la</span><span>maquina,</span>
-		<br/>
-		<span>juagara</span><span>con</span><span>tu</span><span>imagen</span>
+<?php include ("sube_foto.php"); ?>
+<?php include ("manda_puntos.php"); ?>
+<?php include ("creditos.php"); ?>
 
-	</div>
-    <label for="fileToUpload">
-    	<div id="fakeinput"><span>Subir imagen</span>
-    		<img src="assets/sube.png" style="margin: -1vw 0 -1vw 2vw; width:15%;"></div>
-    </label>
-    <input type="file" name="fileToUpload" id="fileToUpload" style="display:none"><br/><br/>
-    <input type="hidden" name="token" id="token" value="<?=$token?>">
-    <input id="inputsubefoto" type="submit" value="Aceptar" name="submit" style="display:none">
-</form>
 
-<div id="contiene_foto_subida" style="max-width:600px;">
-    <div id="explica_sube"><span>Selecciona</span><span>el</span><span>area</span><span>a</span><span>recortar</span></div>
-</div>
-
-<div id="contiene_mandapuntos" style="">
-
-	<form id="mandapuntos">
-		<p id="texto_fin"></p>
-		<p id="puntos"></p>
-		<p id="envia_tus_puntos">Manda tu puntuacion:</p>
-		<input id="inputtunombre" type="text" name="tu_nombre" maxlength="10"/>
-		<button id="envia_tu_nombre"> Enviar </button> 
-	</form>
-	<ul id="contiene_clasificacion">
-		<dl id="titulo_nivel"></dl>
-	</ul>
-</div>
-
-<div id="socket_overlay">
-	<div id="socket_overlay_inner">
-		<label id="volley_label"><span> Pon </span><span> tu </span><span> nombre </span></label>
-		<div id="botonera_socket">
-			<input class="volley_button" type="text" id="socket_nombre" maxlength="10"/>
-			<button id="socket_empezar"> Empezar </button>
-		</div>
-		<div id="reta_a_un_colega">
-			<div class="botonera_socket">
-				<button id="reta_a_un_colega_button"><span>Retar</span><span>a</span><span>un</span><span>colega</span></button>
-			</div>
-			<div class="botonera_socket">
-				<button id="juega_con_quien_sea"><span>Jugar</span><span>con</span><span>cualquiera</span></button>
-			</div>
-			<div id="pasa_el_enlace">
-				<span>Pasa</span><span>a</span><span>alguien</span><span>este</span><span>enlace:</span><span>http://www.dudevolley.com/?te_reto</span>
-			</div>
-			<div id="esperando_oponente">
-				<span>Esperando</span><span>oponente...</span>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="contiene_creditos">
-    <ul id="creditos">
-        <li class="titulo_credito"> Creador </li>
-        <li class="nombre_credito"> Jesus Olmos Sanchez </li>
-        <li class="titulo_credito"> Directora de Arte </li>
-        <li class="nombre_credito"> Alba Olmos Sanchez </li>
-        <li class="titulo_credito"> Musica </li>
-        <li class="nombre_credito"> Juan Ros Pina </li>
-    </ul>
-    <input id='volver_menu' onclick='eljuego.cierra_creditos();' type='submit' value='volver' />
-</div>
 
 <script type="text/javascript">
 

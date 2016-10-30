@@ -148,6 +148,7 @@ DudeVolley.GameOver.prototype = {
             var elotrosehapirao = "";
             if (this.game.multiplayer){
                 nombreGanador = this.game.nombre_ganador;
+                socket.emit("disconect");
                 if (this.game.desconectado){
                     var elotrosehapirao = "</br>...el otro se ha pirao";
                 }
