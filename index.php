@@ -44,7 +44,35 @@
 	<script src="js/lib/socketiop2p.min.js"></script>
 	<script src="js/lib/jquery.Jcrop.min.js"></script>
 
-	<script src="js/src/out.min.js"></script>
+	<?php
+	if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
+		echo '<script src="js/dist/dudevolley.min.js"></script>';
+		echo '<link rel="stylesheet" type="text/css" href="css/dist/dudevolley.min.css" />';
+	}
+		
+	else{
+		echo '<script src="js/Boot.js"></script>';
+		echo '<script src="js/Preloader.js"></script>';
+		echo '<script src="js/MainMenu.js"></script>';
+		echo '<script src="js/Menu1Player.js"></script>';
+		echo '<script src="js/MovilMainMenu.js"></script>';
+		echo '<script src="js/PreOnePlayer.js"></script>';
+		echo '<script src="js/GameOnePlayer.js"></script>';
+		echo '<script src="js/Entrenamiento.js"></script>';
+		echo '<script src="js/GameTwoPlayer.js"></script>';
+		echo '<script src="js/Demo.js"></script>';
+		echo '<script src="js/GameMultiplayer.js"></script>';
+		echo '<script src="js/GameOver.js"></script>';
+		echo '<script src="js/Player.js"></script>';
+		echo '<script src="js/Joystick.js"></script>';
+
+		echo '<link rel="stylesheet" type="text/css" href="css/style.css" />';
+		echo '<link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css" />';
+	}
+
+
+	?>
+
 
 
 	<script>
@@ -56,12 +84,11 @@
 		ga('send', 'pageview', '/Index');
 	</script>
 
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css" />
-	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.woff" />
-	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.svg#ArcadeClassic" />
-	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.eot" />
-	<link rel="stylesheet" type="text/css" href="fonts/ArcadeClassic.eot?#iefix" />
+	
+	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.woff" />
+	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.svg#ArcadeClassic" />
+	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.eot" />
+	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.eot?#iefix" />
 
 </head>
 <body style="background-color:rgb(0,0,0); margin:0 !important;">

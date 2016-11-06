@@ -12,8 +12,12 @@ DudeVolley.Boot.prototype = {
         //cuando no está activa la pestaña, el juego se pausa
         this.stage.disableVisibilityChange = true;
 
-        if (this.game.device.desktop)
-        {
+        if (this.game.device.desktop){
+
+            $(document).one('click',function(event) {
+                alert("usa las flechas para jugar");
+            });
+
             //si escritorio
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             //TODO: ver como se ve en pantallas grandes
