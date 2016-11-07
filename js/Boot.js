@@ -15,12 +15,11 @@ DudeVolley.Boot.prototype = {
         if (this.game.device.desktop){
 
             $(document).one('click',function(event) {
+                if($(event.target).is(".clickable, .clickable *")) return;
                 $("#usa_flechas").show();
-                $(document).one('keyup', function(e) {
-                    location.reload();
-                });
-                $(document).one('click', function(e) {
-                    location.reload();
+                
+                $("#cierra_usaflechas").one('click', function(e) {
+                    $("#usa_flechas").hide();
                 });
             });
 

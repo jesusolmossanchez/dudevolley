@@ -8,5 +8,5 @@
         <li class="titulo_credito"> Musica </li>
         <li class="nombre_credito" style="text-decoration: line-through;"> Juan Ros Pina </li>
     </ul>
-    <input id='volver_menu' onclick='eljuego.cierra_creditos();' type='submit' value='volver' />
+    <input id='volver_menu' class="clickable" onclick='eljuego.cierra_creditos();' type='submit' value='volver' />
 </div>
