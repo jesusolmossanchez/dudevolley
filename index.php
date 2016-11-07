@@ -12,7 +12,7 @@
 	//SOCIALS
 	$descripcion = "Dude Volley - The game!";
 	$titulo = "Dude Volley";
-	$img_share = "img_share/share_dudevolley.png";
+	$img_share = "http://dudevolley.com/img_share/share_dudevolley.png";
 ?>
 <!DOCTYPE HTML>
 <html style="margin:0 !important;">
@@ -28,11 +28,11 @@
     <meta name="twitter:site" content="@dude_volley">
     <meta name="twitter:creator" content="@dude_volley">
     <meta property="og:title" content="<?php echo $titulo?>" />
-    <meta name="twitter:title" content="<?php echo $titulo?>" />
+    <meta name="twitter:title" content="<?php echo $titulo?>">
     <meta property="og:description" content="<?php echo $descripcion?>" />
-    <meta name="twitter:description" content="<?php echo $descripcion?>" />
+    <meta name="twitter:description" content="<?php echo $descripcion?>">
     <meta property="og:image" content="<?php echo $img_share?>" />
-    <meta name="twitter:image" content="<?php echo $img_share?>" />
+    <meta name="twitter:image" content="<?php echo $img_share?>">
 
     <link rel="shortcut icon" href="assets/favicon.ico">
 
