@@ -15,7 +15,13 @@ DudeVolley.Boot.prototype = {
         if (this.game.device.desktop){
 
             $(document).one('click',function(event) {
-                alert("usa las flechas para jugar");
+                $("#usa_flechas").show();
+                $(document).one('keyup', function(e) {
+                    location.reload();
+                });
+                $(document).one('click', function(e) {
+                    location.reload();
+                });
             });
 
             //si escritorio
