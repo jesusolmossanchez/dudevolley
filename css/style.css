@@ -330,10 +330,10 @@ canvas{
 #reta_a_un_colega_button{
     background-color: rgba(0, 0, 0, 0.7) !important;
     border: 8px solid #f5f823;
-    border: 2vw solid #f5f823;
+    border: 1.5vw solid #f5f823;
     color: #f5f823;
     font-size: 20px;
-    font-size: 4vw;
+    font-size: 3vw;
     padding: 20px 10px;
     padding: 3vw 2vw;
 }
@@ -341,10 +341,10 @@ canvas{
 #reta_a_un_colega_input{    
     background-color: rgba(0, 0, 0, 0.7) !important;
     border: 8px solid #f5f823;
-    border: 2vw solid #f5f823;
+    border: 1.5vw solid #f5f823;
     color: #f5f823;
     font-size: 30px;
-    font-size: 4vw;
+    font-size: 3vw;
     padding: 20px 10px;
     padding: 3vw 2vw;
     width: 260px;
@@ -355,10 +355,10 @@ canvas{
 #juega_con_quien_sea{    
     background-color: rgba(0, 0, 0, 0.7) !important;
     border: 8px solid #f5f823;
-    border: 2vw solid #f5f823;
+    border: 1.5vw solid #f5f823;
     color: #f5f823;
     font-size: 30px;
-    font-size: 4vw;
+    font-size: 3vw;
     padding: 20px 10px;
     padding: 3vw 2vw;
     width: 260px;
