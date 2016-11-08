@@ -397,7 +397,7 @@ canvas{
     text-align: center;
     position: absolute;
     top: 400px;
-    top: 16vw;
+    top: 10vh;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -416,7 +416,7 @@ canvas{
 #creditos li.nombre_credito{
     color: #f5f823;
     font-size: 40px;
-    font-size: 5vw;
+    font-size: 3vw;
     list-style: none;
     margin-bottom: 2vw;
 }
