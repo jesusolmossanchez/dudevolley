@@ -74,6 +74,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 //EN ESA CAPA SE PEDIRÁ UN NOMBRE Y HABRÁ UN ENLACE PARA 'RETAR A UN AMIGO'
                 //UNA VEZ ENVIADO SE DEBE EMITIR ALGO COMO:
                 $("#socket_overlay").show();
+                $("#socket_nombre").focus();
                 //$("#soy_el_uno").show();
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.R);
@@ -93,6 +94,24 @@ DudeVolley.GameMultiplayer.prototype = {
                     $("#volley_label").hide();
                     $("#botonera_socket").hide();
                     $("#reta_a_un_colega").show();
+                });
+
+                $(document).on('keyup',function(e) {
+                    console.log(e.which);
+                    if(e.which == 13) {
+                        ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
+                        ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
+                        IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
+                        DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
+                        SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
+                        SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
+                        Player1.nombre = $("#socket_nombre").val();
+                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                        $("#volley_label").hide();
+                        $("#botonera_socket").hide();
+                        $("#reta_a_un_colega").show();
+                        $(document).off('keyup');
+                    }
                 });
 
                 $("#reta_a_un_colega_button").click(function(){
@@ -128,6 +147,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 Player1 = new Player(eljuego,'cpu', null, data);
 
                 $("#socket_overlay").show();
+                $("#socket_nombre").focus();
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.R);
                 eljuego.input.keyboard.removeKey(Phaser.Keyboard.F);
@@ -143,6 +163,20 @@ DudeVolley.GameMultiplayer.prototype = {
                     SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
                     Player1.nombre = $("#socket_nombre").val();
                     socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                });
+                $(document).on('keyup',function(e) {
+                    console.log("pulso")
+                    if(e.which == 13) {
+                        ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
+                        ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
+                        IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
+                        DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
+                        SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
+                        SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
+                        Player1.nombre = $("#socket_nombre").val();
+                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                        $(document).off('keyup');
+                    }
                 });
 
             }

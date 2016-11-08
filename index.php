@@ -97,6 +97,7 @@
 </div>
 <div id="usa_flechas">USA LAS TECLAS PARA JUGAR<span id="cierra_usaflechas">x</span></div>
 <?php include ("sube_foto.php"); ?>
+<?php include ("socket.php"); ?>
 <?php include ("manda_puntos.php"); ?>
 <?php include ("creditos.php"); ?>
 
