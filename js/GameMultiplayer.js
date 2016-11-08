@@ -94,10 +94,10 @@ DudeVolley.GameMultiplayer.prototype = {
                     $("#volley_label").hide();
                     $("#botonera_socket").hide();
                     $("#reta_a_un_colega").show();
+                    $(document).off('keyup');
                 });
 
                 $(document).on('keyup',function(e) {
-                    console.log(e.which);
                     if(e.which == 13) {
                         ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
                         ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
@@ -163,6 +163,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
                     Player1.nombre = $("#socket_nombre").val();
                     socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                    $(document).off('keyup');
                 });
                 $(document).on('keyup',function(e) {
                     console.log("pulso")
