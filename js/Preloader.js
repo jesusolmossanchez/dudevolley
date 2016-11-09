@@ -36,6 +36,8 @@ DudeVolley.Preloader.prototype = {
         this.load.image('volver_a_jugar', 'assets/volver_a_jugar.png');
         this.load.image('seleccionar', 'assets/seleccionar.png');
 
+        //this.load.image('swipe_to_play', 'assets/swipe_to_play.png');
+
 
         this.load.spritesheet('player1','assets/default_player.png',80,110);
         this.load.spritesheet('cpu','cpu_player/cpu_player.png',80,110);

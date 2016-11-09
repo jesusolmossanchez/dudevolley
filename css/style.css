@@ -116,10 +116,10 @@ canvas{
 
 #fakeinput{
     border: 1vw solid #f5f823;
-    font-size: 3vw;
-    width: 40%;
+    font-size: 2.5vw;
+    width: 30%;
     text-align: center;
-    margin-left: 27%;
+    margin-left: 32%;
     padding: 2%;
     margin-top: 3vw;
     cursor: pointer;

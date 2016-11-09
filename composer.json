@@ -1,0 +1,14 @@
+{
+    "name": "jolmos/dudevolley",
+    "description": "dudevolley game",
+    "type": "project",
+    "require": {
+        "abraham/twitteroauth": "^0.7.0"
+    },
+    "authors": [
+        {
+            "name": "Jesús Olmos",
+            "email": "jesusolmossanchez@gmail.com"
+        }
+    ]
+}
