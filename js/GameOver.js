@@ -98,6 +98,7 @@ DudeVolley.GameOver.prototype = {
             if(window.twitter_img){
                 $("#envia_tu_nombre").hide();
                 $("#inputtunombre").hide();
+                $("#envia_tus_puntos").hide();
 
                 var post_data= {
                                     nombre: window.twitter_name,
