@@ -145,7 +145,7 @@ window.onload = function() {
 	<?php
 	 if(isMobile()){
 	?>
-	 	var game = new Phaser.Game(1200, 685, Phaser.AUTO, 'gameContainer');
+	 	var game = new Phaser.Game(1300, 685, Phaser.AUTO, 'gameContainer');
 	<?php
 	}
 	else{

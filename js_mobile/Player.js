@@ -6,7 +6,7 @@
 var Player = function(juego, quien, entrenamiento, id, donde) {
 	
     if(!donde){
-        donde = 40;
+        donde = 260;
     }
     else{
         donde = donde + 40;
@@ -17,8 +17,8 @@ var Player = function(juego, quien, entrenamiento, id, donde) {
         this.sprite.animations.add('senfada', [0], 5, true);
         this.sprite.animations.add('semueve', [2, 3], 7, true);
         this.sprite.animations.add('salta', [1], 5, true);
-        this.sprite.limiteIzquierda = (juego.world.width/2)+40;
-        this.sprite.limiteDerecha = 800;
+        this.sprite.limiteIzquierda = (juego.world.width/2)+70;
+        this.sprite.limiteDerecha = juego.world.width;
         this.soyplayer1 = false; 
         this.frameParao = 3;
     }

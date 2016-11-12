@@ -108,8 +108,8 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
 
-        this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.scoreText2 = this.add.text(this.world.width - 16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText1 = this.add.text(40 + this.limite_izq, 16, '0', { font: '74px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText2 = this.add.text(this.limite_der - 40, 16, '0', { font: '74px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2.anchor.x = 1;
         this.game.puntosPlayer1 = 0;
         this.game.puntosPlayer2 = 0;
@@ -128,14 +128,21 @@ DudeVolley.GameOnePlayer.prototype = {
         
         //MOVIL
         if (!this.game.device.desktop){
-            this.joy = new Joystick(this.game, 70, this.world.height - 100);
+            this.joy = new Joystick(this.game, 90, this.world.height - 120);
 
             //TODO: Pillar el correcto (boton de accion)
-            this.movil_accion = this.add.sprite(this.world.width - 60, this.world.height - 100, 'pika');
+            this.movil_accion_shadow = this.add.sprite(this.world.width - 90, this.world.height - 120, 'pika');
+            this.movil_accion = this.add.sprite(this.world.width - 90, this.world.height - 120, 'pika');
             this.movil_accion.anchor.setTo(0.5, 0.5);
+            this.movil_accion.scale.setTo(1.5, 1.5);
             this.movil_accion.inputEnabled = true;
             this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
             this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
+
+            this.movil_accion_shadow.anchor.set(0.5,0.5);
+            this.movil_accion_shadow.scale.set(1.9,1.9);
+            this.movil_accion_shadow.tint = 0xffffff;
+            this.movil_accion_shadow.alpha = 0;
         }
 
 
@@ -198,10 +205,12 @@ DudeVolley.GameOnePlayer.prototype = {
 
     entra_movil_accion: function (){
         this.click_accion = true;
+        this.movil_accion_shadow.alpha = 0.6;
     },
 
     sal_movil_accion: function (){
         this.click_accion = false;
+        this.movil_accion_shadow.alpha = 0;
     },
 
 
@@ -209,9 +218,9 @@ DudeVolley.GameOnePlayer.prototype = {
 
         
 
-        this.sombra2.position.set(Player1.sprite.body.position.x, this.world.height - 30);
-        this.sombra1.position.set(PlayerCPU.sprite.body.position.x, this.world.height - 30);
-        this.sombra_pelota.position.set(this.pelota.body.position.x, this.world.height - 30);
+        this.sombra2.position.set(Player1.sprite.body.position.x, this.world.height - 40);
+        this.sombra1.position.set(PlayerCPU.sprite.body.position.x, this.world.height - 40);
+        this.sombra_pelota.position.set(this.pelota.body.position.x, this.world.height - 40);
         
         if (this.time.now > this.esperaCollide1){
             this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
@@ -355,7 +364,7 @@ DudeVolley.GameOnePlayer.prototype = {
 
         //... veo que hago con el punto
 
-        if(this.pelota.body.position.x > this.world.width){
+        if(this.pelota.body.position.x > (this.world.width/2)){
             this.game.puntosPlayer1++;
             this.scoreText1.text = this.game.puntosPlayer1;
             this.enunratico = this.time.now + 2500;
@@ -384,7 +393,7 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
     empieza: function (quien) {
-        this.dondecae = this.world.width-1;
+        this.dondecae = this.limite_der;
 
         this.pelota.body.gravity.y = 900;
         Player1.sprite.body.position.x = this.limite_izq + 50;
@@ -403,10 +412,10 @@ DudeVolley.GameOnePlayer.prototype = {
 
         if (quien == "uno"){
             PlayerCPU.sprite.body.position.x = this.limite_der - 50;
-            this.pelota.body.position.x = this.limite_izq + 50;
+            this.pelota.body.position.x = this.limite_izq + 32;
         }
         else{
-            this.pelota.body.position.x = this.limite_der - 90;
+            this.pelota.body.position.x = this.limite_der - 82;
         }
     },
 
@@ -664,8 +673,15 @@ DudeVolley.GameOnePlayer.prototype = {
                     }
                 }
             }
+
+            ale = Math.random();
             //si va a caer cerca, salto y me enfado
-            if(this.dondecae-PlayerCPU.sprite.position.x < 70 && x>440 && (PlayerCPU.sprite.position.y > this.world.height-200) && (Vx<120&&Vx>-120) && (this.pelota.position.y<this.world.height-300)){
+            if(this.dondecae-PlayerCPU.sprite.position.x < 70 
+                && x>(this.world.width/2) 
+                && (PlayerCPU.sprite.position.y > this.world.height-100) 
+                && (Vx<120&&Vx>-120) 
+                && (this.pelota.position.y<this.world.height-300)
+                && ale > 0.95){
                 PlayerCPU.sprite.body.velocity.y = -550;
                 PlayerCPU.sprite.enfadao = true;
                 PlayerCPU.sprite.animations.play('senfada');
@@ -682,10 +698,10 @@ DudeVolley.GameOnePlayer.prototype = {
             if (this.cincoMovimientos > 58){
                 ale = Math.random();
                 
-                if (ale > 0.9 && PlayerCPU.sprite.position.y > this.world.height-200){
+                if (ale > 0.9 && PlayerCPU.sprite.position.y > this.world.height-100){
                     PlayerCPU.sprite.body.velocity.y = -550;
                 }
-                if (ale>0.5 && PlayerCPU.sprite.body.position.x > 440){
+                if (ale>0.5 && PlayerCPU.sprite.body.position.x > (this.world.width/2)){
                     PlayerCPU.sprite.body.velocity.x = -100;
                 }
                 else if(ale <0.5){
@@ -706,7 +722,7 @@ DudeVolley.GameOnePlayer.prototype = {
         if (this.game.level != 0){
             if(H<200 && PlayerCPU.sprite.body.touching.down){
                 if(this.dondecae<PlayerCPU.sprite.position.x && PlayerCPU.sprite.position.x > PlayerCPU.sprite.limiteIzquierda){
-                    if(PlayerCPU.sprite.position.x - this.dondecae > 130 && x>440 && !PlayerCPU.sprite.haceGorrino){
+                    if(PlayerCPU.sprite.position.x - this.dondecae > 130 && x>(this.world.width/2) && !PlayerCPU.sprite.haceGorrino){
                         //this.acho_audio2.play();
                         PlayerCPU.sprite.body.velocity.x = -cuantocorreGorrino;
                         PlayerCPU.sprite.body.rotation = -90;
@@ -716,7 +732,7 @@ DudeVolley.GameOnePlayer.prototype = {
 
                 }
                 else{
-                    if(this.dondecae-PlayerCPU.sprite.position.x > 130 && x>440 && !PlayerCPU.sprite.haceGorrino){
+                    if(this.dondecae-PlayerCPU.sprite.position.x > 130 && x>(this.world.width/2) && !PlayerCPU.sprite.haceGorrino){
                         //this.acho_audio2.play();
                         PlayerCPU.sprite.body.velocity.x = cuantocorreGorrino;
                         PlayerCPU.sprite.body.rotation = 90;

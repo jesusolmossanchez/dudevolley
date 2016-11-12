@@ -68,7 +68,7 @@ DudeVolley.GameMultiplayer.prototype = {
             //Me viene uno nuevo, lo creo
             //console.log("New player connected: "+data);
             if (typeof Player1 === 'undefined'){
-                Player1 = new Player(eljuego, 'player1', null, data);
+                Player1 = new Player(eljuego, 'player1', null, eljuego.limite_izq);
 
                 //TODO -- EN LA CREACIÓN MOSTRAR UNA CAPA ENCIMA DEL CAVAS
                 //EN ESA CAPA SE PEDIRÁ UN NOMBRE Y HABRÁ UN ENLACE PARA 'RETAR A UN AMIGO'
@@ -98,6 +98,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 });
 
                 $(document).on('keyup',function(e) {
+                    /*
                     if(e.which == 13) {
                         ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
                         ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
@@ -112,6 +113,7 @@ DudeVolley.GameMultiplayer.prototype = {
                         $("#reta_a_un_colega").show();
                         $(document).off('keyup');
                     }
+                    */
                 });
 
                 $("#reta_a_un_colega_button").click(function(){
@@ -131,7 +133,7 @@ DudeVolley.GameMultiplayer.prototype = {
             }
             //ELEMINAR?? NO HARÍA FALTA, NO? NUNCA ENTRA AQUI?
             else{
-                OTROPLAYER = new Player('player1', eljuego, data);
+                OTROPLAYER = new Player('player1', eljuego, data, this.limite_izq);
                 
             }
 
@@ -144,7 +146,7 @@ DudeVolley.GameMultiplayer.prototype = {
             //Si es el segundo jugador que ha entrado en el juego, no tiene definido Player 1, así que lo creo
             //En la posición derecha de la pantalla 
             if (typeof Player1 === 'undefined'){
-                Player1 = new Player(eljuego,'cpu', null, data);
+                Player1 = new Player(eljuego,'cpu', null, data, this.limite_izq);
 
                 $("#socket_overlay").show();
                 $("#socket_nombre").focus();
@@ -166,7 +168,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     $(document).off('keyup');
                 });
                 $(document).on('keyup',function(e) {
-                    console.log("pulso")
+                    /*
                     if(e.which == 13) {
                         ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
                         ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
@@ -178,6 +180,7 @@ DudeVolley.GameMultiplayer.prototype = {
                         socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
                         $(document).off('keyup');
                     }
+                    */
                 });
 
             }
@@ -190,7 +193,8 @@ DudeVolley.GameMultiplayer.prototype = {
                 else{
                     ruta = 'cpu';
                 }
-                OTROPLAYER = new Player(eljuego, ruta, null, data);
+                console.log(eljuego.limite_izq);
+                OTROPLAYER = new Player(eljuego, ruta, null, data, eljuego.limite_izq);
             }
             
         };
@@ -475,19 +479,34 @@ DudeVolley.GameMultiplayer.prototype = {
         ***********************************************************************/
 
         //fondo
-        this.add.sprite(0, 0, 'sky');
+        this.fondo = this.add.sprite(this.world.width/2, this.world.height/2, 'sky');
+        this.fondo.anchor.setTo(0.5, 0.5);
+        this.fondo.height = this.world.height;
+        this.fondo.width = this.world.height * 800 / 580;
 
         //Suelo
         platforms = this.add.group();
         platforms.enableBody = true;
-        var ground = platforms.create(0, this.world.height - 134, 'ground');
-        //  Scale it to fit the width of the this (the original sprite is 400x32 in size)
+        var ground = platforms.create(0, this.world.height - 30, 'ground');
         ground.scale.setTo(2, 2);
-        //  This stops it from falling away when you jump on it
+        ground.width = this.world.width;
         ground.body.immovable = true;
+
         //Red
-        var red = platforms.create(390, this.world.height-320, 'red');
+        var red = platforms.create(this.world.width/2, this.world.height-210, 'red');
         red.body.immovable = true;
+
+
+        this.limite_izq = parseInt((this.world.width - this.fondo.width)/2);
+        this.limite_der = parseInt(this.world.width - this.limite_izq);
+
+        var fake_lateral1 = platforms.create(this.limite_izq, 0, 'fake_lateral');
+        fake_lateral1.body.immovable = true;
+
+        var fake_lateral2 = platforms.create(this.limite_der, 0, 'fake_lateral');
+        fake_lateral2.body.immovable = true;
+
+
         //Sombras
         this.sombra1 = this.add.sprite(32, this.world.height-200, 'sombra');
         this.sombraPelota = this.add.sprite(32, this.world.height-200, 'sombra');
@@ -497,12 +516,12 @@ DudeVolley.GameMultiplayer.prototype = {
         this.sombraPelota.alpha = 0.2;
         //marcadores
 
-        this.nombre1 = this.add.text(16, 10, '', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.nombre2 = this.add.text(this.world.width - 16, 10, '', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.nombre1 = this.add.text(40 + this.limite_izq, 10, '', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.nombre2 = this.add.text(this.limite_der - 40, 10, '', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.nombre2.anchor.x = 1;
 
-        this.scoreText1 = this.add.text(16, 46, '0', { font: '54px ArcadeClassic', fill: "#eaff02", align: "center" });
-        this.scoreText2 = this.add.text(this.world.width - 16, 46, '0', { font: '54px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText1 = this.add.text(40 + this.limite_izq, 46, '0', { font: '60px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.scoreText2 = this.add.text(this.limite_der - 40, 46, '0', { font: '60px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2.anchor.x = 1;
         this.game.puntosPlayer1 = 0;
         this.game.puntosPlayer2 = 0;
@@ -538,22 +557,23 @@ DudeVolley.GameMultiplayer.prototype = {
         this.game.factor_slow_velocity = 1;
         this.game.factor_slow_gravity = 1;
 
-        //cosas de movil
+        //MOVIL
         if (!this.game.device.desktop){
-            //MOVIL
-        
-            this.joy = new Joystick(this.game, 120, this.world.height - 100);
+            this.joy = new Joystick(this.game, 90, this.world.height - 120);
 
             //TODO: Pillar el correcto (boton de accion)
-            this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'pika');
+            this.movil_accion_shadow = this.add.sprite(this.world.width - 90, this.world.height - 120, 'pika');
+            this.movil_accion = this.add.sprite(this.world.width - 90, this.world.height - 120, 'pika');
             this.movil_accion.anchor.setTo(0.5, 0.5);
+            this.movil_accion.scale.setTo(1.5, 1.5);
             this.movil_accion.inputEnabled = true;
             this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
             this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
-        
-            //SLOW MOTION!!
-            //this.game.factor_slow_velocity = 0.8;
-            //this.game.factor_slow_gravity = 0.64;
+
+            this.movil_accion_shadow.anchor.set(0.5,0.5);
+            this.movil_accion_shadow.scale.set(1.9,1.9);
+            this.movil_accion_shadow.tint = 0xffffff;
+            this.movil_accion_shadow.alpha = 0;
         }
 
         /***********************************************************************
@@ -710,7 +730,7 @@ DudeVolley.GameMultiplayer.prototype = {
             if (OTROPLAYER.sprite.body.y > this.world.height-250){
                 OTROPLAYER.sprite.salta = false;
             }
-            this.sombra2.position.set(OTROPLAYER.sprite.body.position.x, this.world.height - 144);
+            this.sombra2.position.set(OTROPLAYER.sprite.body.position.x, this.world.height - 40);
             if (typeof this.pelota !== 'undefined' && this.time.now > this.esperaCollide2){
                 this.physics.arcade.collide(this.pelota, OTROPLAYER.sprite, this.pika_OTRO, null, this);
             }
@@ -722,7 +742,7 @@ DudeVolley.GameMultiplayer.prototype = {
             if (Player1.sprite.body.y > this.world.height-250){
                 Player1.sprite.salta = false;
             }
-            this.sombra1.position.set(Player1.sprite.body.position.x, this.world.height - 144);
+            this.sombra1.position.set(Player1.sprite.body.position.x, this.world.height - 40);
             if (typeof this.pelota !== 'undefined' && this.time.now > this.esperaCollide1){
                 this.physics.arcade.collide(this.pelota, Player1.sprite, this.pika, null, this);
             }
@@ -744,7 +764,7 @@ DudeVolley.GameMultiplayer.prototype = {
         ***********************************************************************
         ***********************************************************************/
         if (typeof this.pelota !== 'undefined' && Player1.soyplayer1){
-            this.sombraPelota.position.set(this.pelota.body.position.x, this.world.height - 144);
+            this.sombraPelota.position.set(this.pelota.body.position.x, this.world.height - 40);
             this.pelota.angle += this.pelota.body.velocity.x/20;
             this.physics.arcade.collide(this.pelota, platforms);
             try { 
@@ -880,7 +900,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
             //LA PELOTA TOCA EL SUELO
-            if(typeof this.pelota !== 'undefined' && Player1.soyplayer1 && this.pelota.body.position.y > 500 ){
+            if(typeof this.pelota !== 'undefined' && Player1.soyplayer1 && this.pelota.body.position.y  > (this.world.height - 90)){
                 this.procesapunto();
             }
 
@@ -972,7 +992,7 @@ DudeVolley.GameMultiplayer.prototype = {
         this.pelota.body.velocity.x = this.pelota.body.velocity.x * 0.2;
         this.pelota.body.gravity.y = 200;
 
-        if(this.pelota.body.position.x > 390){
+        if(this.pelota.body.position.x > (this.world.width/2)){
             this.game.puntosPlayer1++;
             this.scoreText1.text = this.game.puntosPlayer1;
             this.enunratico = this.time.now + 2500;
@@ -1185,7 +1205,7 @@ DudeVolley.GameMultiplayer.prototype = {
         if (primeraVez){
 
             //Creo la pelota
-            this.pelota = this.add.sprite(32, 0, 'pelota');
+            this.pelota = this.add.sprite(this.limite_izq + 32, 0, 'pelota');
             this.pelota.anchor.setTo(0.5, 0.5);
 
             //Para el usuario que entró primero(master), se crean las físicas de la pelota
@@ -1209,32 +1229,32 @@ DudeVolley.GameMultiplayer.prototype = {
                 this.dondecae = this.world.width-1;
                 this.pelota.body.gravity.y = 900;
                 if (quien == "uno"){
-                    this.pelota.body.position.x = 32;
+                    this.pelota.body.position.x = this.limite_izq + 40;
                 }
                 else{
-                    this.pelota.body.position.x = this.world.width - 32;
+                    this.pelota.body.position.x = this.limite_der - 80;
                 }
 
                 this.pelota.body.position.y = 0;
                 this.pelota.body.velocity.x = 0;
 
-                Player1.sprite.body.position.x = 32;
+                Player1.sprite.body.position.x = this.limite_izq + 40;
                 Player1.sprite.body.position.y = this.world.height - 250;
                 Player1.sprite.body.velocity.x = 0;
                 Player1.sprite.body.velocity.y = 0;
 
-                OTROPLAYER.sprite.body.position.x = this.world.width - 32;
+                OTROPLAYER.sprite.body.position.x = this.limite_der - 80;
                 OTROPLAYER.sprite.body.position.y = this.world.height - 250;
                 OTROPLAYER.sprite.body.velocity.x = 0;
                 OTROPLAYER.sprite.body.velocity.y = 0;
             }
             else{
-                OTROPLAYER.sprite.body.position.x = 32;
+                OTROPLAYER.sprite.body.position.x = this.limite_izq + 40;
                 OTROPLAYER.sprite.body.position.y = this.world.height - 250;
                 OTROPLAYER.sprite.body.velocity.x = 0;
                 OTROPLAYER.sprite.body.velocity.y = 0;
 
-                Player1.sprite.body.position.x = this.world.width - 32;
+                Player1.sprite.body.position.x = this.limite_der - 80;
                 Player1.sprite.body.position.y = this.world.height - 250;
                 Player1.sprite.body.velocity.x = 0;
                 Player1.sprite.body.velocity.y = 0;

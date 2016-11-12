@@ -19,6 +19,7 @@ DudeVolley.Boot.prototype = {
 
         if (this.game.device.desktop){
 
+            /*
             $(document).one('click',function(event) {
                 if($(event.target).is(".clickable, .clickable *")) return;
                 $("#usa_flechas").show();
@@ -27,6 +28,7 @@ DudeVolley.Boot.prototype = {
                     $("#usa_flechas").hide();
                 });
             });
+            */
 
             //si escritorio
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;

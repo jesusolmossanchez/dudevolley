@@ -1,7 +1,9 @@
 var Joystick = function(juego, x, y) {
 
 	this.pin = juego.add.sprite(0, 0, "joy_front");
+	this.pin.scale.setTo(1.1,1.1);
 	this.holder = juego.add.sprite(0, 0, "joy_back");
+	this.holder.scale.setTo(1.4,1.4);
 	this.holder.anchor.setTo(0.5, 0.5);
 	this.holder.fixedToCamera = true;
 	this.holder.cameraOffset.setTo(x, y);

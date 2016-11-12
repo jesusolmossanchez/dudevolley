@@ -435,6 +435,18 @@ canvas{
     top: 0;
     left: 0;
 }
+@media screen and (max-height: 800px){
+    #contiene_creditos {
+        top: 400px;
+        top: 20vh;
+    }
+    #contiene_mandapuntos {
+        top: 20vh;
+    }
+    #creditos li.nombre_credito {
+        font-size: 2.5vw;
+    }
+}
 
 @media screen and (orientation:portrait) {
     #orientacion_incorrecta{

@@ -97,6 +97,8 @@ DudeVolley.GameMultiplayer.prototype = {
                     $(document).off('keyup');
                 });
 
+                /*
+
                 $(document).on('keyup',function(e) {
                     if(e.which == 13) {
                         ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
@@ -113,6 +115,8 @@ DudeVolley.GameMultiplayer.prototype = {
                         $(document).off('keyup');
                     }
                 });
+
+                */
 
                 $("#reta_a_un_colega_button").click(function(){
                     $("#reta_a_un_colega_button").hide();
@@ -166,7 +170,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     $(document).off('keyup');
                 });
                 $(document).on('keyup',function(e) {
-                    console.log("pulso")
+                    /*
                     if(e.which == 13) {
                         ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
                         ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
@@ -178,6 +182,7 @@ DudeVolley.GameMultiplayer.prototype = {
                         socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
                         $(document).off('keyup');
                     }
+                    */
                 });
 
             }

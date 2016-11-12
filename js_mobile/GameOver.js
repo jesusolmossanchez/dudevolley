@@ -9,7 +9,14 @@ DudeVolley.GameOver.prototype = {
 
     create: function () {
 
-        ga('send', 'pageview', '/GameOver');
+
+        //CHECK TWITTER
+        if(window.twitter_img){
+            ga('send', 'pageview', '/GameOver_tw');
+        }
+        else{
+            ga('send', 'pageview', '/GameOver');
+        }
 
         var rutajuagdor = this.game.ruta_jugador;
 
@@ -94,6 +101,43 @@ DudeVolley.GameOver.prototype = {
                 level = "jodio";
             }
             
+            if(window.twitter_img){
+                $("#envia_tu_nombre").hide();
+                $("#inputtunombre").hide();
+
+                var post_data= {
+                                    nombre: window.twitter_name,
+                                    diferencia: diferencia,
+                                    puntuacion: puntuacion,
+                                    tiempo: tiempofinal,
+                                    level: level,
+                                    token: window.token,
+                                    cri: cri
+                                }
+                $.post( "registrapuntos.php", post_data)
+                    .done(function( data ) {
+                        window.setTimeout(function(){
+                            $("#mandapuntos").slideUp();
+                            $("#contiene_clasificacion").slideDown();
+                            //console.log( "Data Loaded: " + data );
+                            acho = JSON.parse(data);
+                            $.each(acho, function() {
+                                var num = Number(this.tiempo);
+                                var seconds = Math.floor(num / 1000);
+                                var minutes = Math.floor(seconds / 60);
+                                var seconds = seconds - (minutes * 60);
+                                if (seconds<10){
+                                    seconds="0"+seconds;
+                                }
+                                var format = minutes + ':' + seconds
+                                $("#contiene_clasificacion").html($("#contiene_clasificacion").html()+"<dl><dt>"+this.nombre+"</dt><dd>"+this.puntuacion+"("+format+")</dd></dl>");
+                            });
+                        },5000);
+                });
+
+            }
+
+
             $("#mandapuntos").show();
             $("#contiene_mandapuntos").fadeIn();
             $("#contiene_mandapuntos").focus();
