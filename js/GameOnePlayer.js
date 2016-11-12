@@ -7,7 +7,13 @@ DudeVolley.GameOnePlayer.prototype = {
 
     init: function () {
 
-        ga('send', 'pageview', '/GameOnePlayer');
+        //CHECK TWITTER
+        if(window.twitter_img){
+            ga('send', 'pageview', '/GameOnePlayer_tw');
+        }
+        else{
+            ga('send', 'pageview', '/GameOnePlayer');
+        }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

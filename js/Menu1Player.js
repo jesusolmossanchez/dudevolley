@@ -11,8 +11,13 @@ DudeVolley.Menu1Player.prototype = {
 
 
 	create: function () {
-
-		ga('send', 'pageview', '/Menu1Player');
+		//CHECK TWITTER
+        if(window.twitter_img){
+            ga('send', 'pageview', '/Menu1Player_tw');
+        }
+        else{
+            ga('send', 'pageview', '/Menu1Player');
+        }
 		
 		//situo las cosas en la pantalla
 		var titulo_estirado = this.cache.getImage('titulo_estirado');
@@ -76,6 +81,11 @@ DudeVolley.Menu1Player.prototype = {
 
 
 	update: function () {
+
+		//CHECK TWITTER
+        if(window.twitter_img){
+            this.juega(window.twitter_img);
+        }
 
 		//CAPTURA EL SWIPE
 		this.game.input.onDown.add(this.beginSwipe, this);

@@ -109,6 +109,12 @@ DudeVolley.MainMenu.prototype = {
 
 
     update: function () {
+
+        //CHECK TWITTER
+        if(window.twitter_img){
+            this.state.start('Menu1Player');
+        }
+
         
         //muevo el selector y salto al menu correspondiente
 

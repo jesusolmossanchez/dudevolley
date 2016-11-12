@@ -6,8 +6,13 @@ DudeVolley.Boot = function (game) {
 
 DudeVolley.Boot.prototype = {
     init: function () {
-
-        ga('send', 'pageview', '/Boot');
+        //CHECK TWITTER
+        if(window.twitter_img){
+            ga('send', 'pageview', '/Boot_tw');
+        }
+        else{
+            ga('send', 'pageview', '/Boot');
+        }
 
         //cuando no está activa la pestaña, el juego se pausa
         this.stage.disableVisibilityChange = true;
