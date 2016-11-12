@@ -142,7 +142,18 @@ window.onload = function() {
 	window.token = '<?php echo $token;?>';
 
 	//creo el objeto del juego
-	var game = new Phaser.Game(1200, 685, Phaser.AUTO, 'gameContainer');
+	<?php
+	 if(isMobile()){
+	?>
+	 	var game = new Phaser.Game(1200, 685, Phaser.AUTO, 'gameContainer');
+	<?php
+	}
+	else{
+	?>
+		var game = new Phaser.Game(800, 685, Phaser.AUTO, 'gameContainer');
+	<?php
+		}
+	?>
 
 	//añado las 'pantallas'
 	game.state.add('Boot', DudeVolley.Boot);
