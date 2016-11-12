@@ -13,6 +13,11 @@
 	$descripcion = "Dude Volley - The game!";
 	$titulo = "Dude Volley";
 	$img_share = "http://dudevolley.com/img_share/share_dudevolley.png";
+
+	function isMobile() {
+	    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+	}
+
 ?>
 <!DOCTYPE HTML>
 <html style="margin:0 !important;">
@@ -46,25 +51,49 @@
 
 	<?php
 	if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
-		echo '<script src="js/dist/dudevolley.min.js"></script>';
+		if(isMobile()){
+			echo '<script src="js/dist/dudevolley_mobile.min.js"></script>';
+		}
+		else{
+			echo '<script src="js/dist/dudevolley.min.js"></script>';
+		}
 		echo '<link rel="stylesheet" type="text/css" href="css/dist/dudevolley.min.css" />';
 	}
 		
 	else{
-		echo '<script src="js/Boot.js"></script>';
-		echo '<script src="js/Preloader.js"></script>';
-		echo '<script src="js/MainMenu.js"></script>';
-		echo '<script src="js/Menu1Player.js"></script>';
-		echo '<script src="js/MovilMainMenu.js"></script>';
-		echo '<script src="js/PreOnePlayer.js"></script>';
-		echo '<script src="js/GameOnePlayer.js"></script>';
-		echo '<script src="js/Entrenamiento.js"></script>';
-		echo '<script src="js/GameTwoPlayer.js"></script>';
-		echo '<script src="js/Demo.js"></script>';
-		echo '<script src="js/GameMultiplayer.js"></script>';
-		echo '<script src="js/GameOver.js"></script>';
-		echo '<script src="js/Player.js"></script>';
-		echo '<script src="js/Joystick.js"></script>';
+		if(isMobile()){
+			echo '<script src="js_mobile/Boot.js"></script>';
+			echo '<script src="js_mobile/Preloader.js"></script>';
+			echo '<script src="js_mobile/MainMenu.js"></script>';
+			echo '<script src="js_mobile/Menu1Player.js"></script>';
+			echo '<script src="js_mobile/MovilMainMenu.js"></script>';
+			echo '<script src="js_mobile/PreOnePlayer.js"></script>';
+			echo '<script src="js_mobile/GameOnePlayer.js"></script>';
+			echo '<script src="js_mobile/Entrenamiento.js"></script>';
+			echo '<script src="js_mobile/GameTwoPlayer.js"></script>';
+			echo '<script src="js_mobile/Demo.js"></script>';
+			echo '<script src="js_mobile/GameMultiplayer.js"></script>';
+			echo '<script src="js_mobile/GameOver.js"></script>';
+			echo '<script src="js_mobile/Player.js"></script>';
+			echo '<script src="js_mobile/Joystick.js"></script>';
+		}
+		else{
+			echo '<script src="js/Boot.js"></script>';
+			echo '<script src="js/Preloader.js"></script>';
+			echo '<script src="js/MainMenu.js"></script>';
+			echo '<script src="js/Menu1Player.js"></script>';
+			echo '<script src="js/MovilMainMenu.js"></script>';
+			echo '<script src="js/PreOnePlayer.js"></script>';
+			echo '<script src="js/GameOnePlayer.js"></script>';
+			echo '<script src="js/Entrenamiento.js"></script>';
+			echo '<script src="js/GameTwoPlayer.js"></script>';
+			echo '<script src="js/Demo.js"></script>';
+			echo '<script src="js/GameMultiplayer.js"></script>';
+			echo '<script src="js/GameOver.js"></script>';
+			echo '<script src="js/Player.js"></script>';
+			echo '<script src="js/Joystick.js"></script>';
+		}
+		
 
 		echo '<link rel="stylesheet" type="text/css" href="css/style.css" />';
 		echo '<link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css" />';
@@ -101,6 +130,9 @@
 <?php include ("manda_puntos.php"); ?>
 <?php include ("creditos.php"); ?>
 
+<div id="orientacion_incorrecta">
+	Gira el movil!!
+</div>
 
 
 <script type="text/javascript">
@@ -110,7 +142,7 @@ window.onload = function() {
 	window.token = '<?php echo $token;?>';
 
 	//creo el objeto del juego
-	var game = new Phaser.Game(800, 685, Phaser.AUTO, 'gameContainer');
+	var game = new Phaser.Game(1200, 685, Phaser.AUTO, 'gameContainer');
 
 	//añado las 'pantallas'
 	game.state.add('Boot', DudeVolley.Boot);
