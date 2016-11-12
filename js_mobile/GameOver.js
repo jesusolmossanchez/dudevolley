@@ -100,6 +100,8 @@ DudeVolley.GameOver.prototype = {
             else if (this.game.level == 2){
                 level = "jodio";
             }
+
+            var cri = cricri(diferencia+puntuacion+tiempofinal+window.token);
             
             if(window.twitter_img){
                 $("#envia_tu_nombre").hide();
@@ -143,8 +145,6 @@ DudeVolley.GameOver.prototype = {
             $("#contiene_mandapuntos").focus();
             $("#texto_fin").text("Has "+resultado);
             $("#puntos").text(this.game.puntosPlayer1+" - "+this.game.puntosPlayer2);
-
-            var cri = cricri(diferencia+puntuacion+tiempofinal+window.token);
 
             window.entra = 0;
             $("#envia_tu_nombre").click(function(e){

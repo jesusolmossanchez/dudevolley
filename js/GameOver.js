@@ -93,7 +93,7 @@ DudeVolley.GameOver.prototype = {
             }
 
 
-            
+            var cri = cricri(diferencia+puntuacion+tiempofinal+window.token);
             
             if(window.twitter_img){
                 $("#envia_tu_nombre").hide();
