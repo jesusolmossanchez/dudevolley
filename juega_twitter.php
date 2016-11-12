@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 /***/
 class CircleCrop{
     private $src_img;
@@ -109,21 +113,23 @@ class CircleCrop{
 
     $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
-    magecopyresampled($dst_r,$img_r,0,0,0,0,$targ_w,$targ_h,256,256);
+    imagecopyresampled($dst_r,$img_r,0,0,0,0,$targ_w,$targ_h,256,256);
 
     $nombre = uniqid();
 
+    $crop = new CircleCrop($dst_r);
+
     $crop->crop();
-    $crop->save("img_2/".$_POST["nombre"].".png");
+    $crop->save("img_2/".$nombre.".png");
 
     $base_image = imagecreatefrompng('img_2/jugador1.png');
-    $top_image = imagecreatefrompng("img_2/".$_POST["nombre"].".png");
-    $merged_image = "img_3/".$_POST["nombre"].".png";
+    $top_image = imagecreatefrompng("img_2/".$nombre.".png");
+    $merged_image = "img_3/".$nombre.".png";
     imagesavealpha($top_image, true);
     imagealphablending($top_image, true);
     imagecopy($base_image, $top_image, 25, 0, 0, 0, $targ_w, $targ_h);
     imagepng($base_image, $merged_image);
-    $merged_image2 = "img_4/".$_POST["nombre"].".png";
+    $merged_image2 = "img_4/".$nombre.".png";
     $merged_image = imagecreatefrompng($merged_image);
     imageflip($top_image,IMG_FLIP_HORIZONTAL);
     imagecopy($merged_image, $top_image, 105, 0, 0, 0, $targ_w, $targ_h);
