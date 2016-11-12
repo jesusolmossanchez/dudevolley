@@ -105,6 +105,8 @@ class CircleCrop{
 	$user = $connection->get("account/verify_credentials");
 
 	$remote_foto = str_replace("_normal", "", $user->profile_image_url);
+	list($ancho_original, $alto_original) = getimagesize($remote_foto);
+
 	$user_name = $user->screen_name;
 
 	$targ_h = 60;
@@ -114,7 +116,7 @@ class CircleCrop{
 
     $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
-    imagecopyresampled($dst_r,$img_r,0,0,0,0,$targ_w,$targ_h,256,256);
+    imagecopyresampled($dst_r,$img_r,0,0,0,0,$targ_w,$targ_h,$ancho_original,$alto_original);
 
     $nombre = uniqid();
 
@@ -141,8 +143,6 @@ class CircleCrop{
     imageflip($top_image,IMG_FLIP_HORIZONTAL);
     imagecopy($merged_image, $top_image, 265, 0, 0, 0, $targ_w, $targ_h);
     imagepng($merged_image, $merged_image2);
-
-    echo $merged_image2;
 
     //CONTRAPIRATEO
     $token = md5(rand(1000,9999));
