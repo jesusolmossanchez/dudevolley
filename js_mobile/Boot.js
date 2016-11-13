@@ -40,7 +40,7 @@ DudeVolley.Boot.prototype = {
             window.onresize = this.rescale.bind(this);
             //this.doOnOrientationChange();
             //cosas del escalado
-            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
             this.scale.forceOrientation(false, true);
             this.scale.enterIncorrectOrientation.add(this.handleIncorrect);
