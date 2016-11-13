@@ -401,7 +401,7 @@ DudeVolley.GameOnePlayer.prototype = {
         Player1.sprite.body.velocity.x = 0;
         Player1.sprite.body.velocity.y = 0;
 
-        PlayerCPU.sprite.body.position.x = this.limite_der - 120;
+        PlayerCPU.sprite.body.position.x = this.limite_der - 140;
         PlayerCPU.sprite.body.position.y = this.world.height - 150;
         PlayerCPU.sprite.body.velocity.x = 0;
         PlayerCPU.sprite.body.velocity.y = 0;
@@ -411,11 +411,11 @@ DudeVolley.GameOnePlayer.prototype = {
         
 
         if (quien == "uno"){
-            PlayerCPU.sprite.body.position.x = this.limite_der - 120;
+            PlayerCPU.sprite.body.position.x = this.limite_der - 140;
             this.pelota.body.position.x = this.limite_izq + 32;
         }
         else{
-            this.pelota.body.position.x = this.limite_der - 82;
+            this.pelota.body.position.x = this.limite_der - 90;
         }
     },
 
