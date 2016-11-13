@@ -112,6 +112,23 @@
 		ga('create', 'UA-66368910-2', 'auto');
 		ga('send', 'pageview', '/Index');
 	</script>
+	<script type="text/javascript">
+		function hideAddressBar()
+		{
+		  if(!window.location.hash)
+		  {
+		      if(document.height < window.outerHeight)
+		      {
+		          document.body.style.height = (window.outerHeight + 50) + 'px';
+		      }
+
+		      setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
+		  }
+		}
+
+		window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
+		window.addEventListener("orientationchange", hideAddressBar );
+	</script>
 
 	
 	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.woff" />
