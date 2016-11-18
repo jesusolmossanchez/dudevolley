@@ -115,6 +115,10 @@ DudeVolley.MainMenu.prototype = {
             this.state.start('Menu1Player');
         }
 
+        if(window.te_reto){
+            this.state.start('GameMultiplayer');
+        }
+
         
         //muevo el selector y salto al menu correspondiente
 

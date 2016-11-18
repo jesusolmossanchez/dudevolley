@@ -27,9 +27,10 @@ DudeVolley.GameMultiplayer.prototype = {
 
         //conecto con socket
         //socket = io.connect("http://192.168.0.194:8080", {port: 8080, transports: ["websocket"]});
-        socket = io.connect("http://188.166.12.42:8080", {port: 8080, transports: ["websocket"]});
-        p2p = new P2P(socket);
+        socket = io.connect("http://localhost:8080", {port: 8080, transports: ["websocket"]});
+        //socket = io.connect("http://188.166.12.42:8080", {port: 8080, transports: ["websocket"]});
 
+        p2p = new P2P(socket);
 
         p2p.on('ready', function(){
             p2p.usePeerConnection = true;
@@ -90,7 +91,20 @@ DudeVolley.GameMultiplayer.prototype = {
                     SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
                     SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
                     Player1.nombre = $("#socket_nombre").val();
-                    socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                    if(window.te_reto){
+                        socket.emit("player_ready_privada", {nombre: Player1.nombre, id: Player1.id, privada: window.te_reto});
+
+                        //Creo el OTROPLAYER en el lugar correspondiente
+                        
+                        var ruta = 'cpu';
+                        OTROPLAYER = new Player(eljuego, ruta, null, data);
+
+                    }
+                    else{
+                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                    }
+
+
                     $("#volley_label").hide();
                     $("#botonera_socket").hide();
                     $("#reta_a_un_colega").show();
@@ -121,6 +135,11 @@ DudeVolley.GameMultiplayer.prototype = {
                 $("#reta_a_un_colega_button").click(function(){
                     $("#reta_a_un_colega_button").hide();
                     $("#juega_con_quien_sea").hide();
+                    var privada = generateSerial(5);
+                    var ruta = 'cpu';
+                    OTROPLAYER = new Player(eljuego, ruta, null, data);
+                    socket.emit("prepara_privada", {nombre: Player1.nombre, id_room: privada});
+                    $("#room_privada").text(privada);
                     $("#pasa_el_enlace").show();
                     $("#esperando_oponente").show();
                 });
@@ -142,6 +161,7 @@ DudeVolley.GameMultiplayer.prototype = {
         };
 
         function onNewPlayer2(data) {
+
             //Me viene uno nuevo, lo creo
             //console.log("New player2 connected: "+data);
 
@@ -166,7 +186,12 @@ DudeVolley.GameMultiplayer.prototype = {
                     SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
                     SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
                     Player1.nombre = $("#socket_nombre").val();
-                    socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                    if(window.te_reto){
+                        socket.emit("player_ready_privada", {nombre: Player1.nombre, id: Player1.id, privada: window.te_reto});
+                    }
+                    else{
+                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
+                    }
                     $(document).off('keyup');
                 });
                 $(document).on('keyup',function(e) {
@@ -201,7 +226,6 @@ DudeVolley.GameMultiplayer.prototype = {
         };
 
         function onYaestaPlayer(data) {
-
             eljuego.nombre1.text = data[0];
             Player1.nombre = data[0];
             eljuego.nombre2.text = data[1];
@@ -395,6 +419,26 @@ DudeVolley.GameMultiplayer.prototype = {
             eljuego.state.start('GameOver');
         }
 
+
+        function generateSerial(len) {
+            var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+            var string_length = 10;
+            var randomstring = '';
+
+            for (var x=0;x<string_length;x++) {
+
+                var letterOrNumber = Math.floor(Math.random() * 2);
+                if (letterOrNumber == 0) {
+                    var newNum = Math.floor(Math.random() * 9);
+                    randomstring += newNum;
+                } else {
+                    var rnum = Math.floor(Math.random() * chars.length);
+                    randomstring += chars.substring(rnum,rnum+1);
+                }
+
+            }
+            return (randomstring);
+        }
 
         function onRemovePlayer(data) {
         };

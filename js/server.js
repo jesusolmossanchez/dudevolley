@@ -1,4 +1,5 @@
 var io = require('socket.io')(8080);
+var util = require("util");
 
 //Buscar paquetes en npm
 var p2pserver = require('socket.io-p2p-server').Server;
@@ -6,7 +7,7 @@ io.use(p2pserver)
 
 
 Player = require("./Player").Player;
-var util = require("util");
+//var util = require("util");
 var setEventHandlers = function() {
     io.sockets.on("connection", onSocketConnection);
 };
@@ -14,40 +15,75 @@ var setEventHandlers = function() {
 
 var yasta = false;
 
+var rooms = [];
+var room_llena = true;
+var rooms_players = [];
+var room_disponible = "";
+
 function onSocketConnection(client) {
     //Me llega que se ha conectao alguien
     util.log("New player has connected: "+client.id);
 
+    if(room_llena){
+        room_llena = false;
+        room_disponible = generateSerial(8);
+        rooms.push(room_disponible);
+    }
 
+
+    client.join(room_disponible);
+    client.room = room_disponible;
+
+    util.log("conectado a : "+client.room);
+
+    p2pserver(client, null, room_disponible);
+
+    //console.log("dispo",room_disponible);
+
+/*
     if(players.length > 1){
         //TODO: Hacer algo con más de dos jugadores
         util.log("YA HAY DOS");
         this.emit("fuera del multiplayer", client.id);
         return;
-
     }
+*/
 
     //Creo el jugador correspondiente
     //-player1 si es el primero en entrar
     //-player2 si es el segundo
+    /*
     if(players.length > 0){
         this.emit("new player2", client.id);
     }
     else{
         this.emit("new player", client.id);
     }
+    */
+
+    
+
+    if(rooms_players.length > 0){
+        this.to(room_disponible).emit("new player2", client.id);
+    }
+    else{
+        this.to(room_disponible).emit("new player", client.id);
+    }
+
     //Añado el id_client al array
-    players.push(client.id);
+    //players.push(client.id);
+    rooms_players.push(client.id);
 
     //TODO -- EMITIR EL YASTA CUANDO LOS DOS JUGADORES HAYAN ENVIADO SU NOMBRE
 
     //si se ha conectado el segundo jugador se llama al método que inicia todo
-    if (players.length == 2){
-        if(!yasta){
-            yasta = true;
+    if (rooms_players.length == 2){
+            rooms_players = [];
+            room_llena = true;
             //this.emit("ya estamos todos");
-        }
+        
     }
+    /*
     else if(players.length > 2){
         players.pop();
         client.disconnect();
@@ -55,6 +91,7 @@ function onSocketConnection(client) {
     else{
         yasta = false;
     }
+    */
     
     client.on("disconnect", onClientDisconnect);
     client.on("posicion pelota", onPosicionPelota);
@@ -62,6 +99,11 @@ function onSocketConnection(client) {
     client.on("actualiza_marcador", onActualizaMarcador);
     client.on("move player", onMovePlayer);
     client.on("player_ready", onPlayerReady);
+
+    client.on("player_ready_privada", onPlayerReadyPrivada);
+
+    client.on("prepara_privada", onPreparaPrivada)
+
     client.on("teclas", onTeclas);
     client.on("enfadao2", onEnfadao2);
     client.on("hacegorrino2", onHacegorrino2);
@@ -78,81 +120,119 @@ function onSocketConnection(client) {
 
 //Desconexión
 function onClientDisconnect() {
-    util.log("Player has disconnected: "+this.id);
+    util.log("Player has disconnected: "+this.id+" de la room: "+this.room);
+    /*
     util.log(players);
     players.splice(players.indexOf(this.id), 1);
     players_ready.pop();
     util.log(players);
     util.log(players_ready);
-    io.emit("disconnect");
+    */
+    //this.leave(this.room);
+    //players_ready.splice(players_ready.indexOf(this.id), 1);
+    io.to(this.room).emit("disconnect");
 };
 
 //propaga el movimiento
 function onMovePlayer(data) {
-    io.emit("samovio", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("samovio", data);
 };
 
 //propaga el movimiento
 function onTeclas(data) {
-    io.emit("recibeteclas", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("recibeteclas", data);
 };
 
 //propaga el enfadao
 function onEnfadao2(data) {
-    io.emit("enfadao2", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("enfadao2", data);
 };
 
 //propaga el gorrino2
 function onHacegorrino2(data) {
-    io.emit("hacegorrino2", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("hacegorrino2", data);
 };
 
 //propaga el teclaspika
 function onTeclaspika(data) {
-    io.emit("teclaspika", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("teclaspika", data);
 };
 
 //propaga el teclaspika
 function onPunto(data) {
-    io.emit("punto", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("punto", data);
 };
 
 //Propaga la pelota
 //TODO -- revisar p2p!!!
 function onPosicionPelota(data) {
-    io.emit("situapelota", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("situapelota", data);
 };
 
 //Propaga la pelota
 //TODO -- revisar p2p!!!
 function onActualizaMarcador(data) {
-    io.emit("actualiza_marcador", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("actualiza_marcador", data);
 };
 
 //TODO -- revisar p2p!!!
 function onPosicionJugador1(data) {
-    io.emit("situajugador1", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("situajugador1", data);
+};
+
+
+function onPreparaPrivada(data) {
+    
+    var mi_room = data.id_room;
+    this.leave(room_disponible);
+    players_ready.splice(players.indexOf(data.nombre), 1);
+    players_ready_p[mi_room] = [];
+    players_ready_p[mi_room].push(data.nombre);
+    this.join(mi_room);
+    this.room = mi_room;
+    util.log(data.nombre+" conectado a la room privada: "+this.room)
+    
+};
+
+
+function onPlayerReadyPrivada(data) {
+    var mi_room = data.privada;
+    this.join(data.privada);
+    players_ready_p[mi_room].push(data.nombre);
+    io.to(data.privada).emit("ya estamos todos", players_ready_p[mi_room]);
 };
 
 
 function onPlayerReady(data) {
+    
+    var mi_room = this.client.nsps["/"].room;
 
     players_ready.push(data.nombre);
 
-    util.log(players_ready);
-    util.log(players_ready.length);
+    //util.log(players_ready);
+    //util.log(players_ready.length);
 
     //si se ha conectado el segundo jugador se llama al método que inicia todo
-    if(players_ready.length == 2){
-        io.emit("ya estamos todos", players_ready);
+    if(room_llena){
+        io.to(mi_room).emit("ya estamos todos", players_ready);
+        players_ready = [];
     }
     
 };
 
 
 function onGameOver(data) {
-
-    io.emit("goGameOver", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("goGameOver", data);
     
 };
 
@@ -160,19 +240,39 @@ function onGameOver(data) {
 
 //ELIMINAR ESTOS DOS????
 function onNewPlayer(data) {
-    util.log("pasas por aqui?");
+    //util.log("pasas por aqui?");
 };
 
 function onTururu(data) {
-    io.emit("tururaki", data);
+    var mi_room = this.client.nsps["/"].room;
+    io.to(mi_room).emit("tururaki", data);
 };
 
+function generateSerial(len) {
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var string_length = 10;
+    var randomstring = '';
 
+    for (var x=0;x<string_length;x++) {
+
+        var letterOrNumber = Math.floor(Math.random() * 2);
+        if (letterOrNumber == 0) {
+            var newNum = Math.floor(Math.random() * 9);
+            randomstring += newNum;
+        } else {
+            var rnum = Math.floor(Math.random() * chars.length);
+            randomstring += chars.substring(rnum,rnum+1);
+        }
+
+    }
+    return (randomstring);
+}
 
 
 function init() {
     players = [];
     players_ready = [];
+    players_ready_p = [];
     io.set("transports", ["websocket"]);
     setEventHandlers();
 };

@@ -14,7 +14,7 @@
 				<button id="juega_con_quien_sea">Jugar con cualquiera</button>
 			</div>
 			<div id="pasa_el_enlace">
-				Pasa a alguien este enlace: http://www.dudevolley.com/?te_reto
+				Pasa a alguien este enlace: http://www.dudevolley.com/?te_reto=<span id="room_privada"></span>
 			</div>
 			<div id="esperando_oponente">
 				Esperando oponente...

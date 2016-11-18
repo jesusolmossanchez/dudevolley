@@ -44,8 +44,8 @@
 
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
-	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
-	<script src="http://188.166.12.42:8080/socket.io/socket.io.js"></script>
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<!-- <script src="http://188.166.12.42:8080/socket.io/socket.io.js"></script> -->
 	<script src="js/lib/socketiop2p.min.js"></script>
 	<script src="js/lib/jquery.Jcrop.min.js"></script>
 
@@ -157,6 +157,12 @@
 window.onload = function() {
 	
 	window.token = '<?php echo $token;?>';
+
+	<?php
+		if(isset($_GET["te_reto"])){
+			echo 'window.te_reto = "'.$_GET["te_reto"].'"';
+		}
+	?>
 
 	//creo el objeto del juego
 	<?php
