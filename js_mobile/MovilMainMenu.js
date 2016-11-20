@@ -142,6 +142,12 @@ DudeVolley.MovilMainMenu.prototype = {
     },
 
     update: function () {
+
+        
+        if(window.twitter_img){
+            this.state.start('Menu1Player');
+        }
+
         //CAPTURA EL SWIPE
         this.game.input.onDown.add(this.beginSwipe, this);
 
