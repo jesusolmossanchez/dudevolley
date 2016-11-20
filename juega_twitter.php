@@ -156,13 +156,13 @@ class CircleCrop{
 <!DOCTYPE HTML>
 <html style="margin:0 !important;">
 <head>
-	<meta charset="UTF-8" />
-	<title>Dude Volley</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no">
-	<meta name="description" content="<?php echo $descripcion?>">
+    <meta charset="UTF-8" />
+    <title>Dude Volley</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="description" content="<?php echo $descripcion?>">
     <meta name="keywords" content="dude volley, indiegame, gamedev">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-	<meta property="og:url" content="http://www.dudevolley.com" />
+    <meta property="og:url" content="http://www.dudevolley.com" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@dude_volley">
     <meta name="twitter:creator" content="@dude_volley">
@@ -176,41 +176,65 @@ class CircleCrop{
     <link rel="shortcut icon" href="assets/favicon.ico">
 
 
-	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-	<script src="js/lib/phaser_dudevolley.min.js"></script>
-	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
-	<script src="http://188.166.12.42:8080/socket.io/socket.io.js"></script>
-	<script src="js/lib/socketiop2p.min.js"></script>
-	<script src="js/lib/jquery.Jcrop.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="js/lib/phaser_dudevolley.min.js"></script>
+    <!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
+    <script src="http://188.166.12.42:8080/socket.io/socket.io.js"></script>
+    <script src="js/lib/socketiop2p.min.js"></script>
+    <script src="js/lib/jquery.Jcrop.min.js"></script>
 
-	<?php
-	if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
-		echo '<script src="js/dist/dudevolley.min.js"></script>';
-		echo '<link rel="stylesheet" type="text/css" href="css/dist/dudevolley.min.css" />';
-	}
-		
-	else{
-		echo '<script src="js/Boot.js"></script>';
-		echo '<script src="js/Preloader.js"></script>';
-		echo '<script src="js/MainMenu.js"></script>';
-		echo '<script src="js/Menu1Player.js"></script>';
-		echo '<script src="js/MovilMainMenu.js"></script>';
-		echo '<script src="js/PreOnePlayer.js"></script>';
-		echo '<script src="js/GameOnePlayer.js"></script>';
-		echo '<script src="js/Entrenamiento.js"></script>';
-		echo '<script src="js/GameTwoPlayer.js"></script>';
-		echo '<script src="js/Demo.js"></script>';
-		echo '<script src="js/GameMultiplayer.js"></script>';
-		echo '<script src="js/GameOver.js"></script>';
-		echo '<script src="js/Player.js"></script>';
-		echo '<script src="js/Joystick.js"></script>';
+    <?php
+    if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
+        if(isMobile()){
+            echo '<script src="js/dist/dudevolley_mobile.min.js"></script>';
+        }
+        else{
+            echo '<script src="js/dist/dudevolley.min.js"></script>';
+        }
+        echo '<link rel="stylesheet" type="text/css" href="css/dist/dudevolley.min.css" />';
+    }
+        
+    else{
+        if(isMobile()){
+            echo '<script src="js_mobile/Boot.js"></script>';
+            echo '<script src="js_mobile/Preloader.js"></script>';
+            echo '<script src="js_mobile/MainMenu.js"></script>';
+            echo '<script src="js_mobile/Menu1Player.js"></script>';
+            echo '<script src="js_mobile/MovilMainMenu.js"></script>';
+            echo '<script src="js_mobile/PreOnePlayer.js"></script>';
+            echo '<script src="js_mobile/GameOnePlayer.js"></script>';
+            echo '<script src="js_mobile/Entrenamiento.js"></script>';
+            echo '<script src="js_mobile/GameTwoPlayer.js"></script>';
+            echo '<script src="js_mobile/Demo.js"></script>';
+            echo '<script src="js_mobile/GameMultiplayer.js"></script>';
+            echo '<script src="js_mobile/GameOver.js"></script>';
+            echo '<script src="js_mobile/Player.js"></script>';
+            echo '<script src="js_mobile/Joystick.js"></script>';
+        }
+        else{
+            echo '<script src="js/Boot.js"></script>';
+            echo '<script src="js/Preloader.js"></script>';
+            echo '<script src="js/MainMenu.js"></script>';
+            echo '<script src="js/Menu1Player.js"></script>';
+            echo '<script src="js/MovilMainMenu.js"></script>';
+            echo '<script src="js/PreOnePlayer.js"></script>';
+            echo '<script src="js/GameOnePlayer.js"></script>';
+            echo '<script src="js/Entrenamiento.js"></script>';
+            echo '<script src="js/GameTwoPlayer.js"></script>';
+            echo '<script src="js/Demo.js"></script>';
+            echo '<script src="js/GameMultiplayer.js"></script>';
+            echo '<script src="js/GameOver.js"></script>';
+            echo '<script src="js/Player.js"></script>';
+            echo '<script src="js/Joystick.js"></script>';
+        }
+        
 
-		echo '<link rel="stylesheet" type="text/css" href="css/style.css" />';
-		echo '<link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css" />';
-	}
+        echo '<link rel="stylesheet" type="text/css" href="css/style.css" />';
+        echo '<link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css" />';
+    }
 
 
-	?>
+    ?>
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -236,36 +260,53 @@ class CircleCrop{
 <?php include ("manda_puntos.php"); ?>
 <?php include ("creditos.php"); ?>
 
+<div id="orientacion_incorrecta">
+    Gira el movil!!
+</div>
 
 
 <script type="text/javascript">
 
 window.onload = function() {
-	
-	window.token = '<?php echo $token;?>';
+    
+    window.token = '<?php echo $token;?>';
 
-	window.twitter_img = '<?php echo $merged_image2;?>';
-	window.twitter_name = '<?php echo $user_name;?>';
+    <?php
+        if(isset($_GET["te_reto"])){
+            echo 'window.te_reto = "'.$_GET["te_reto"].'"';
+        }
+    ?>
 
-	//creo el objeto del juego
-	var game = new Phaser.Game(800, 685, Phaser.AUTO, 'gameContainer');
+    //creo el objeto del juego
+    <?php
+     if(isMobile()){
+    ?>
+        var game = new Phaser.Game(1250, 685, Phaser.AUTO, 'gameContainer');
+    <?php
+    }
+    else{
+    ?>
+        var game = new Phaser.Game(800, 685, Phaser.AUTO, 'gameContainer');
+    <?php
+        }
+    ?>
 
-	//añado las 'pantallas'
-	game.state.add('Boot', DudeVolley.Boot);
-	game.state.add('Preloader', DudeVolley.Preloader);
-	game.state.add('MainMenu', DudeVolley.MainMenu);
-	game.state.add('Menu1Player', DudeVolley.Menu1Player);
-	game.state.add('MovilMainMenu', DudeVolley.MovilMainMenu);
-	game.state.add('PreOnePlayer', DudeVolley.PreOnePlayer);
-	game.state.add('GameOnePlayer', DudeVolley.GameOnePlayer);
-	game.state.add('Entrenamiento', DudeVolley.Entrenamiento);
-	game.state.add('GameTwoPlayer', DudeVolley.GameTwoPlayer);
-	game.state.add('Demo', DudeVolley.Demo);
-	game.state.add('GameMultiplayer', DudeVolley.GameMultiplayer);
-	game.state.add('GameOver', DudeVolley.GameOver);
-	
-	//empieza
-	game.state.start('Boot');
+    //añado las 'pantallas'
+    game.state.add('Boot', DudeVolley.Boot);
+    game.state.add('Preloader', DudeVolley.Preloader);
+    game.state.add('MainMenu', DudeVolley.MainMenu);
+    game.state.add('Menu1Player', DudeVolley.Menu1Player);
+    game.state.add('MovilMainMenu', DudeVolley.MovilMainMenu);
+    game.state.add('PreOnePlayer', DudeVolley.PreOnePlayer);
+    game.state.add('GameOnePlayer', DudeVolley.GameOnePlayer);
+    game.state.add('Entrenamiento', DudeVolley.Entrenamiento);
+    game.state.add('GameTwoPlayer', DudeVolley.GameTwoPlayer);
+    game.state.add('Demo', DudeVolley.Demo);
+    game.state.add('GameMultiplayer', DudeVolley.GameMultiplayer);
+    game.state.add('GameOver', DudeVolley.GameOver);
+    
+    //empieza
+    game.state.start('Boot');
 
 
 };
@@ -274,12 +315,3 @@ window.onload = function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-//****

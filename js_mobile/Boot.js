@@ -48,7 +48,7 @@ DudeVolley.Boot.prototype = {
             
             
             this.scale.maxHeight = $(window).height();
-            this.scale.maxWidth = 1400 * $(window).height() / 685;
+            this.scale.maxWidth = 1250 * $(window).height() / 685;
 
         }
 
@@ -76,7 +76,7 @@ DudeVolley.Boot.prototype = {
     rescale : function () {
         this.scale.setShowAll();
         this.scale.maxHeight = $(window).height();
-        this.scale.maxWidth = 1400 * this.scale.maxHeight / 685;
+        this.scale.maxWidth = 1250 * this.scale.maxHeight / 685;
     },
 
   

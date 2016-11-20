@@ -559,19 +559,19 @@ DudeVolley.GameMultiplayer.prototype = {
 
         //MOVIL
         if (!this.game.device.desktop){
-            this.joy = new Joystick(this.game, 90, this.world.height - 120);
+            this.joy = new Joystick(this.game, 130, this.world.height - 250);
 
             //TODO: Pillar el correcto (boton de accion)
-            this.movil_accion_shadow = this.add.sprite(this.world.width - 90, this.world.height - 120, 'pika');
-            this.movil_accion = this.add.sprite(this.world.width - 90, this.world.height - 120, 'pika');
+            this.movil_accion_shadow = this.add.sprite(this.world.width - 120, this.world.height - 250, 'pika');
+            this.movil_accion = this.add.sprite(this.world.width - 120, this.world.height - 250, 'pika');
             this.movil_accion.anchor.setTo(0.5, 0.5);
-            this.movil_accion.scale.setTo(1.5, 1.5);
+            this.movil_accion.scale.setTo(1.7, 1.7);
             this.movil_accion.inputEnabled = true;
             this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
             this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
 
             this.movil_accion_shadow.anchor.set(0.5,0.5);
-            this.movil_accion_shadow.scale.set(1.9,1.9);
+            this.movil_accion_shadow.scale.set(2,2);
             this.movil_accion_shadow.tint = 0xffffff;
             this.movil_accion_shadow.alpha = 0;
         }
