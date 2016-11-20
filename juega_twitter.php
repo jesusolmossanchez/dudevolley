@@ -280,6 +280,11 @@ window.onload = function() {
     
     window.token = '<?php echo $token;?>';
 
+    
+
+    window.twitter_img = '<?php echo $merged_image2;?>';
+    window.twitter_name = '<?php echo $user_name;?>';
+
     <?php
         if(isset($_GET["te_reto"])){
             echo 'window.te_reto = "'.$_GET["te_reto"].'"';
