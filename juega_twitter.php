@@ -92,26 +92,14 @@ class CircleCrop{
 	require "vendor/autoload.php";
 	use Abraham\TwitterOAuth\TwitterOAuth;
 
-	define("CONSUMER_KEY", "Imviwz5oC86qaucxGMZKusx9T");
-	define("CONSUMER_SECRET", "8ZphEwd64bCie4mf70nSlRxEBMsJ2LUJEnpKdbHoCJBB363VwW");
+    $access_token = "704788839357943809-FgY3Z8uTIEnfKkOoPd06Ji7TUmhUVDn";
+    $access_token_secret = "EVGWRBKcgvPLLdotItNW35NhooA6bzfSzYXexAAPjQ1er";
+    define("CONSUMER_KEY", "Imviwz5oC86qaucxGMZKusx9T");
+    define("CONSUMER_SECRET", "8ZphEwd64bCie4mf70nSlRxEBMsJ2LUJEnpKdbHoCJBB363VwW");
 
-	$request_token = [];
-	$request_token['oauth_token'] = $_SESSION['oauth_token'];
-	$request_token['oauth_token_secret'] = $_SESSION['oauth_token_secret'];
-    echo "<pre>";
-    var_dump($_SESSION);
-    exit;
-
-	if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUEST['oauth_token']) {
-	  // Abort! Something is wrong.
-	}
-
-
-	$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $request_token['oauth_token'], $request_token['oauth_token_secret']);
+    $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token, $access_token_secret);
 
 	$access_token = $connection->oauth("oauth/access_token", ["oauth_verifier" => $_REQUEST['oauth_verifier']]);
-
-	$_SESSION['access_token'] = $access_token;
 
 	$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
 
