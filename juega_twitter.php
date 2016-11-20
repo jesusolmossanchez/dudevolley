@@ -99,15 +99,14 @@ class CircleCrop{
     /*
 	$request_token['oauth_token'] = $_COOKIE['oauth_token'];
 	$request_token['oauth_token_secret'] = $_COOKIE['oauth_token_secret'];
-
-
-    if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUEST['oauth_token']) {
-      // Abort! Something is wrong.
-    }
     */
 
+	if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUEST['oauth_token']) {
+	  // Abort! Something is wrong.
+	}
 
-	$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $request_token['oauth_token'], $request_token['oauth_token_secret']);
+
+	$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $_REQUEST['oauth_token']);
 
 	$access_token = $connection->oauth("oauth/access_token", ["oauth_verifier" => $_REQUEST['oauth_verifier']]);
 
