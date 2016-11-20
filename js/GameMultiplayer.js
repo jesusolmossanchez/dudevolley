@@ -49,7 +49,57 @@ DudeVolley.GameMultiplayer.prototype = {
         setEventHandlers();
 
         function onSocketConnected() {
-            //console.log("Me conecto");
+            $("#socket_overlay").show();
+            $("#socket_nombre").focus();
+
+
+
+            //$("#soy_el_uno").show();
+            eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
+            eljuego.input.keyboard.removeKey(Phaser.Keyboard.R);
+            eljuego.input.keyboard.removeKey(Phaser.Keyboard.F);
+            eljuego.input.keyboard.removeKey(Phaser.Keyboard.G);
+            eljuego.input.keyboard.removeKey(Phaser.Keyboard.Z);
+            eljuego.input.keyboard.removeKey(Phaser.Keyboard.L);
+            $("#socket_empezar").click(function(){
+                ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
+                ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
+                IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
+                DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
+                SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
+                SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
+
+                if(window.te_reto){
+                    Player1 = new Player(eljuego,'cpu', null, this.id);
+                    Player1.nombre = $("#socket_nombre").val();
+                    socket.emit("player_ready_privada", {nombre: Player1.nombre, privada: window.te_reto});
+                }
+                else{
+                    $("#reta_a_un_colega").show();
+                }
+                $("#volley_label").hide();
+                $("#botonera_socket").hide();
+
+            });
+
+            $("#reta_a_un_colega_button").click(function(){
+                $("#reta_a_un_colega_button").hide();
+                $("#juega_con_quien_sea").hide();
+                var privada = generateSerial(5);
+                Player1 = new Player(eljuego,'player1', null, this.id);
+                Player1.nombre = $("#socket_nombre").val();
+                socket.emit("prepara_privada", {nombre: Player1.nombre, id_room: privada});
+                $("#room_privada").text(privada);
+                $("#pasa_el_enlace").show();
+                $("#esperando_oponente").show();
+            });
+
+            $("#juega_con_quien_sea").click(function(){
+                $("#reta_a_un_colega_button").hide();
+                $("#juega_con_quien_sea").hide();
+                socket.emit("prepara_publica");
+                $("#esperando_oponente").show();
+            });
         };
 
         function onSocketDisconnect() {
@@ -69,99 +119,14 @@ DudeVolley.GameMultiplayer.prototype = {
             //Me viene uno nuevo, lo creo
             //console.log("New player connected: "+data);
             if (typeof Player1 === 'undefined'){
-                Player1 = new Player(eljuego, 'player1', null, data);
-
-                //TODO -- EN LA CREACIÓN MOSTRAR UNA CAPA ENCIMA DEL CAVAS
-                //EN ESA CAPA SE PEDIRÁ UN NOMBRE Y HABRÁ UN ENLACE PARA 'RETAR A UN AMIGO'
-                //UNA VEZ ENVIADO SE DEBE EMITIR ALGO COMO:
-                $("#socket_overlay").show();
-                $("#socket_nombre").focus();
-                //$("#soy_el_uno").show();
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.R);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.F);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.G);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.Z);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.L);
-                $("#socket_empezar").click(function(){
-                    ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
-                    ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
-                    IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
-                    DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
-                    SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
-                    SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
-                    Player1.nombre = $("#socket_nombre").val();
-                    if(window.te_reto){
-                        socket.emit("player_ready_privada", {nombre: Player1.nombre, id: Player1.id, privada: window.te_reto});
-
-                        //Creo el OTROPLAYER en el lugar correspondiente
-                        
-                        var ruta = 'cpu';
-                        OTROPLAYER = new Player(eljuego, ruta, null, data);
-
-                    }
-                    else{
-                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
-                    }
-
-
-                    $("#volley_label").hide();
-                    $("#botonera_socket").hide();
-                    $("#reta_a_un_colega").show();
-                    $(document).off('keyup');
-                });
-
-                /*
-
-                $(document).on('keyup',function(e) {
-                    if(e.which == 13) {
-                        ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
-                        ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
-                        IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
-                        DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
-                        SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
-                        SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
-                        Player1.nombre = $("#socket_nombre").val();
-                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
-                        $("#volley_label").hide();
-                        $("#botonera_socket").hide();
-                        $("#reta_a_un_colega").show();
-                        $(document).off('keyup');
-                    }
-                });
-
-                */
-
-                $("#reta_a_un_colega_button").click(function(){
-                    $("#reta_a_un_colega_button").hide();
-                    $("#juega_con_quien_sea").hide();
-                    var privada = generateSerial(5);
-                    var ruta = 'cpu';
-                    OTROPLAYER = new Player(eljuego, ruta, null, data);
-                    socket.emit("prepara_privada", {nombre: Player1.nombre, id_room: privada});
-                    $("#room_privada").text(privada);
-                    $("#pasa_el_enlace").show();
-                    $("#esperando_oponente").show();
-                });
-
-                $("#juega_con_quien_sea").click(function(){
-                    $("#reta_a_un_colega_button").hide();
-                    $("#juega_con_quien_sea").hide();
-                    $("#esperando_oponente").show();
-                });
-
-
-            }
-            //ELEMINAR?? NO HARÍA FALTA, NO? NUNCA ENTRA AQUI?
-            else{
-                OTROPLAYER = new Player('player1', eljuego, data);
-                
+                Player1 = new Player(eljuego,'player1', null, data);
+                Player1.nombre = $("#socket_nombre").val();
+                socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});   
             }
 
         };
 
         function onNewPlayer2(data) {
-
             //Me viene uno nuevo, lo creo
             //console.log("New player2 connected: "+data);
 
@@ -169,47 +134,8 @@ DudeVolley.GameMultiplayer.prototype = {
             //En la posición derecha de la pantalla 
             if (typeof Player1 === 'undefined'){
                 Player1 = new Player(eljuego,'cpu', null, data);
-
-                $("#socket_overlay").show();
-                $("#socket_nombre").focus();
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.R);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.F);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.G);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.Z);
-                eljuego.input.keyboard.removeKey(Phaser.Keyboard.L);
-                $("#socket_empezar").click(function(){
-                    ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
-                    ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
-                    IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
-                    DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
-                    SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
-                    SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
-                    Player1.nombre = $("#socket_nombre").val();
-                    if(window.te_reto){
-                        socket.emit("player_ready_privada", {nombre: Player1.nombre, id: Player1.id, privada: window.te_reto});
-                    }
-                    else{
-                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
-                    }
-                    $(document).off('keyup');
-                });
-                $(document).on('keyup',function(e) {
-                    /*
-                    if(e.which == 13) {
-                        ARRIBA = eljuego.input.keyboard.addKey(Phaser.Keyboard.R);
-                        ABAJO = eljuego.input.keyboard.addKey(Phaser.Keyboard.F);
-                        IZQUIERDA = eljuego.input.keyboard.addKey(Phaser.Keyboard.D);
-                        DERECHA = eljuego.input.keyboard.addKey(Phaser.Keyboard.G);
-                        SUPERPIKA = eljuego.input.keyboard.addKey(Phaser.Keyboard.L);
-                        SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
-                        Player1.nombre = $("#socket_nombre").val();
-                        socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
-                        $(document).off('keyup');
-                    }
-                    */
-                });
-
+                Player1.nombre = $("#socket_nombre").val();
+                socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});
             }
             
             //Creo el OTROPLAYER en el lugar correspondiente
@@ -226,6 +152,17 @@ DudeVolley.GameMultiplayer.prototype = {
         };
 
         function onYaestaPlayer(data) {
+            
+            //Creo el OTROPLAYER en el lugar correspondiente
+            if (typeof OTROPLAYER === 'undefined'){
+                if (Player1.soyplayer1 == false){
+                    ruta = "player1";
+                }
+                else{
+                    ruta = 'cpu';
+                }
+                OTROPLAYER = new Player(eljuego, ruta, null, data[0]);
+            }
             eljuego.nombre1.text = data[0];
             Player1.nombre = data[0];
             eljuego.nombre2.text = data[1];
@@ -1038,7 +975,7 @@ DudeVolley.GameMultiplayer.prototype = {
             this.quienEmpieza = "dos";
             
             if (this.game.puntosPlayer2 >= 15){
-                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
+                socket.emit("game_over", {ganador: OTROPLAYER.nombre, ganador_id: OTROPLAYER.id, perdedor: Player1.nombre, perdedor_id: Player1.id});
             }
         }
 

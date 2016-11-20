@@ -23,75 +23,6 @@ var room_disponible = "";
 function onSocketConnection(client) {
     //Me llega que se ha conectao alguien
     util.log("New player has connected: "+client.id);
-
-    if(room_llena){
-        room_llena = false;
-        room_disponible = generateSerial(8);
-        rooms.push(room_disponible);
-    }
-
-
-    client.join(room_disponible);
-    client.room = room_disponible;
-
-    util.log("conectado a : "+client.room);
-
-    p2pserver(client, null, room_disponible);
-
-    //console.log("dispo",room_disponible);
-
-/*
-    if(players.length > 1){
-        //TODO: Hacer algo con más de dos jugadores
-        util.log("YA HAY DOS");
-        this.emit("fuera del multiplayer", client.id);
-        return;
-    }
-*/
-
-    //Creo el jugador correspondiente
-    //-player1 si es el primero en entrar
-    //-player2 si es el segundo
-    /*
-    if(players.length > 0){
-        this.emit("new player2", client.id);
-    }
-    else{
-        this.emit("new player", client.id);
-    }
-    */
-
-    
-
-    if(rooms_players.length > 0){
-        this.to(room_disponible).emit("new player2", client.id);
-    }
-    else{
-        this.to(room_disponible).emit("new player", client.id);
-    }
-
-    //Añado el id_client al array
-    //players.push(client.id);
-    rooms_players.push(client.id);
-
-    //TODO -- EMITIR EL YASTA CUANDO LOS DOS JUGADORES HAYAN ENVIADO SU NOMBRE
-
-    //si se ha conectado el segundo jugador se llama al método que inicia todo
-    if (rooms_players.length == 2){
-            rooms_players = [];
-            room_llena = true;
-            //this.emit("ya estamos todos");
-        
-    }
-    /*
-    else if(players.length > 2){
-        players.pop();
-        client.disconnect();
-    }
-    else{
-        yasta = false;
-    }
-    */
     
     client.on("disconnect", onClientDisconnect);
     client.on("posicion pelota", onPosicionPelota);
@@ -100,9 +31,11 @@ function onSocketConnection(client) {
     client.on("move player", onMovePlayer);
     client.on("player_ready", onPlayerReady);
 
+
     client.on("player_ready_privada", onPlayerReadyPrivada);
 
-    client.on("prepara_privada", onPreparaPrivada)
+    client.on("prepara_privada", onPreparaPrivada);
+    client.on("prepara_publica", onPreparaPublica);
 
     client.on("teclas", onTeclas);
     client.on("enfadao2", onEnfadao2);
@@ -193,13 +126,64 @@ function onPosicionJugador1(data) {
 function onPreparaPrivada(data) {
     
     var mi_room = data.id_room;
-    this.leave(room_disponible);
-    players_ready.splice(players.indexOf(data.nombre), 1);
     players_ready_p[mi_room] = [];
     players_ready_p[mi_room].push(data.nombre);
     this.join(mi_room);
     this.room = mi_room;
+    p2pserver(this, null, mi_room);
     util.log(data.nombre+" conectado a la room privada: "+this.room)
+    
+};
+
+
+function onPreparaPublica() {
+    
+
+    var client = this;
+
+    if(room_llena){
+        room_llena = false;
+        room_disponible = generateSerial(8);
+        rooms.push(room_disponible);
+    }
+
+
+
+
+    client.join(room_disponible);
+    client.room = room_disponible;
+    //console.log(rooms_players.length )
+
+    //util.log("conectado a : "+client.room);
+
+    p2pserver(client, null, room_disponible);   
+
+    console.log(room_disponible);
+
+    console.log("cuantos...",rooms_players.length)
+        
+    if(rooms_players.length > 0){
+        console.log("player2!!");
+        io.to(room_disponible).emit("new player2", client.id);
+        //io.to(room_disponible).emit("ya estamos todos", players_ready);
+    }
+    else{
+        io.to(room_disponible).emit("new player", client.id);
+    }
+
+    //Añado el id_client al array
+    //players.push(client.id);
+    rooms_players.push(client.id);
+
+    //TODO -- EMITIR EL YASTA CUANDO LOS DOS JUGADORES HAYAN ENVIADO SU NOMBRE
+
+    //si se ha conectado el segundo jugador se llama al método que inicia todo
+    if (rooms_players.length == 2){
+            rooms_players = [];
+            room_llena = true;
+            //this.emit("ya estamos todos");
+        
+    }
     
 };
 
@@ -207,6 +191,7 @@ function onPreparaPrivada(data) {
 function onPlayerReadyPrivada(data) {
     var mi_room = data.privada;
     this.join(data.privada);
+    p2pserver(this, null, mi_room);   
     players_ready_p[mi_room].push(data.nombre);
     io.to(data.privada).emit("ya estamos todos", players_ready_p[mi_room]);
 };
@@ -222,7 +207,8 @@ function onPlayerReady(data) {
     //util.log(players_ready.length);
 
     //si se ha conectado el segundo jugador se llama al método que inicia todo
-    if(room_llena){
+    //console.log(room_llena);
+    if(players_ready.length == 2){
         io.to(mi_room).emit("ya estamos todos", players_ready);
         players_ready = [];
     }

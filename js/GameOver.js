@@ -200,7 +200,7 @@ DudeVolley.GameOver.prototype = {
                 nombreGanador = "Player1";
             }
             $("#contiene_mandapuntos").show();
-            $("#contiene_mandapuntos").css("top","20vw");
+            //$("#contiene_mandapuntos").css("top","20vw");
             $("#mandapuntos").show();
             $("#envia_tus_puntos").hide();
             $("#inputtunombre").hide();
