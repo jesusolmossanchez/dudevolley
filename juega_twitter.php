@@ -96,8 +96,11 @@ class CircleCrop{
 	define("CONSUMER_SECRET", "8ZphEwd64bCie4mf70nSlRxEBMsJ2LUJEnpKdbHoCJBB363VwW");
 
 	$request_token = [];
-	$request_token['oauth_token'] = $_COOKIE['oauth_token'];
-	$request_token['oauth_token_secret'] = $_COOKIE['oauth_token_secret'];
+	$request_token['oauth_token'] = $_SESSION['oauth_token'];
+	$request_token['oauth_token_secret'] = $_SESSION['oauth_token_secret'];
+    echo "<pre>";
+    var_dump($_SESSION);
+    exit;
 
 	if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUEST['oauth_token']) {
 	  // Abort! Something is wrong.
