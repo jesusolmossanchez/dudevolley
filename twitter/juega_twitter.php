@@ -88,7 +88,7 @@ class CircleCrop{
 
 
 	session_start(); 
-	require "vendor/autoload.php";
+	require "../vendor/autoload.php";
 	use Abraham\TwitterOAuth\TwitterOAuth;
 
 	define("CONSUMER_KEY", "Imviwz5oC86qaucxGMZKusx9T");
