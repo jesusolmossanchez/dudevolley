@@ -19,6 +19,8 @@ $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
 
 $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
 
-header('Location: '.$url);
+//header('Location: '.$url);
+
+echo '<script>window.location = "'.$url.'"</script>';
 
 exit;
