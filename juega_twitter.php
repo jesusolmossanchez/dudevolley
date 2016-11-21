@@ -155,6 +155,27 @@ class CircleCrop{
     imagecopy($merged_image, $top_image, 265, 0, 0, 0, $targ_w, $targ_h);
     imagepng($merged_image, $merged_image2);
 
+
+    /*** Registro la partida de tuiter en BBDD */
+    $registro = array(
+		'usuario' => $user_name,
+		'imagen' => $merged_image2,
+		'fecha' => date("Y-m-d H:i:s")
+	);
+	// Configuration
+	$dbhost = 'localhost';
+	$dbname = 'gente_tuiter';
+	$m = new Mongo("mongodb://$dbhost");
+	// Connect to database
+	$db = $m->$dbname;
+	// Get the collection
+	$punticos = $db->partidas;
+	// Insert this new document into the users collection
+	$punticos->save($registro);
+	/*** Fin mongo (Registro la partida de tuiter en BBDD) ***/
+
+
+
     //CONTRAPIRATEO
     $token = md5(rand(1000,9999));
 	$_SESSION['token'] = $token;
