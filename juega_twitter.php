@@ -164,7 +164,7 @@ class CircleCrop{
 	// Configuration
 	$dbhost = 'localhost';
 	$dbname = 'gente_tuiter';
-	$m = new Mongo("mongodb://$dbhost");
+	$m = new MongoClient("mongodb://$dbhost");
 	// Connect to database
 	$db = $m->$dbname;
 	// Get the collection
