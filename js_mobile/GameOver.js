@@ -260,7 +260,7 @@ DudeVolley.GameOver.prototype = {
 
         if(window.twitter_img){
             var mijuego = this.game;
-            window.setTimeout(function(){
+            //window.setTimeout(function(){
                 var img_share_resultado = mijuego.canvas.toDataURL();
 
                 var post_data= {
@@ -273,7 +273,7 @@ DudeVolley.GameOver.prototype = {
                     .done(function( data ) {
                         //console.log(data);
                 });
-            },3000); 
+            //},3000); 
         }
 
         var play_again = this.cache.getImage('volver_a_jugar');
