@@ -326,6 +326,8 @@ window.onload = function() {
     <?php
         }
     ?>
+	
+	game.preserveDrawingBuffer = true;
 
     //añado las 'pantallas'
     game.state.add('Boot', DudeVolley.Boot);
