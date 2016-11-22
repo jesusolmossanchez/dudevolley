@@ -305,7 +305,7 @@ DudeVolley.GameOver.prototype = {
     },
 
     empieza: function(){
-        location.reload();
+        window.location = "http://www.dudevolley.com";
     }
 
 };
