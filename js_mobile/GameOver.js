@@ -262,25 +262,16 @@ DudeVolley.GameOver.prototype = {
 	    	var img_share_resultado = game.canvas.toDataURL();
 	    	console.log(img_share_resultado);
 
-            xmlhttp = new XMLHttpRequest();
-
-            var params = "imagen="+img_share_resultado+"&usuario="+window.twitter_name+"&puntos1="+this.game.puntosPlayer1+"&puntos2="this.game.puntosPlayer2;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                    if(xmlhttp.status == 200){
-                        
-                    }
-                    else{
-                        //controlar error
-                    }
-                }
+            var post_data= {
+                imagen: img_share_resultado,
+                usuario: window.twitter_name,
+                puntos1: this.game.puntosPlayer1,
+                puntos2: this.game.puntosPlayer2
             }
-
-            xmlhttp.open("POST", "sube_img_tw.php", true);
-            xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-            xmlhttp.send(params);
-
+            $.post("sube_img_tw.php", post_data)
+                .done(function( data ) {
+                    //console.log(data);
+            });
         }
 
         var play_again = this.cache.getImage('volver_a_jugar');
