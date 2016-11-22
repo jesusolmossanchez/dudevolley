@@ -249,11 +249,39 @@ DudeVolley.GameOver.prototype = {
         this.ganador.animations.add('senfada', [2, 3], 7, true);
         this.perdedor.animations.add('senfada2', [2, 3], 7, true);
 
+
+        if(window.twitter_img){
+	    	var img_share_resultado = game.canvas.toDataURL();
+	    	console.log(img_share_resultado);
+
+            xmlhttp = new XMLHttpRequest();
+
+            var params = "imagen="+img_share_resultado+"&usuario="+window.twitter_name+"&puntos1="+this.game.puntosPlayer1+"&puntos2="this.game.puntosPlayer2;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                    if(xmlhttp.status == 200){
+                        
+                    }
+                    else{
+                        //controlar error
+                    }
+                }
+            }
+
+            xmlhttp.open("POST", "sube_img_tw.php", true);
+            xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xmlhttp.send(params);
+
+        }
+
+
         var play_again = this.cache.getImage('volver_a_jugar');
         this.play_again = this.add.sprite(this.world.centerX - play_again.width/2.0,470,'volver_a_jugar');
         this.play_again.inputEnabled = true;
         this.play_again.input.sprite.events.onInputDown.add(this.empieza, this);
 
+        
 
 
     },
