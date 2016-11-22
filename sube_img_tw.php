@@ -27,8 +27,10 @@ if (isset($_POST['imagen'])){
 	$puntos2 = $_POST["puntos2"];
 	
 	$post_data = array('media_data' => $data);
-	$media = $connection->post("media/upload", $post_data);
-	$post_data2 = array('status' => 'Le he dado palpelo a '.$usuario, 'media_id' => $media->media_id, );
+
+	$media = $connection->upload('media/upload', ['media' => "img_share/".$filename_path]);
+
+	$post_data2 = array('status' => 'Le he dado palpelo a @'.$usuario, 'media_id' => $media->media_id);
 	$media = $connection->post("statuses/update", $post_data2);
 	
 }
