@@ -119,6 +119,8 @@ DudeVolley.GameOver.prototype = {
                                 }
                 $.post( "registrapuntos.php", post_data)
                     .done(function( data ) {
+                        resul_txt.alpha = 0;
+                        resul_points.alpha = 0;
                         window.setTimeout(function(){
                             $("#mandapuntos").slideUp();
                             $("#contiene_clasificacion").slideDown();
@@ -144,14 +146,17 @@ DudeVolley.GameOver.prototype = {
             $("#mandapuntos").show();
             $("#contiene_mandapuntos").fadeIn();
             $("#contiene_mandapuntos").focus();
-            this.resultado_text = this.add.text(this.world.width/2, 150, "Has "+resultado, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
+            this.resultado_text = this.add.text(this.world.width/2, 120, "Has "+resultado, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_text.anchor.setTo(0.5, 0.5);
-            this.resultado_puntos_text = this.add.text(this.world.width/2, 300, this.game.puntosPlayer1+" - "+this.game.puntosPlayer2, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
+            this.resultado_puntos_text = this.add.text(this.world.width/2, 200, this.game.puntosPlayer1+" - "+this.game.puntosPlayer2, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_puntos_text.anchor.setTo(0.5, 0.5);
             //$("#texto_fin").text("Has "+resultado);
             //$("#puntos").text(this.game.puntosPlayer1+" - "+this.game.puntosPlayer2);
 
             window.entra = 0;
+
+            var resul_txt = this.resultado_text
+            var resul_points = this.resultado_puntos_text
             $("#envia_tu_nombre").click(function(e){
                 e.preventDefault();
                 if (window.entra < 1){
@@ -169,7 +174,9 @@ DudeVolley.GameOver.prototype = {
                                     }
                     $.post( "registrapuntos.php", post_data)
                         .done(function( data ) {
-                            console.log(data);
+                            
+                            resul_txt.alpha = 0;
+                            resul_points.alpha = 0;
                             $("#mandapuntos").slideUp();
                             $("#contiene_clasificacion").slideDown();
                             //console.log( "Data Loaded: " + data );
@@ -217,10 +224,10 @@ DudeVolley.GameOver.prototype = {
             $("#inputtunombre").hide();
             $("#envia_tu_nombre").hide();
 
-            this.resultado_text = this.add.text(this.world.width/2, 150, "Has "+resultado, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
+            this.resultado_text = this.add.text(this.world.width/2, 120, "Has "+resultado, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_text.anchor.setTo(0.5, 0.5);
 
-            this.resultado_puntos_text = this.add.text(this.world.width/2, 300, this.game.puntosPlayer1+" - "+this.game.puntosPlayer2, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
+            this.resultado_puntos_text = this.add.text(this.world.width/2, 200, this.game.puntosPlayer1+" - "+this.game.puntosPlayer2, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_puntos_text.anchor.setTo(0.5, 0.5);
             //$("#texto_fin").html("Ganador: "+nombreGanador+elotrosehapirao);
             //$("#puntos").text(this.game.puntosPlayer1+" - "+this.game.puntosPlayer2);
@@ -271,6 +278,7 @@ DudeVolley.GameOver.prototype = {
         if(window.twitter_img){
             var mijuego = this.game;
             window.setTimeout(function(){
+
                 var img_share_resultado = mijuego.canvas.toDataURL();
 
                 var post_data= {
@@ -281,15 +289,14 @@ DudeVolley.GameOver.prototype = {
                 }
                 $.post("sube_img_tw.php", post_data)
                     .done(function( data ) {
-                        //console.log(data);
+                        var play_again = this.cache.getImage('volver_a_jugar');
+                        this.play_again = this.add.sprite(this.world.centerX - play_again.width/2.0,470,'volver_a_jugar');
+                        this.play_again.inputEnabled = true;
+                        this.play_again.input.sprite.events.onInputDown.add(this.empieza, this);
                 });
             },3000); 
         }
 
-        var play_again = this.cache.getImage('volver_a_jugar');
-        this.play_again = this.add.sprite(this.world.centerX - play_again.width/2.0,470,'volver_a_jugar');
-        this.play_again.inputEnabled = true;
-        this.play_again.input.sprite.events.onInputDown.add(this.empieza, this);
 
 
 

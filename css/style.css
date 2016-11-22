@@ -437,11 +437,11 @@ canvas{
 }
 @media screen and (max-height: 800px){
     #contiene_creditos {
-        top: 400px;
-        top: 20vh;
+        top: 350px;
+        top: 15vh;
     }
     #contiene_mandapuntos {
-        top: 20vh;
+        top: 300px;
     }
     #creditos li.nombre_credito {
         font-size: 2.5vw;
