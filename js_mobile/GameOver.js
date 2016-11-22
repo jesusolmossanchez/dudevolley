@@ -259,19 +259,21 @@ DudeVolley.GameOver.prototype = {
         
 
         if(window.twitter_img){
-	    	var img_share_resultado = this.game.canvas.toDataURL();
-	    	console.log(img_share_resultado);
+            var mijuego = this.game.canvas;
+            window.setTimeout(function(){
+                var img_share_resultado = mijuego.canvas.toDataURL();
 
-            var post_data= {
-                imagen: img_share_resultado,
-                usuario: window.twitter_name,
-                puntos1: this.game.puntosPlayer1,
-                puntos2: this.game.puntosPlayer2
-            }
-            $.post("sube_img_tw.php", post_data)
-                .done(function( data ) {
-                    //console.log(data);
-            });
+                var post_data= {
+                    imagen: img_share_resultado,
+                    usuario: window.twitter_name,
+                    puntos1: mijuego.puntosPlayer1,
+                    puntos2: mijuego.puntosPlayer2
+                }
+                $.post("sube_img_tw.php", post_data)
+                    .done(function( data ) {
+                        //console.log(data);
+                });
+            },3000); 
         }
 
         var play_again = this.cache.getImage('volver_a_jugar');
