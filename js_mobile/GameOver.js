@@ -259,7 +259,7 @@ DudeVolley.GameOver.prototype = {
         
 
         if(window.twitter_img){
-            var mijuego = this.game.canvas;
+            var mijuego = this.game;
             window.setTimeout(function(){
                 var img_share_resultado = mijuego.canvas.toDataURL();
 
