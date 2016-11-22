@@ -438,10 +438,10 @@ canvas{
 @media screen and (max-height: 800px){
     #contiene_creditos {
         top: 350px;
-        top: 15vh;
+        top: 20vh;
     }
     #contiene_mandapuntos {
-        top: 300px;
+        top: 20vh;
     }
     #creditos li.nombre_credito {
         font-size: 2.5vw;
