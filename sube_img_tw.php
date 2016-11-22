@@ -30,7 +30,7 @@ if (isset($_POST['imagen'])){
 
 	$media = $connection->upload('media/upload', ['media' => "img_share/".$filename_path]);
 
-	$post_data2 = array('status' => 'Le he dado palpelo a @'.$usuario, 'media_id' => $media->media_id);
+	$post_data2 = array('status' => 'Le he dado palpelo a @'.$usuario, 'media_ids' => $media->media_id);
 	$media = $connection->post("statuses/update", $post_data2);
 	
 }
