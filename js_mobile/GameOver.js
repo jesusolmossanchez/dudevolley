@@ -119,9 +119,9 @@ DudeVolley.GameOver.prototype = {
                                 }
                 $.post( "registrapuntos.php", post_data)
                     .done(function( data ) {
-                        resul_txt.alpha = 0;
-                        resul_points.alpha = 0;
-                        window.setTimeout(function(){
+                        window.setTimeout(function(){ 
+                            resul_txt.alpha = 0;
+                            resul_points.alpha = 0;
                             $("#mandapuntos").slideUp();
                             $("#contiene_clasificacion").slideDown();
                             //console.log( "Data Loaded: " + data );
