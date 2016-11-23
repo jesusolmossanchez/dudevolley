@@ -5,6 +5,37 @@ session_start();
 require "../vendor/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+$descripcion = "Dude Volley - The game!";
+$titulo = "Dude Volley";
+$img_share = "http://dudevolley.com/img_share/share_dudevolley.png";
+
+?>
+
+<!DOCTYPE HTML>
+<html style="margin:0 !important;">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dude Volley</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="description" content="<?php echo $descripcion?>">
+    <meta name="keywords" content="dude volley, indiegame, gamedev">
+    <meta property="og:url" content="http://www.dudevolley.com" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dude_volley">
+    <meta name="twitter:creator" content="@dude_volley">
+    <meta property="og:title" content="<?php echo $titulo?>" />
+    <meta name="twitter:title" content="<?php echo $titulo?>">
+    <meta property="og:description" content="<?php echo $descripcion?>" />
+    <meta name="twitter:description" content="<?php echo $descripcion?>">
+    <meta property="og:image" content="<?php echo $img_share?>" />
+    <meta name="twitter:image" content="<?php echo $img_share?>">
+</head>
+<body>
+</body>
+</html>
+
+<?php
+
 define("CONSUMER_KEY", "Imviwz5oC86qaucxGMZKusx9T");
 define("CONSUMER_SECRET", "8ZphEwd64bCie4mf70nSlRxEBMsJ2LUJEnpKdbHoCJBB363VwW");
 
