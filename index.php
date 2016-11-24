@@ -132,9 +132,38 @@
 <div id="orientacion_incorrecta">
 	Gira el movil!!
 </div>
+<a href="javascript:void(0);" onclick="requestFullScreen()" style="position: fixed; z-index: 9999; top: 10px; right: 10px; width: 50px; height: 50px;"> 
+	<img src="assets/full_screen.png" style="width:100%;height: 100%;">
+</a>
 
 
 <script type="text/javascript">
+
+
+function requestFullScreen() {
+
+	var el = document.body;
+
+	// Supports most browsers and their versions.
+	var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen 
+	|| el.mozRequestFullScreen || el.msRequestFullScreen;
+
+	if (requestMethod) {
+
+		// Native full screen.
+		requestMethod.call(el);
+
+	} 
+	else if (typeof window.ActiveXObject !== "undefined") {
+
+		// Older IE.
+		var wscript = new ActiveXObject("WScript.Shell");
+
+		if (wscript !== null) {
+  			wscript.SendKeys("{F11}");
+		}
+	}
+}
 
 window.onload = function() {
 	
