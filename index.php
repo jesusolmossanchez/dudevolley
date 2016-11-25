@@ -141,7 +141,7 @@
 
 window.full_screen = 0;
 function requestFullScreen() {
-	if(window.full_screen == 0)
+	if(window.full_screen == 0){
 		var el = document.body;
 		// Supports most browsers and their versions.
 		var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen 
