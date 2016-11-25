@@ -294,7 +294,7 @@ class CircleCrop{
 <div id="orientacion_incorrecta">
     Gira el movil!!
 </div>
-<a href="javascript:void(0);" onclick="requestFullScreen()" style="display:none; position: fixed; z-index: 9999; top: 10px; right: 10px; width: 50px; height: 50px;"> 
+<a href="javascript:void(0);" onclick="requestFullScreen()" style="position: fixed; z-index: 9999; top: 10px; right: 10px; width: 50px; height: 50px;"> 
 	<img id="img_full_screen" src="assets/full_screen.png" style="width:100%;height: 100%;">
 </a>
 
