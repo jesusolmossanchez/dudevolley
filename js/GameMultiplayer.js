@@ -851,7 +851,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     d=1;
                 }
 
-                
+                console.log("l",l);
 
                 socket.emit("teclas",{id: Player1.id, L:l, R:r, U:u, D:d, P:p});
                 if (!Player1.soyplayer1){
