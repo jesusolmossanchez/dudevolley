@@ -294,9 +294,53 @@ class CircleCrop{
 <div id="orientacion_incorrecta">
     Gira el movil!!
 </div>
+<a href="javascript:void(0);" onclick="requestFullScreen()" style="position: fixed; z-index: 9999; top: 10px; right: 10px; width: 50px; height: 50px;"> 
+	<img id="img_full_screen" src="assets/full_screen.png" style="width:100%;height: 100%;">
+</a>
 
 
 <script type="text/javascript">
+
+window.full_screen = 0;
+function requestFullScreen() {
+	if(window.full_screen == 0){
+		var el = document.body;
+		// Supports most browsers and their versions.
+		var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen 
+		|| el.mozRequestFullScreen || el.msRequestFullScreen;
+
+		if (requestMethod) {
+
+			// Native full screen.
+			requestMethod.call(el);
+
+		} 
+		else if (typeof window.ActiveXObject !== "undefined") {
+
+			// Older IE.
+			var wscript = new ActiveXObject("WScript.Shell");
+
+			if (wscript !== null) {
+				wscript.SendKeys("{F11}");
+			}
+		}
+		window.full_screen = 1;
+		var img_full = document.getElementById("img_full_screen");
+		img_full.src = "assets/full_screen_KO.png"
+	}
+	else{
+		if (document.cancelFullScreen) {  
+		      document.cancelFullScreen();  
+		} else if (document.mozCancelFullScreen) {  
+		      document.mozCancelFullScreen();  
+		} else if (document.webkitCancelFullScreen) {  
+		      document.webkitCancelFullScreen();  
+		} 
+		window.full_screen = 0;
+		var img_full = document.getElementById("img_full_screen");
+		img_full.src = "assets/full_screen.png"
+	}
+}
 
 window.onload = function() {
     
