@@ -69,36 +69,54 @@ function onClientDisconnect() {
 //propaga el movimiento
 function onMovePlayer(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("samovio", data);
 };
 
 //propaga el movimiento
 function onTeclas(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("recibeteclas", data);
 };
 
 //propaga el enfadao
 function onEnfadao2(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("enfadao2", data);
 };
 
 //propaga el gorrino2
 function onHacegorrino2(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("hacegorrino2", data);
 };
 
 //propaga el teclaspika
 function onTeclaspika(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("teclaspika", data);
 };
 
 //propaga el teclaspika
 function onPunto(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("punto", data);
 };
 
@@ -106,6 +124,9 @@ function onPunto(data) {
 //TODO -- revisar p2p!!!
 function onPosicionPelota(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("situapelota", data);
 };
 
@@ -113,12 +134,18 @@ function onPosicionPelota(data) {
 //TODO -- revisar p2p!!!
 function onActualizaMarcador(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("actualiza_marcador", data);
 };
 
 //TODO -- revisar p2p!!!
 function onPosicionJugador1(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("situajugador1", data);
 };
 
@@ -200,6 +227,9 @@ function onPlayerReadyPrivada(data) {
 function onPlayerReady(data) {
     
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
 
     players_ready.push(data.nombre);
 
@@ -218,6 +248,9 @@ function onPlayerReady(data) {
 
 function onGameOver(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("goGameOver", data);
     
 };
@@ -231,6 +264,9 @@ function onNewPlayer(data) {
 
 function onTururu(data) {
     var mi_room = this.client.nsps["/"].room;
+    if (typeof mi_room == 'undefined'){
+        mi_room = data.room;
+    }
     io.to(mi_room).emit("tururaki", data);
 };
 
