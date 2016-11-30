@@ -241,7 +241,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
         function onSituaPelota(data) {
-            console.log("situa?");
+            //console.log("situa?");
             if (!Player1.soyplayer1){
                 eljuego.pelota.angle = data.angulo;
                 
@@ -260,8 +260,8 @@ DudeVolley.GameMultiplayer.prototype = {
 
 
         function onActualizaMarcador(data) {
-            console.log(data);
-            console.log(Player1.soyplayer1);
+            //console.log(data);
+            //console.log(Player1.soyplayer1);
             if (!Player1.soyplayer1){
                 eljuego.scoreText1.text = data.puntos1;
                 eljuego.scoreText2.text = data.puntos2;
@@ -737,7 +737,7 @@ DudeVolley.GameMultiplayer.prototype = {
             this.pelota.angle += this.pelota.body.velocity.x/20;
             this.physics.arcade.collide(this.pelota, platforms);
             try { 
-                console.log("situo la pelota o que?")
+                //console.log("situo la pelota o que?")
                 p2p.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, angulo: this.pelota.angle, room: window.te_reto});
                 if (this.need_sync){
                     this.need_sync = false;

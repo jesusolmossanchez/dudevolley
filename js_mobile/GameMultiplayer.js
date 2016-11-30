@@ -770,10 +770,10 @@ DudeVolley.GameMultiplayer.prototype = {
             this.pelota.angle += this.pelota.body.velocity.x/20;
             this.physics.arcade.collide(this.pelota, platforms);
             try { 
-                p2p.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, angulo: this.pelota.angle});
+                p2p.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, angulo: this.pelota.angle, room: window.te_reto});
                 if (this.need_sync){
                     this.need_sync = false;
-                    p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y});
+                    p2p.emit("posicion jugador1", {P1x: Player1.sprite.x, P2x: OTROPLAYER.sprite.x, P1y: Player1.sprite.y, P2y: OTROPLAYER.sprite.y, room: window.te_reto});
                 }
             }
             catch (e) {
@@ -837,7 +837,7 @@ DudeVolley.GameMultiplayer.prototype = {
                         Player1.sprite.animations.play('senfada');
                         Player1.sprite.enfadaoTime = this.time.now + 500;
                         try { 
-                           p2p.emit("enfadao2",{id:Player1.id});
+                           p2p.emit("enfadao2",{id:Player1.id, room: window.te_reto});
                         }
                         catch (e) {
                           console.log("mierror",e); 
@@ -846,7 +846,7 @@ DudeVolley.GameMultiplayer.prototype = {
                     }
                     else if (!Player1.sprite.paraGorrino){
                         try { 
-                           p2p.emit("hacegorrino2");
+                           p2p.emit("hacegorrino2",{room: window.te_reto});
                         }
                         catch (e) {
                           console.log("mierror",e); 
@@ -889,10 +889,10 @@ DudeVolley.GameMultiplayer.prototype = {
 
                 
 
-                socket.emit("teclas",{id: Player1.id, L:l, R:r, U:u, D:d, P:p});
+                socket.emit("teclas",{id: Player1.id, L:l, R:r, U:u, D:d, P:p, room: window.te_reto});
                 if (!Player1.soyplayer1){
                     try { 
-                        p2p.emit("teclaspika",{L:l, R:r, U:u, D:d});
+                        p2p.emit("teclaspika",{L:l, R:r, U:u, D:d, room: window.te_reto});
                     }
                     catch (e) {
                       console.log("mierror",e); 
@@ -1001,7 +1001,7 @@ DudeVolley.GameMultiplayer.prototype = {
             this.quienEmpieza = "uno";
             
             if (this.game.puntosPlayer1 >= 15){
-                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
+                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id, room: window.te_reto});
             }
         }
         else{
@@ -1011,14 +1011,14 @@ DudeVolley.GameMultiplayer.prototype = {
             this.quienEmpieza = "dos";
             
             if (this.game.puntosPlayer2 >= 15){
-                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id});
+                socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: OTROPLAYER.nombre, perdedor_id: OTROPLAYER.id, room: window.te_reto});
             }
         }
 
 
         try { 
-            p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2});
-            p2p.emit("punto",{x:this.pelota.body.position.x, y:this.pelota.body.position.y});
+            p2p.emit("actualiza_marcador", {puntos1: this.game.puntosPlayer1, puntos2: this.game.puntosPlayer2, room: window.te_reto});
+            p2p.emit("punto",{x:this.pelota.body.position.x, y:this.pelota.body.position.y, room: window.te_reto});
         }
         catch (e) {
           console.log("mierror",e); 
