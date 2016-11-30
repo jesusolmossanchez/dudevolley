@@ -86,7 +86,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 $("#reta_a_un_colega_button").hide();
                 $("#juega_con_quien_sea").hide();
                 var privada = generateSerial(5);
-                Player1 = new Player(eljuego,'player1', null, this.id);
+                Player1 = new Player(eljuego,'player1', null, id_socket);
                 Player1.nombre = $("#socket_nombre").val();
                 socket.emit("prepara_privada", {nombre: Player1.nombre, id_room: privada});
                 $("#room_privada").text(privada);

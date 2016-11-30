@@ -51,6 +51,8 @@ DudeVolley.GameMultiplayer.prototype = {
             $("#socket_nombre").focus();
 
 
+            var id_socket = this.id;
+
 
             //$("#soy_el_uno").show();
             eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
@@ -68,7 +70,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 SUPERPIKA2 = eljuego.input.keyboard.addKey(Phaser.Keyboard.Z);
 
                 if(window.te_reto){
-                    Player1 = new Player(eljuego,'cpu', null, this.id);
+                    Player1 = new Player(eljuego,'cpu', null, id_socket);
                     Player1.nombre = $("#socket_nombre").val();
                     socket.emit("player_ready_privada", {nombre: Player1.nombre, privada: window.te_reto});
                 }
@@ -84,7 +86,7 @@ DudeVolley.GameMultiplayer.prototype = {
                 $("#reta_a_un_colega_button").hide();
                 $("#juega_con_quien_sea").hide();
                 var privada = generateSerial(5);
-                Player1 = new Player(eljuego,'player1', null, this.id);
+                Player1 = new Player(eljuego,'player1', null, id_socket);
                 Player1.nombre = $("#socket_nombre").val();
                 socket.emit("prepara_privada", {nombre: Player1.nombre, id_room: privada});
                 $("#room_privada").text(privada);
