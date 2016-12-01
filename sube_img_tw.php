@@ -30,7 +30,13 @@ if (isset($_POST['imagen'])){
 
 	$media = $connection->upload('media/upload', ['media' => "img_share/".$filename_path]);
 
-	$post_data2 = array('status' => 'Le he dado palpelo a @'.$usuario, 'media_ids' => $media->media_id);
+	if($puntos1 > $puntos2){
+		$frase = "Le he dado palpelo a @";
+	}
+	else{
+		$frase = "Ups, me ha han ganao... ahora tendré que jugar con el careto de @";
+	}
+	$post_data2 = array('status' => $frase.$usuario, 'media_ids' => $media->media_id);
 	$media = $connection->post("statuses/update", $post_data2);
 	
 }
