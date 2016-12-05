@@ -89,12 +89,12 @@ var Player = function(juego, quien, entrenamiento, id, donde) {
             
             if (adonde == "izquierda"){
                 if (juego.time.now > this.sprite.enfadaoTime && this.sprite.salta != true){
-			if(this.sprite.body.touching.down){
-                    		this.sprite.animations.play('semueve');
-			}
-			else{
-				this.sprite.animations.play('salta');
-			}
+        			if(this.sprite.body.touching.down){
+                            		this.sprite.animations.play('semueve');
+        			}
+        			else{
+        				this.sprite.animations.play('salta');
+        			}
                 }
                 if(this.sprite.position.x > this.sprite.limiteIzquierda){
                 	this.sprite.body.velocity.x = -150;
@@ -106,12 +106,12 @@ var Player = function(juego, quien, entrenamiento, id, donde) {
             else if (adonde == "derecha"){
                 
                 if (juego.time.now > this.sprite.enfadaoTime && this.sprite.salta != true){
-                    	if(this.sprite.body.touching.down){
-                    		this.sprite.animations.play('semueve');
-			}
-			else{
-				this.sprite.animations.play('salta');
-			}
+                    if(this.sprite.body.touching.down){
+                    	this.sprite.animations.play('semueve');
+        			}
+        			else{
+        				this.sprite.animations.play('salta');
+        			}
                 }
                 if(this.sprite.position.x < this.sprite.limiteDerecha){
                     this.sprite.body.velocity.x = 150;
