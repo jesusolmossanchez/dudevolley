@@ -459,8 +459,7 @@ DudeVolley.Demo.prototype = {
                 && x>(this.world.width/2) 
                 && (Player2CPU.sprite.position.y > this.world.height-100) 
                 && (Vx<120&&Vx>-120) 
-                && (this.pelota.position.y<this.world.height-300)
-                && ale > 0.95){
+                && (this.pelota.position.y<this.world.height-300)){
                 Player2CPU.sprite.body.velocity.y = -550;
                 Player2CPU.sprite.enfadao = true;
                 Player2CPU.sprite.animations.play('senfada');
