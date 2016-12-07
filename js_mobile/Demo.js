@@ -457,7 +457,7 @@ DudeVolley.Demo.prototype = {
             //si va a caer cerca, salto y me enfado
             if(this.dondecae-Player2CPU.sprite.position.x < 70 
                 && x>(this.world.width/2) 
-                && (PlayerCPU.sprite.position.y > this.world.height-100) 
+                && (Player2CPU.sprite.position.y > this.world.height-100) 
                 && (Vx<120&&Vx>-120) 
                 && (this.pelota.position.y<this.world.height-300)
                 && ale > 0.95){
@@ -512,7 +512,7 @@ DudeVolley.Demo.prototype = {
             //si va a caer cerca, salto y me enfado
             if(this.dondecae-Player2CPU.sprite.position.x < 70 
                 && x<(this.world.width/2) 
-                && (PlayerCPU.sprite.position.y > this.world.height-100) 
+                && (Player2CPU.sprite.position.y > this.world.height-100) 
                 && (Vx<120&&Vx>-120) 
                 && (this.pelota.position.y<this.world.height-300)
                 && ale > 0.95){
