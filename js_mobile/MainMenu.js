@@ -120,6 +120,25 @@ DudeVolley.MainMenu.prototype = {
         }
 
         
+
+        if(window.modo){
+            switch (window.modo){
+                case "entrenamiento":
+                    this.state.start('Entrenamiento');
+                    break;
+                case "multiplayer":
+                    this.state.start('GameMultiplayer');
+                    break;
+                case "2jugadores":
+                    this.state.start('GameTwoPlayer');
+                    break;
+                case "1jugador":
+                    this.state.start('Menu1Player');
+                    break;
+            }
+        }
+
+        
         //muevo el selector y salto al menu correspondiente
 
         if (this.time.now > this.notocas){

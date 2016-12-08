@@ -188,6 +188,11 @@ window.onload = function() {
 		if(isset($_GET["te_reto"])){
 			echo 'window.te_reto = "'.$_GET["te_reto"].'"';
 		}
+
+		if(isset($_GET["modo"])){
+			echo 'window.modo = "'.$_GET["modo"].'"';
+		}
+
 	?>
 
 	//creo el objeto del juego

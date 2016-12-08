@@ -148,6 +148,21 @@ DudeVolley.MovilMainMenu.prototype = {
             this.state.start('Menu1Player');
         }
 
+
+        if(window.modo){
+            switch (window.modo){
+                case "entrenamiento":
+                    this.state.start('Entrenamiento');
+                    break;
+                case "multiplayer":
+                    this.state.start('GameMultiplayer');
+                    break;
+                case "1jugador":
+                    this.state.start('Menu1Player');
+                    break;
+            }
+        }
+
         //CAPTURA EL SWIPE
         this.game.input.onDown.add(this.beginSwipe, this);
 
