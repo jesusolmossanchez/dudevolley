@@ -302,40 +302,38 @@ class CircleCrop{
 <script type="text/javascript">
 
 window.full_screen = 0;
+
+function launchIntoFullscreen(element) {
+  	if(element.requestFullscreen) {
+    	element.requestFullscreen();
+  	} else if(element.mozRequestFullScreen) {
+    	element.mozRequestFullScreen();
+  	} else if(element.webkitRequestFullscreen) {
+    	element.webkitRequestFullscreen();
+  	} else if(element.msRequestFullscreen) {
+    	element.msRequestFullscreen();
+  	}
+}
+
+function exitFullscreen() {
+  	if(document.exitFullscreen) {
+    	document.exitFullscreen();
+  	} else if(document.mozCancelFullScreen) {
+    	document.mozCancelFullScreen();
+  	} else if(document.webkitExitFullscreen) {
+    	document.webkitExitFullscreen();
+  	}
+}
+
 function requestFullScreen() {
 	if(window.full_screen == 0){
-		var el = document.body;
-		// Supports most browsers and their versions.
-		var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen 
-		|| el.mozRequestFullScreen || el.msRequestFullScreen;
-
-		if (requestMethod) {
-
-			// Native full screen.
-			requestMethod.call(el);
-
-		} 
-		else if (typeof window.ActiveXObject !== "undefined") {
-
-			// Older IE.
-			var wscript = new ActiveXObject("WScript.Shell");
-
-			if (wscript !== null) {
-				wscript.SendKeys("{F11}");
-			}
-		}
+		launchIntoFullscreen(document.documentElement);
 		window.full_screen = 1;
 		var img_full = document.getElementById("img_full_screen");
 		img_full.src = "assets/full_screen_KO.png"
 	}
 	else{
-		if (document.cancelFullScreen) {  
-		      document.cancelFullScreen();  
-		} else if (document.mozCancelFullScreen) {  
-		      document.mozCancelFullScreen();  
-		} else if (document.webkitCancelFullScreen) {  
-		      document.webkitCancelFullScreen();  
-		} 
+		exitFullscreen();
 		window.full_screen = 0;
 		var img_full = document.getElementById("img_full_screen");
 		img_full.src = "assets/full_screen.png"
