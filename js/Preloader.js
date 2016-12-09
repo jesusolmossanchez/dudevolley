@@ -62,6 +62,8 @@ DudeVolley.Preloader.prototype = {
             this.load.image('pika', 'assets/pika.png');
         }
 
+        this.load.audio('musica', ['assets/musica.mp3', 'assets/musica.ogg']);
+
     },
 
     create: function () {

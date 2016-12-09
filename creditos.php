@@ -6,7 +6,7 @@
         <li class="titulo_credito"> Directora de Arte </li>
         <li class="nombre_credito" style="text-decoration: line-through;"> Alba Olmos Sanchez </li>
         <li class="titulo_credito"> Musica </li>
-        <li class="nombre_credito" style="text-decoration: line-through;"> Juan Ros Pina </li>
+        <li class="nombre_credito"> Juan Ros Pina </li>
     </ul>
     <input id='volver_menu' class="clickable" onclick='eljuego.cierra_creditos();' type='submit' value='volver' />
 </div>

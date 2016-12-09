@@ -40,6 +40,9 @@ DudeVolley.MovilMainMenu.prototype = {
         this.movil_jugar.inputEnabled = true;
         this.movil_jugar.input.sprite.events.onInputDown.add(this.empieza, this);
 
+        this.music = this.add.audio('musica');
+        this.music.play(null, 0, 0.2, true);
+
     },
 
     get_creditos: function (){
