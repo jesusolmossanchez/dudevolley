@@ -66,10 +66,10 @@ DudeVolley.GameOver.prototype = {
         var puntuacion = this.game.puntosPlayer1+" - "+this.game.puntosPlayer2;
 
         
+        var resultado;
         
         if(this.game.unplayer){
             var tiempofinal = this.time.now - this.game.empieza;
-            var resultado;
             var level;
             if(this.game.hasperdio == true){
                 resultado = "perdido";
@@ -140,6 +140,14 @@ DudeVolley.GameOver.prototype = {
                         },5000);
                 });
 
+            }
+
+
+            if(this.game.hasperdio){
+                resultado = "perdido";
+            }
+            else{
+                resultado = "ganado";
             }
 
 

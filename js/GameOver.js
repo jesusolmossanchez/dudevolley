@@ -57,10 +57,10 @@ DudeVolley.GameOver.prototype = {
         var puntuacion = this.game.puntosPlayer1+" - "+this.game.puntosPlayer2;
 
         
+        var resultado;
         
         if(this.game.unplayer){
             var tiempofinal = this.time.now - this.game.empieza;
-            var resultado;
             var level;
             if(this.game.hasperdio == true){
                 resultado = "perdido";
@@ -138,6 +138,14 @@ DudeVolley.GameOver.prototype = {
             $("#mandapuntos").show();
             $("#contiene_mandapuntos").fadeIn();
             $("#contiene_mandapuntos").focus();
+
+
+            if(this.game.hasperdio){
+                resultado = "perdido";
+            }
+            else{
+                resultado = "ganado";
+            }
 
             this.resultado_text = this.add.text(this.world.width/2, 120, "Has "+resultado, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_text.anchor.setTo(0.5, 0.5);
