@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LOEWE</title>
+  <meta name="viewport" content="width=device-width">
+  <style type="text/css">
+    html, body{
+      margin: 0;
+    }
+    #canvas {     
+        width: 790px;
+        height: 528px;
+        position: relative;
+        margin: auto;
+    }
+    #texto{
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+    }
+    .fadein {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.8s linear;
+    }
+    .fadeout {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s 0.8s, opacity 0.8s linear;
+    }
+    canvas{
+      position: absolute;
+      top:0;
+      left:0;
+      z-index:2;
+    }
+    #boton{
+      position: absolute;
+      left: 35px;
+      bottom: 35px;
+      z-index: 4;
+      cursor: pointer;
+    }
+    #boton_cerrar{
+      position: absolute;
+      left: 9px;
+      top: 9px;
+      width: 18px;
+      height: 18px;
+      z-index: 4;
+      cursor: pointer;
+    }
+    #hash{
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      z-index: 4;
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas">
+      <!--
+      <img id="texto" src="text1.png">
+      <img id="boton" src="boton.png">
+      <img id="boton_cerrar" src="boton_cerrar.png">
+      <img id="hash" src="hash.png">
+      -->
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.core.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+
+      var sound = new Howl({
+        src: ['musica.mp3']
+      });
+
+      sound.play();
+
+        function createCanvas(parent, width, height, id) {
+            var canvas = {};
+            canvas.node = document.createElement('canvas');
+            canvas.node.id = id;
+            canvas.context = canvas.node.getContext('2d');
+            canvas.node.width = width;
+            canvas.node.height = height;
+            parent.appendChild(canvas.node);
+            return canvas;
+        }
+
+        function init(){
+          var img_nueva = '01.jpg';
+          var img_antigua = '02.jpg';
+          var radio_pincel = 110;
+          var width = 790;
+          var height = 528;
+
+          var container = document.getElementById('canvas');
+          
+          //Creo el canvas2
+          var canvas2 = createCanvas(container, width, height, "nuevo");
+          //y su contexto
+          var ctx2 = canvas2.context;
+          
+          //inicializo el primer canvas
+          var canvas = createCanvas(container, width, height, "antiguo");
+          var ctx = canvas.context;
+          
+          //cargo la imagen antigua arriba
+          var imagen_antigua = new Image();
+          imagen_antigua.src = img_antigua;
+          if (imagen_antigua.complete) {
+             var pattern = ctx.createPattern(imagen_antigua, "repeat");
+             ctx.fillStyle = pattern;
+             ctx.fillRect(0, 0, width, height);
+             container.style.background = "url('"+img_nueva+"')";
+          } else {
+             imagen_antigua.onload = function(){
+                 var pattern = ctx.createPattern(imagen_antigua, "repeat");
+                 ctx.fillStyle = pattern;
+                 ctx.fillRect(0, 0, width, height);
+                 container.style.background = "url('"+img_nueva+"')";
+             };
+          }
+          
+          //funcion del pincel1 (borrado)
+          ctx.fillCircle = function(x, y, radius) {
+              this.beginPath();
+              this.moveTo(x, y);
+              this.arc(x, y, radius, 0, Math.PI * 2, false);
+
+              var gradient = ctx.createRadialGradient(x,y,radius*1.2,x,y,0)
+              gradient.addColorStop(0,"rgba(250,250,250,0)");
+              gradient.addColorStop(1,"rgba(250,250,250,1)");
+              this.fillStyle = gradient;
+
+              this.fill();
+          };
+
+          //funcion del pincel 2
+          ctx2.fillStroke = function(x, y, radius) {
+              this.beginPath();
+              this.arc(x, y, radius, 0, Math.PI * 2, false);
+              var gradient2 = ctx2.createRadialGradient(x,y,radius*1.3,x,y,0);
+              gradient2.addColorStop(0,"rgba(250,250,250,0)");
+              gradient2.addColorStop(1,"rgba(250,250,250,1)");
+
+              this.strokeStyle=gradient2;
+              this.lineWidth = 60;
+              this.stroke();
+          };
+          
+          
+          //var texto = document.getElementById('texto');
+          
+          //eveneto cuando se mueva el raton
+          canvas.node.onmousemove = borra_canvas;
+          $("#antiguo,#texto").bind('touchmove', function(e) {
+            borra_canvas_touch(e.originalEvent);
+        });
+
+          /*
+          texto.onmousemove = borra_canvas;
+
+          var boton = document.getElementById('boton');
+          boton.onmousemove = borra_canvas;
+
+          var boton_cerrar = document.getElementById('boton_cerrar');
+          boton_cerrar.onmousemove = borra_canvas;
+
+          var hash = document.getElementById('hash');
+          hash.onmousemove = borra_canvas;
+
+          */
+          var tiempo = 0;
+        
+          canvas.node.onmouseout = function(e) {
+            //Quito el pincel cuando estoy fuera
+            ctx2.clearRect(0, 0, width, height);
+          };
+
+
+          var flag = false;
+          var first_time, ahora;
+          
+          function borra_canvas(e){
+            //setInterval(check_cambio,100);
+
+              //De esta forma solo lo controlo cuando se mueve el ratón por encima
+              /*
+              tiempo++;
+              if(tiempo > 100 && !flag){
+                texto.className = "fadeout";
+                var estilos = window.getComputedStyle(texto);
+                if(estilos.opacity < 0.1){
+                  flag = true;
+                  texto.src = "text2.png";
+                  texto.className = "fadein";
+                }
+              }
+              */
+
+              //posicion del pincel
+              var x = e.pageX - document.getElementById('canvas').offsetLeft;
+              var y = e.pageY - document.getElementById('canvas').offsetTop;
+
+              //PINCEL 2 -- sombra exterior
+              ctx2.clearRect(0, 0, width, height);
+              var r1 = radio_pincel-(radio_pincel/10);
+              ctx2.fillStroke(x, y, r1);
+
+              //PINCEL 1 -- borrado
+              ctx.globalCompositeOperation = 'destination-out';
+              var r2 = radio_pincel;
+              ctx.fillCircle(x, y, r2);
+          };
+
+          function borra_canvas_touch(e){
+            
+            //setInterval(check_cambio,100);
+              //De esta forma solo lo controlo cuando se mueve el ratón por encima
+              /*
+              tiempo++;
+              if(tiempo > 100 && !flag){
+                texto.className = "fadeout";
+                var estilos = window.getComputedStyle(texto);
+                if(estilos.opacity < 0.1){
+                  flag = true;
+                  texto.src = "text2.png";
+                  texto.className = "fadein";
+                }
+              }
+              */
+
+          var event_x = e.touches[0].pageX;
+          var event_y = e.touches[0].pageY;
+
+
+              //posicion del pincel
+              var x = event_x - document.getElementById('canvas').offsetLeft;
+              var y = event_y - document.getElementById('canvas').offsetTop;
+
+              //PINCEL 2 -- sombra exterior
+              ctx2.clearRect(0, 0, width, height);
+              var r1 = radio_pincel-(radio_pincel/10);
+              ctx2.fillStroke(x, y, r1);
+
+              //PINCEL 1 -- borrado
+              ctx.globalCompositeOperation = 'destination-out';
+              var r2 = radio_pincel;
+              ctx.fillCircle(x, y, r2);
+          };
+
+          function check_cambio(){
+            if(!first_time){
+              first_time = new Date().getTime();  
+            }
+            ahora = new Date().getTime();
+              
+              if(ahora >(first_time + 2000) && !flag){
+                texto.className = "fadeout";
+            var estilos = window.getComputedStyle(texto);
+            if(estilos.opacity < 0.1){
+              flag = true;
+              texto.src = "text2.png";
+              texto.className = "fadein";
+            }
+              }
+          }
+        
+        }
+
+        /*
+        var boton = document.getElementById('boton');
+
+        boton.onclick = function(){
+          var element = document.getElementsByTagName("canvas");
+        for (index = element.length - 1; index >= 0; index--) {
+            element[index].parentNode.removeChild(element[index]);
+        }
+        var texto = document.getElementById('texto');
+        texto.src = "text1.png";
+        texto.className = "fadein";
+          init();
+        }
+
+        var boton_cerrar = document.getElementById('boton_cerrar');
+
+        boton_cerrar.onclick = function(){
+          //
+        }
+        */
+        
+
+        
+        init();
+
+    })();
+  </script>
+</body>
+</html>
