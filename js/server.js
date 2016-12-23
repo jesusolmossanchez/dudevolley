@@ -3,7 +3,7 @@ var util = require("util");
 
 //Buscar paquetes en npm
 var p2pserver = require('socket.io-p2p-server').Server;
-io.use(p2pserver)
+//io.use(p2pserver)
 
 
 Player = require("./Player").Player;
@@ -157,7 +157,7 @@ function onPreparaPrivada(data) {
     players_ready_p[mi_room].push(data.nombre);
     this.join(mi_room);
     this.room = mi_room;
-    //p2pserver(this, null, mi_room);
+    p2pserver(this, null, mi_room);
     util.log(data.nombre+" conectado a la room privada: "+this.room)
     
 };
@@ -183,7 +183,7 @@ function onPreparaPublica() {
 
     //util.log("conectado a : "+client.room);
 
-    //p2pserver(client, null, room_disponible);   
+    p2pserver(client, null, room_disponible);   
 
     console.log(room_disponible);
 
@@ -218,7 +218,7 @@ function onPreparaPublica() {
 function onPlayerReadyPrivada(data) {
     var mi_room = data.privada;
     this.join(data.privada);
-    //p2pserver(this, null, mi_room);   
+    p2pserver(this, null, mi_room);   
     players_ready_p[mi_room].push(data.nombre);
     io.to(data.privada).emit("ya estamos todos", players_ready_p[mi_room]);
 };
