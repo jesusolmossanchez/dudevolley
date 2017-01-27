@@ -136,9 +136,6 @@ DudeVolley.MainMenu.prototype = {
                 case "1jugador":
                     this.state.start('Menu1Player');
                     break;
-                case "party":
-                    this.state.start('GamePartyMode');
-                    break;
             }
         }
 

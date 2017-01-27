@@ -274,16 +274,7 @@ canvas{
     height: 100%;
     color: #f5f823;
     display: none;
-}
-#party_overlay{
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    height: 100%;
-    color: #f5f823;
-    display: none;
-    text-align: center;
-    padding-top: 300px;
+    background-color: #000000;
 }
     
 .volley_button{    

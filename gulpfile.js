@@ -11,7 +11,7 @@ var gulp = require('gulp'),
 */
 
 gulp.task('minimize_js', function () {
-    gulp.src(['js/Boot.js','js/Preloader.js','js/MainMenu.js','js/Menu1Player.js','js/MovilMainMenu.js','js/PreOnePlayer.js','js/GameOnePlayer.js','js/Entrenamiento.js','js/GameTwoPlayer.js','js/Demo.js','js/GameMultiplayer.js','js/GameOver.js','js/Player.js','js/Joystick.js'])
+    gulp.src(['js/Boot.js','js/Preloader.js','js/MainMenu.js','js/Menu1Player.js','js/MovilMainMenu.js','js/PreOnePlayer.js','js/GameOnePlayer.js','js/Entrenamiento.js','js/GameTwoPlayer.js','js/Demo.js','js/GameMultiplayer.js','js/GamePartyMode.js','js/GameOver.js','js/Player.js','js/Joystick.js'])
     .pipe(concat('dudevolley.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('js/dist/'))

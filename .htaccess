@@ -2,3 +2,4 @@ Redirect /entrenamiento /?modo=entrenamiento
 Redirect /multiplayer /?modo=multiplayer
 Redirect /2jugadores /?modo=2jugadores
 Redirect /1jugadores /?modo=1jugador
+Redirect /partymode /?modo=party
