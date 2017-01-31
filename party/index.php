@@ -36,19 +36,14 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
 	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
-	<!-- <script src="http://188.166.12.42:8080/socket.io/socket.io.js"></script> -->
+	<!-- <script src="http://188.166.12.42:8081/socket.io/socket.io.js"></script> -->
 	<script src="js/lib/socketiop2p.min.js"></script>
-	<script src="js/lib/jquery.Jcrop.min.js"></script>
 
 	<?php
 	/*
 	if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
-		if(isMobile()){
-			echo '<script src="js/dist/dudevolley_mobile.min.js"></script>';
-		}
-		else{
-			echo '<script src="js/dist/dudevolley.min.js"></script>';
-		}
+		//TODO: crear el minificado para el controller
+		echo '<script src="js/dist/dudevolley_controller.min.js"></script>';
 		echo '<link rel="stylesheet" type="text/css" href="css/dist/dudevolley.min.css" />';
 	}
 		
@@ -61,7 +56,7 @@
 			echo '<script src="js_mobile/Joystick.js"></script>';
 		}
 		else{
-
+			//TODO: hacer algo si entra alguien aqui sin movil....
 		}
 		
 
@@ -72,17 +67,14 @@
 
 	?>
 
-
-	<!--
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 		ga('create', 'UA-66368910-2', 'auto');
-		ga('send', 'pageview', '/Party');
+		ga('send', 'pageview', '/PartyController');
 	</script>
-	-->
 	
 	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.woff" />
 	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.svg#ArcadeClassic" />
@@ -92,6 +84,17 @@
 </head>
 <body style="background-color:rgb(0,0,0); margin:0 !important;">
 <div class="fontPreload" style="font-family: ArcadeClassic;">.</div>
+
+
+<div id="socket_overlay"> 
+	<form id="socket_overlay_form">
+		<input type="numbre" name="input_codigo_partida" name="input_codigo_partida">
+		<input type="text" name="input_nombre_jugador" name="input_nombre_jugador" placeholder="Tu nombre">
+		<input type="submit" id="socket_empezar" name="socket_empezar" value="Empezar">
+	</form>
+
+</div>
+
 <div id="gameContainer" style="margin:auto;">
 </div>
 
@@ -105,83 +108,65 @@
 
 <script type="text/javascript">
 
-window.full_screen = 0;
-function launchIntoFullscreen(element) {
-  	if(element.requestFullscreen) {
-    	element.requestFullscreen();
-  	} else if(element.mozRequestFullScreen) {
-    	element.mozRequestFullScreen();
-  	} else if(element.webkitRequestFullscreen) {
-    	element.webkitRequestFullscreen();
-  	} else if(element.msRequestFullscreen) {
-    	element.msRequestFullscreen();
-  	}
-}
-
-function exitFullscreen() {
-  	if(document.exitFullscreen) {
-    	document.exitFullscreen();
-  	} else if(document.mozCancelFullScreen) {
-    	document.mozCancelFullScreen();
-  	} else if(document.webkitExitFullscreen) {
-    	document.webkitExitFullscreen();
-  	}
-}
-
-function requestFullScreen() {
-	if(window.full_screen == 0){
-		launchIntoFullscreen(document.documentElement);
-		window.full_screen = 1;
-		var img_full = document.getElementById("img_full_screen");
-		img_full.src = "assets/full_screen_KO.png"
+	window.full_screen = 0;
+	function launchIntoFullscreen(element) {
+	  	if(element.requestFullscreen) {
+	    	element.requestFullscreen();
+	  	} else if(element.mozRequestFullScreen) {
+	    	element.mozRequestFullScreen();
+	  	} else if(element.webkitRequestFullscreen) {
+	    	element.webkitRequestFullscreen();
+	  	} else if(element.msRequestFullscreen) {
+	    	element.msRequestFullscreen();
+	  	}
 	}
-	else{
-		exitFullscreen();
-		window.full_screen = 0;
-		var img_full = document.getElementById("img_full_screen");
-		img_full.src = "assets/full_screen.png"
+
+	function exitFullscreen() {
+	  	if(document.exitFullscreen) {
+	    	document.exitFullscreen();
+	  	} else if(document.mozCancelFullScreen) {
+	    	document.mozCancelFullScreen();
+	  	} else if(document.webkitExitFullscreen) {
+	    	document.webkitExitFullscreen();
+	  	}
 	}
-}
 
-window.onload = function() {
-	
-	window.token = '<?php echo $token;?>';
-
-	<?php
-		if(isset($_GET["te_reto"])){
-			echo 'window.te_reto = "'.$_GET["te_reto"].'"';
+	function requestFullScreen() {
+		if(window.full_screen == 0){
+			launchIntoFullscreen(document.documentElement);
+			window.full_screen = 1;
+			var img_full = document.getElementById("img_full_screen");
+			img_full.src = "assets/full_screen_KO.png"
 		}
-
-		if(isset($_GET["modo"])){
-			echo 'window.modo = "'.$_GET["modo"].'"';
+		else{
+			exitFullscreen();
+			window.full_screen = 0;
+			var img_full = document.getElementById("img_full_screen");
+			img_full.src = "assets/full_screen.png"
 		}
-
-	?>
-
-	//creo el objeto del juego
-	<?php
-	 if(isMobile()){
-	?>
-	 	var game = new Phaser.Game(1250, 685, Phaser.AUTO, 'gameContainer');
-	<?php
 	}
-	else{
-	?>
-		var game = new Phaser.Game(800, 685, Phaser.AUTO, 'gameContainer');
-	<?php
-		}
-	?>
 
-	//añado las 'pantallas'
-	game.state.add('Boot', DudeVolley.Boot);
-	game.state.add('Preloader', DudeVolley.Preloader);
-	game.state.add('GamePartyController', DudeVolley.GamePartyController);
-	
-	//empieza
-	game.state.start('Boot');
+	window.onload = function() {
+		
+		<?php
+			if(isset($_GET["modo"])){
+				echo 'window.modo = "'.$_GET["modo"].'"';
+			}
+		?>
+
+		//creo el objeto del juego
+		var game = new Phaser.Game(1250, 685, Phaser.AUTO, 'gameContainer');
+		
+		//añado las 'pantallas'
+		game.state.add('Boot', DudeVolley.Boot);
+		game.state.add('Preloader', DudeVolley.Preloader);
+		game.state.add('GamePartyController', DudeVolley.GamePartyController);
+		
+		//empieza
+		game.state.start('Boot');
 
 
-};
+	};
 
 </script>
 
