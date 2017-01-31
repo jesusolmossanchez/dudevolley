@@ -11,7 +11,6 @@ DudeVolley.GamePartyMode.prototype = {
 
         //alias para el objeto del juego
         eljuego = this;
-        primeraVez = true;
 
         /***********************************************************************
         ***********************************************************************
@@ -20,9 +19,8 @@ DudeVolley.GamePartyMode.prototype = {
         ***********************************************************************/
 
         if (typeof io == "undefined"){
-            //alert("sin definir");
-            //TODO: no seguir, hacer algo
-            location.reload();
+            //TODO: no definido el socket, hacer algo...
+            //location.reload();
         }
 
 
@@ -39,7 +37,7 @@ DudeVolley.GamePartyMode.prototype = {
 
             var id_socket = this.id;
 
-            //$("#soy_el_uno").show();
+            //Quito todas las teclas registradas en el juego
             eljuego.input.keyboard.removeKey(Phaser.Keyboard.D);
             eljuego.input.keyboard.removeKey(Phaser.Keyboard.R);
             eljuego.input.keyboard.removeKey(Phaser.Keyboard.F);
@@ -49,31 +47,45 @@ DudeVolley.GamePartyMode.prototype = {
 
             //Prepara una nueva partida party (con ID autogenerado)
             //Este ID es el que se debe mostrar en la pantalla
-            socket.emit("prepara_party", 1234);
-        };
+
+            var nuevo_id_partida = Math.floor(Math.random()*9000) + 1000;
+
+            socket.emit("prepara_party", nuevo_id_partida);
+        }
 
         function onSocketDisconnect() {
 
             //Maneja desconexión
             eljuego.state.start('GameOver');
 
-        };
+        }
 
         function onNewPlayer(data) {
-            console.log(data);
             //Me viene uno nuevo, lo creo
             if (typeof Player1 === 'undefined'){
                 Player1 = new Player(eljuego,'player1', null, data);
+                //TODO: Recibir/Enviar tambien nombre
                 Player1.nombre = "PLAYER 1";
-                //socket.emit("player_ready", {nombre: Player1.nombre, id: Player1.id});   
             }
             else{
                 Player2 = new Player(eljuego,'cpu', null, data);
-                Player2.nombre = "PLAYER 1";
-                //socket.emit("player_ready", {nombre: Player2.nombre, id: Player2.id});   
-            }
+                //TODO: Recibir/Enviar tambien nombre
+                Player2.nombre = "PLAYER 2";
 
-        };
+                /******** ********/
+                /******** ********/
+                /******** ********/
+                //TODO: Empieza con cuenta atrás
+
+
+                this.empieza(this.quienEmpieza, true);
+
+                /******** ********/
+                /******** ********/
+                /******** ********/
+
+            }
+        }
 
 
 
@@ -115,7 +127,7 @@ DudeVolley.GamePartyMode.prototype = {
                     }
                 }
 
-
+                //Movimientos
                 if (data.R == "1"){
                     Player1.mueve("derecha");
                 }
@@ -167,7 +179,7 @@ DudeVolley.GamePartyMode.prototype = {
                     }
                 }
 
-
+                //Movimientos
                 if (data.R == "1"){
                     Player2.mueve("derecha");
                 }
@@ -183,7 +195,7 @@ DudeVolley.GamePartyMode.prototype = {
                 if (data.D == "1"){
                 }
             }
-        };
+        }
 
         function onAccionPulsado(data) {
             if (data === Player1.id){
@@ -201,7 +213,6 @@ DudeVolley.GamePartyMode.prototype = {
             else{
                 Player2.accion_pulsado = false;
             }
-
         }
 
         //manejador de eventos
@@ -215,7 +226,7 @@ DudeVolley.GamePartyMode.prototype = {
             socket.on("accion_pulsado", onAccionPulsado);
             socket.on("accion_suelto", onAccionSuelto);
             socket.on("recibeteclas", onTeclas);
-        };
+        }
 
 
         /***********************************************************************
@@ -227,11 +238,8 @@ DudeVolley.GamePartyMode.prototype = {
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
          //Inicializo la fisica del juego
         this.physics.startSystem(Phaser.Physics.ARCADE);
-
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -280,8 +288,19 @@ DudeVolley.GamePartyMode.prototype = {
         this.scoreText2.text = this.game.puntosPlayer2;
 
 
+
+        this.contador_empieza = this.add.text(this.world.width/2, this.world.height/2, '', { font: '64px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.contador_empieza.anchor.x = 0.5;
+        this.contador_empieza.anchor.y = 0.5;
+
+
         this.esperaCollide1 = this.time.now;
         this.esperaCollide2 = this.time.now;
+
+
+
+        this.empieza = false;
+        this.tiempo_empieza = this.time.now;
 
         /***********************************************************************
         ***********************************************************************
@@ -362,9 +381,6 @@ DudeVolley.GamePartyMode.prototype = {
         ***********************************************************************
         ***********************************************************************/
 
-
-        this.sincronizapelotatime = this.time.now + 100;
-
         this.enunratico = this.time.now;
         this.quienEmpieza = "uno";
         this.punto = false;
@@ -381,9 +397,6 @@ DudeVolley.GamePartyMode.prototype = {
         this.game.unplayer = false;
         this.game.multiplayer = true;
         this.game.empieza = this.time.now;
-
-        //control para nivel de dificultad
-        //this.game.level = 2;
 
         /***********************************************************************
         ***********************************************************************
@@ -402,11 +415,13 @@ DudeVolley.GamePartyMode.prototype = {
         ***********************************************************************/
 
         this.enpausa = false;
-       /* window.onkeydown = function() {
-            if (this.PAUSE.game.input.keyboard.event.keyCode == 27){
-                this.PAUSE.game.paused = !this.PAUSE.game.paused;
+        /* 
+        window.onkeydown = function() {
+            if (this.game.input.keyboard.event.keyCode == 27){
+                this.game.paused = !this.game.paused;
             }
-        }*/
+        }
+        */
 
         /***********************************************************************
         ***********************************************************************
@@ -424,6 +439,14 @@ DudeVolley.GamePartyMode.prototype = {
 
     update: function () {
 
+        if(this.empieza && (this.tiempo_empieza < this.time.now)){
+            this.contador_empieza.text = Math.floor((this.tiempo_empieza - this.time.now)/1000);
+            return;
+        }
+        else{
+            this.contador_empieza.text = "";
+        }
+
         
         /***********************************************************************
         ***********************************************************************
@@ -436,7 +459,7 @@ DudeVolley.GamePartyMode.prototype = {
             }
             this.sombra2.position.set(Player2.sprite.body.position.x, this.world.height - 144);
             if (typeof this.pelota !== 'undefined' && this.time.now > this.esperaCollide2){
-                this.physics.arcade.collide(this.pelota, Player2.sprite, this.pika_OTRO, null, this);
+                this.physics.arcade.collide(this.pelota, Player2.sprite, this.pika2, null, this);
             }
             this.physics.arcade.collide(Player2.sprite, platforms);
         }
@@ -562,10 +585,8 @@ DudeVolley.GamePartyMode.prototype = {
     },
 
     quitGame: function (pointer) {
-
         //  Then let's go back to the main menu.
         this.state.start('MainMenu');
-
     },
 
 
@@ -593,7 +614,7 @@ DudeVolley.GamePartyMode.prototype = {
             this.quienEmpieza = "uno";
             
             if (this.game.puntosPlayer1 >= 15){
-                //socket.emit("game_over", {ganador: Player1.nombre, ganador_id: Player1.id, perdedor: Player2.nombre, perdedor_id: Player2.id, room: window.te_reto});
+                //TODO: Ir al gameOver (REY DE LA PISTA? OTRA?)
             }
         }
         else{
@@ -603,7 +624,7 @@ DudeVolley.GamePartyMode.prototype = {
             this.quienEmpieza = "dos";
             
             if (this.game.puntosPlayer2 >= 15){
-                //socket.emit("game_over", {ganador: Player2.nombre, ganador_id: Player2.id, perdedor: Player1.nombre, perdedor_id: Player1.id, room: window.te_reto});
+                //TODO: Ir al gameOver (REY DE LA PISTA? OTRA?)
             }
         }
         
@@ -694,7 +715,7 @@ DudeVolley.GamePartyMode.prototype = {
     ***********************************************************************
     ***********************************************************************/
 
-    pika_OTRO: function () {
+    pika2: function () {
 
         if (typeof this.pelota !== 'undefined'){
             if (this.punto){
@@ -751,14 +772,12 @@ DudeVolley.GamePartyMode.prototype = {
                     this.pelota.body.gravity.y = 1400*this.game.factor_slow_gravity;
                 }
             }
-            //socket.emit("posicion pelota", {x: this.pelota.x, y: this.pelota.y, vx: this.pelota.body.velocity.x, vy:this.pelota.body.velocity.y});
-            
         }
     },
 
     /***********************************************************************
     ***********************************************************************
-                    END -- COLISION OTROJUGADOR-PELOTA
+                    END -- COLISION JUGADOR2-PELOTA
     ***********************************************************************
     ***********************************************************************/
 
@@ -767,18 +786,21 @@ DudeVolley.GamePartyMode.prototype = {
 
 
 
-    empieza: function (quien) {
+    empieza: function (quien, primera_vez) {
 
 
-        if (primeraVez){
+        if (primera_vez){
 
-            //Creo la pelota
-            this.pelota = this.add.sprite(32, 0, 'pelota');
-            this.pelota.anchor.setTo(0.5, 0.5);
+            //TODO: Revisar contador
+            this.empieza = true;
+            this.tiempo_empieza = this.time.now + 5000;
 
-            //Para el usuario que entró primero(master), se crean las físicas de la pelota
-            //Para el otro usuario no se crean, de esa forma, solo se moverá la pelota cuando se lo diga el evento 
-            if (Player1.soyplayer1){
+
+            window.setTimeout(function() {
+                //Creo la pelota
+                this.pelota = this.add.sprite(32, 0, 'pelota');
+                this.pelota.anchor.setTo(0.5, 0.5);
+
                 this.physics.arcade.enable(this.pelota);
                 this.pelota.body.gravity.y = 0;
                 this.pelota.body.bounce.y = 0.9;
@@ -787,48 +809,35 @@ DudeVolley.GamePartyMode.prototype = {
                 this.pelota.body.collideWorldBounds = true;
                 
                 this.pelota.body.mass= 0.15;
-            }
-            primeraVez = false;
+
+            }, 4900);
+
+            
 
         }
 
         else{
-            if (Player1.soyplayer1){
-                this.dondecae = this.world.width-1;
-                this.pelota.body.gravity.y = 900;
-                if (quien == "uno"){
-                    this.pelota.body.position.x = 32;
-                }
-                else{
-                    this.pelota.body.position.x = this.world.width - 32;
-                }
-
-                this.pelota.body.position.y = 0;
-                this.pelota.body.velocity.x = 0;
-
-                Player1.sprite.body.position.x = 32;
-                Player1.sprite.body.position.y = this.world.height - 250;
-                Player1.sprite.body.velocity.x = 0;
-                Player1.sprite.body.velocity.y = 0;
-
-                Player2.sprite.body.position.x = this.world.width - 32;
-                Player2.sprite.body.position.y = this.world.height - 250;
-                Player2.sprite.body.velocity.x = 0;
-                Player2.sprite.body.velocity.y = 0;
+            this.dondecae = this.world.width-1;
+            this.pelota.body.gravity.y = 900;
+            if (quien == "uno"){
+                this.pelota.body.position.x = 32;
             }
             else{
-                Player2.sprite.body.position.x = 32;
-                Player2.sprite.body.position.y = this.world.height - 250;
-                Player2.sprite.body.velocity.x = 0;
-                Player2.sprite.body.velocity.y = 0;
-
-                Player1.sprite.body.position.x = this.world.width - 32;
-                Player1.sprite.body.position.y = this.world.height - 250;
-                Player1.sprite.body.velocity.x = 0;
-                Player1.sprite.body.velocity.y = 0;
+                this.pelota.body.position.x = this.world.width - 32;
             }
-            
 
+            this.pelota.body.position.y = 0;
+            this.pelota.body.velocity.x = 0;
+
+            Player1.sprite.body.position.x = 32;
+            Player1.sprite.body.position.y = this.world.height - 250;
+            Player1.sprite.body.velocity.x = 0;
+            Player1.sprite.body.velocity.y = 0;
+
+            Player2.sprite.body.position.x = this.world.width - 32;
+            Player2.sprite.body.position.y = this.world.height - 250;
+            Player2.sprite.body.velocity.x = 0;
+            Player2.sprite.body.velocity.y = 0;
         } 
     }
 };
