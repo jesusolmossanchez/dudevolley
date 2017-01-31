@@ -7,7 +7,7 @@ DudeVolley.GamePartyController.prototype = {
 
     init: function () {
 
-        //ga('send', 'pageview', '/GamePartyController');
+        ga('send', 'pageview', '/GamePartyController');
 
         //alias para el objeto del juego
         eljuego = this;
@@ -19,9 +19,7 @@ DudeVolley.GamePartyController.prototype = {
         ***********************************************************************/
 
         if (typeof io == "undefined"){
-            //alert("sin definir");
-            //TODO: no seguir, hacer algo
-            //location.reload();
+            //TODO: Hacer algo... no funciona el socket
         }
 
         //conecto con socket
@@ -37,20 +35,24 @@ DudeVolley.GamePartyController.prototype = {
 
             var id_socket = this.id;
             window.id_socket = id_socket;
-            //$("#socket_empezar").click(function(){
-                window.room = 1234;
+
+            //Cambiar por submit?
+            $("#socket_empezar").click(function(){
+                window.room = $("#input_codigo_partida").val();
                 socket.emit("new_controller", {id: window.id_socket, id_room: window.room});
-            //});
-            
-
-            
-
-        };
+            });
+        }
 
 
+        // En desconexión ¿Hacer algo?
         function onSocketDisconnect() {
 
-        };
+        }
+
+        //TODO: Partida completa, mostrar algo o hacer algo (¿Rey de la pista?)
+        function onPartidaCompleta() {
+
+        }
 
 
 
@@ -61,8 +63,11 @@ DudeVolley.GamePartyController.prototype = {
             socket.on("connect", onSocketConnected);
             // Socket disconnection
             socket.on("disconnect", onSocketDisconnect);
+
+            // TODO: Partida llena
+            socket.on("partida_completa", onPartidaCompleta);
             
-        };
+        }
 
 
         /***********************************************************************
@@ -71,10 +76,9 @@ DudeVolley.GamePartyController.prototype = {
         ***********************************************************************
         ***********************************************************************/
 
-    
+        //TODO: Colocar el joystick en su sitio y tamaño
         this.joy = new Joystick(this.game, 120, this.world.height - 100);
 
-        //TODO: Pillar el correcto (boton de accion)
         this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'pika');
         this.movil_accion.anchor.setTo(0.5, 0.5);
         this.movil_accion.inputEnabled = true;
@@ -180,7 +184,6 @@ DudeVolley.GamePartyController.prototype = {
 
     paraDragg: function (pointer) {
 
-        //Player1.mueve("parao");
         this.mueveizquierda = false;
         this.muevederecha = false;
         this.muevearriba = false;
@@ -192,7 +195,7 @@ DudeVolley.GamePartyController.prototype = {
         var angulo = radianes*180/Math.PI;
 
         if (distance < 30){
-            //Player1.mueve("parao");
+            //Si no lo he movio, todo a false y return
             this.mueveizquierda = false;
             this.muevederecha = false;
             this.muevearriba = false;
@@ -201,25 +204,25 @@ DudeVolley.GamePartyController.prototype = {
         }
 
         if (angulo > -90 && angulo < 90){
-            //Player1.mueve("derecha");
+            //Derecha
             this.mueveizquierda = false;
             this.muevederecha = true;
         }
         if (angulo > 90 || angulo < -90){
-            
-            //Player1.mueve("izquierda");
+            //Izquierda
             this.mueveizquierda = true;
             this.muevederecha = false;
         }
         
+        //Arriba
         if (angulo > -135 && angulo < -45){
-            //Player1.mueve("arriba");
             this.muevearriba = true;
         }
         else{
             this.muevearriba = false;
         }
         
+        //Abajo
         if (angulo < 135 && angulo > 45){
             this.mueveabajo = true;
         }
