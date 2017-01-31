@@ -63,23 +63,23 @@ DudeVolley.GamePartyMode.prototype = {
         function onNewPlayer(data) {
             //Me viene uno nuevo, lo creo
             if (typeof Player1 === 'undefined'){
-                Player1 = new Player(eljuego,'player1', null, data);
+                Player1 = new Player(eljuego,'player1', null, data.id);
                 //TODO: Recibir/Enviar tambien nombre
-                Player1.nombre = "PLAYER 1";
+                Player1.nombre = data.nombre;
+                this.nombre1.text = Player1.nombre;
+
             }
             else{
-                Player2 = new Player(eljuego,'cpu', null, data);
+                Player2 = new Player(eljuego,'cpu', null, data.id);
                 //TODO: Recibir/Enviar tambien nombre
-                Player2.nombre = "PLAYER 2";
+                Player2.nombre = data.nombre;
+                this.nombre2.text = Player2.nombre;
 
                 /******** ********/
                 /******** ********/
                 /******** ********/
-                //TODO: Empieza con cuenta atrás
-
-
+                //TODO: Empieza con cuenta atrás (probar)
                 this.empieza(this.quienEmpieza, true);
-
                 /******** ********/
                 /******** ********/
                 /******** ********/
