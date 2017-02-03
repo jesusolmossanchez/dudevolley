@@ -80,13 +80,14 @@ DudeVolley.GamePartyController.prototype = {
         ***********************************************************************/
 
         //TODO: Colocar el joystick en su sitio y tamaño
-        this.joy = new Joystick(this.game, 120, this.world.height - 100);
+        this.joy = new Joystick(this.game, 300, this.world.height - 300);
 
-        this.movil_accion = this.add.sprite(this.world.width - 100, this.world.height - 100, 'pika');
+        this.movil_accion = this.add.sprite(this.world.width - 300, this.world.height - 300, 'pika');
         this.movil_accion.anchor.setTo(0.5, 0.5);
         this.movil_accion.inputEnabled = true;
         this.movil_accion.input.sprite.events.onInputDown.add(this.entra_movil_accion, this);
         this.movil_accion.input.sprite.events.onInputUp.add(this.sal_movil_accion, this);
+        this.movil_accion.scale.setTo(2.5, 2.5);
         
 
         /***********************************************************************
@@ -117,10 +118,12 @@ DudeVolley.GamePartyController.prototype = {
 
     entra_movil_accion: function (){
         this.click_accion = true;
+        this.movil_accion.alpha = 0.2;
     },
 
     sal_movil_accion: function (){
         this.click_accion = false;
+        this.movil_accion.alpha = 1;
     },
 
     update: function () {

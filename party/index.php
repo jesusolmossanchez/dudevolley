@@ -93,9 +93,9 @@
 
 
 <div id="socket_overlay"> 
-	<form id="socket_overlay_form">
-		<input type="numbre" name="input_codigo_partida" id="input_codigo_partida">
-		<input type="text" name="input_nombre_jugador" id="input_nombre_jugador" placeholder="Tu nombre">
+	<form id="socket_overlay_form" style="text-align: center; padding-top: 50px;">
+		<input type="numbre" name="input_codigo_partida" id="input_codigo_partida" placeholder="Codigo" style="border: 2vw solid #f5f823; color: #f5f823; background: none; padding: 20px;font-size: 3vw; display: block; margin:auto;">
+		<input type="text" name="input_nombre_jugador" id="input_nombre_jugador" placeholder="Tu nombre" style="border: 2vw solid #f5f823; color: #f5f823; background: none; padding: 20px;font-size: 3vw; display: block; margin: 10px auto;">
 		<input type="submit" id="socket_empezar" name="socket_empezar" value="Empezar">
 	</form>
 
