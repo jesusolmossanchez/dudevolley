@@ -82,10 +82,10 @@
 		ga('send', 'pageview', '/PartyController');
 	</script>
 	
-	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.woff" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.svg#ArcadeClassic" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.eot" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/ArcadeClassic.eot?#iefix" />
+	<link rel="stylesheet" type="text/css" href="../css/fonts/ArcadeClassic.woff" />
+	<link rel="stylesheet" type="text/css" href="../css/fonts/ArcadeClassic.svg#ArcadeClassic" />
+	<link rel="stylesheet" type="text/css" href="../css/fonts/ArcadeClassic.eot" />
+	<link rel="stylesheet" type="text/css" href="../css/fonts/ArcadeClassic.eot?#iefix" />
 
 </head>
 <body style="background-color:rgb(0,0,0); margin:0 !important;">
