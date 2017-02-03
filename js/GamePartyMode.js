@@ -50,6 +50,8 @@ DudeVolley.GamePartyMode.prototype = {
 
             var nuevo_id_partida = Math.floor(Math.random()*9000) + 1000;
 
+            $("#id_partida_party").text(nuevo_id_partida);
+
             socket.emit("prepara_party", nuevo_id_partida);
         }
 
@@ -66,23 +68,25 @@ DudeVolley.GamePartyMode.prototype = {
                 Player1 = new Player(eljuego,'player1', null, data.id);
                 //TODO: Recibir/Enviar tambien nombre
                 Player1.nombre = data.nombre;
-                this.nombre1.text = Player1.nombre;
+                eljuego.nombre1.text = data.nombre;
 
             }
             else{
                 Player2 = new Player(eljuego,'cpu', null, data.id);
                 //TODO: Recibir/Enviar tambien nombre
                 Player2.nombre = data.nombre;
-                this.nombre2.text = Player2.nombre;
+                eljuego.nombre2.text = Player2.nombre;
 
                 /******** ********/
                 /******** ********/
                 /******** ********/
                 //TODO: Empieza con cuenta atrás (probar)
-                this.empieza(this.quienEmpieza, true);
+                eljuego.empieza(eljuego.quienEmpieza, true);
                 /******** ********/
                 /******** ********/
                 /******** ********/
+
+                $("#party_overlay").hide();
 
             }
         }
@@ -299,7 +303,7 @@ DudeVolley.GamePartyMode.prototype = {
 
 
 
-        this.empieza = false;
+        this.empezar = false;
         this.tiempo_empieza = this.time.now;
 
         /***********************************************************************
@@ -439,9 +443,10 @@ DudeVolley.GamePartyMode.prototype = {
 
     update: function () {
 
-        if(this.empieza && (this.tiempo_empieza < this.time.now)){
+        if(this.empezar && (this.time.now < this.tiempo_empieza)){
             this.contador_empieza.text = Math.floor((this.tiempo_empieza - this.time.now)/1000);
-            return;
+            this.pelota.body.velocity.x = 0;
+            this.pelota.body.velocity.y = 0;
         }
         else{
             this.contador_empieza.text = "";
@@ -792,25 +797,25 @@ DudeVolley.GamePartyMode.prototype = {
         if (primera_vez){
 
             //TODO: Revisar contador
-            this.empieza = true;
+            this.empezar = true;
             this.tiempo_empieza = this.time.now + 5000;
 
 
-            window.setTimeout(function() {
-                //Creo la pelota
-                this.pelota = this.add.sprite(32, 0, 'pelota');
-                this.pelota.anchor.setTo(0.5, 0.5);
+           
+            //Creo la pelota
+            eljuego.pelota = eljuego.add.sprite(32, 0, 'pelota');
+            eljuego.pelota.anchor.setTo(0.5, 0.5);
 
-                this.physics.arcade.enable(this.pelota);
-                this.pelota.body.gravity.y = 0;
-                this.pelota.body.bounce.y = 0.9;
-                this.pelota.body.bounce.x = 0.900;
-                this.pelota.body.gravity.y = 900*this.game.factor_slow_gravity;
-                this.pelota.body.collideWorldBounds = true;
-                
-                this.pelota.body.mass= 0.15;
+            eljuego.physics.arcade.enable(eljuego.pelota);
+            eljuego.pelota.body.gravity.y = 0;
+            eljuego.pelota.body.bounce.y = 0.9;
+            eljuego.pelota.body.bounce.x = 0.900;
+            eljuego.pelota.body.gravity.y = 900*eljuego.game.factor_slow_gravity;
+            eljuego.pelota.body.collideWorldBounds = true;
+            
+            eljuego.pelota.body.mass= 0.15;
 
-            }, 4900);
+            
 
             
 

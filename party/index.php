@@ -88,8 +88,8 @@
 
 <div id="socket_overlay"> 
 	<form id="socket_overlay_form">
-		<input type="numbre" name="input_codigo_partida" name="input_codigo_partida">
-		<input type="text" name="input_nombre_jugador" name="input_nombre_jugador" placeholder="Tu nombre">
+		<input type="numbre" name="input_codigo_partida" id="input_codigo_partida">
+		<input type="text" name="input_nombre_jugador" id="input_nombre_jugador" placeholder="Tu nombre">
 		<input type="submit" id="socket_empezar" name="socket_empezar" value="Empezar">
 	</form>
 

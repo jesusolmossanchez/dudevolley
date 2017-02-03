@@ -37,10 +37,12 @@ DudeVolley.GamePartyController.prototype = {
             window.id_socket = id_socket;
 
             //Cambiar por submit?
-            $("#socket_empezar").click(function(){
+            $("#socket_overlay_form").submit(function(e){
+                e.preventDefault();
                 window.room = $("#input_codigo_partida").val();
                 window.nombre = $("#input_nombre_jugador").val();
                 socket.emit("new_controller", {id: window.id_socket, id_room: window.room, nombre: window.nombre});
+                $("#socket_overlay").hide();
             });
         }
 

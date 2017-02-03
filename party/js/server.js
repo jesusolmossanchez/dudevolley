@@ -40,6 +40,8 @@ function onNewController(data) {
     jugador.id = this.id;
     jugador.nombre = data.nombre;
 
+    players[mi_room] = [];
+
     players[mi_room].push(jugador);
 
 
