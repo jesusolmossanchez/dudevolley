@@ -35,8 +35,14 @@
 
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
-	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
-	<!-- <script src="http://188.166.12.42:8081/socket.io/socket.io.js"></script> -->
+	<?php
+		if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
+	 		echo '<script src="http://188.166.12.42:8081/socket.io/socket.io.js"></script>';
+	 	}
+	 	else{
+			echo '<script src="http://localhost:8081/socket.io/socket.io.js"></script>';
+	 	}
+	?>
 	<script src="js/lib/socketiop2p.min.js"></script>
 
 	<?php
