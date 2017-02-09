@@ -26,7 +26,8 @@ DudeVolley.GameMultiplayer.prototype = {
         }
 
         //conecto con socket
-        socket = io.connect("http://188.166.12.42:8080", {port: 8080, transports: ["websocket"]});
+        //socket = io.connect("http://188.166.12.42:8080", {port: 8080, transports: ["websocket"]});
+	socket = io.connect("https://dudevolley.com:8080", {port: 8080, transports: ["websocket"],secure: true});
 
         p2p = new P2P(socket);
 

@@ -37,7 +37,8 @@
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
 	<?php
 		if($_SERVER['SERVER_NAME'] == "dudevolley.com" || $_SERVER['SERVER_NAME'] == "www.dudevolley.com"){
-	 		echo '<script src="http://188.166.12.42:8081/socket.io/socket.io.js"></script>';
+	 		//echo '<script src="http://188.166.12.42:8081/socket.io/socket.io.js"></script>';
+			echo '<script src="../js/lib/socket.io-1.4.5.js"></script>';
 	 	}
 	 	else{
 			echo '<script src="http://localhost:8081/socket.io/socket.io.js"></script>';

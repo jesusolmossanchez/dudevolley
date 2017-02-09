@@ -25,8 +25,9 @@ DudeVolley.GamePartyMode.prototype = {
 
 
         //conecto con socket
-        socket = io.connect("http://188.166.12.42:8081", {port: 8081, transports: ["websocket"]});
-        //socket = io.connect("http://localhost:8081", {port: 8081, transports: ["websocket"]});
+	//socket = io.connect("http://188.166.12.42:8081", {port: 8081, transports: ["websocket"]});
+        socket = io.connect("https://dudevolley.com:8081", {port: 8081, transports: ["websocket"],secure: true});
+	//socket = io.connect("http://localhost:8081", {port: 8081, transports: ["websocket"]});
 
         //llamo a la función que maneja los mensajes recibidos
         setEventHandlers();

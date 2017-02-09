@@ -1,5 +1,18 @@
-var io = require('socket.io')(8080);
+//var io = require('socket.io')(8080);
 var util = require("util");
+
+var https = require('https'),
+    fs =    require('fs');
+
+var options = {
+    key:    fs.readFileSync('/var/www/html/dude_volley_refactor/dudevolley/dudevolley_key.key'),
+    cert:   fs.readFileSync('/var/www/html/dude_volley_refactor/dudevolley/dudevolley_cert.crt'),
+    ca:     fs.readFileSync('/var/www/html/dude_volley_refactor/dudevolley/dudevolley_bundle.crt')
+};
+var app = https.createServer(options);
+io = require('socket.io').listen(app);     //socket.io server listens to https connections
+app.listen(8080, "0.0.0.0");
+
 
 //Buscar paquetes en npm
 var p2pserver = require('socket.io-p2p-server').Server;

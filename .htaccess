@@ -3,3 +3,7 @@ Redirect /multiplayer /?modo=multiplayer
 Redirect /2jugadores /?modo=2jugadores
 Redirect /1jugadores /?modo=1jugador
 Redirect /partymode /?modo=party
+
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
