@@ -38,7 +38,7 @@ $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta name="description" content="<?php echo $descripcion?>">
     <meta name="keywords" content="dude volley, indiegame, gamedev">
-    <meta property="og:url" content="http://www.dudevolley.com" />
+    <meta property="og:url" content="https://www.dudevolley.com" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@dude_volley">
     <meta name="twitter:creator" content="@dude_volley">

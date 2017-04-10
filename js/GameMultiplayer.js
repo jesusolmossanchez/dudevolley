@@ -525,8 +525,10 @@ DudeVolley.GameMultiplayer.prototype = {
         //VELOCIDAD NORMAL
         //this.game.factor_slow_velocity = 0.8;
         //this.game.factor_slow_gravity = 0.64;
-        this.game.factor_slow_velocity = 1;
-        this.game.factor_slow_gravity = 1;
+        this.game.factor_slow_velocity = 1;        
+	this.game.factor_slow_gravity = 1;
+	this.game.ultimo_tocar = "";
+	this.game.contador_toques = 0;
 
         //cosas de movil
         if (!this.game.device.desktop){
@@ -770,7 +772,9 @@ DudeVolley.GameMultiplayer.prototype = {
         ***********************************************************************/                      
 
         if (this.punto){
-            if(this.time.now > this.enunratico){
+	    this.game.contador_toques = 0;
+            this.game.factor_slow_velocity = 1;
+	    if(this.time.now > this.enunratico){
                 this.punto = false;
                 this.need_sync = true;
                 this.explota.kill();
@@ -1027,6 +1031,17 @@ DudeVolley.GameMultiplayer.prototype = {
             v_y_pelota = this.pelota.body.velocity.y;
             this.pelota.body.velocity.x = diferencia*3;
 
+	    if(this.game.ultimo_tocar != "player1"){
+		this.game.contador_toques++;
+		this.game.ultimo_tocar = "player1";
+	    }
+		console.log(this.game.contador_toques);
+	    if(this.game.contador_toques >= 10){
+		this.pelota.tint = 0xffff00;
+		this.game.factor_slow_velocity = 1.3;
+	    }
+
+
             if (this.time.now < Player1.sprite.enfadaoTime && Player1.sprite.enfadao){
                 //this.acho_audio2.play("",0,0.3);
 
@@ -1113,6 +1128,17 @@ DudeVolley.GameMultiplayer.prototype = {
             v_y_pelota = this.pelota.body.velocity.y;
             this.pelota.body.velocity.x = diferencia*3;
 
+	    
+            if(this.game.ultimo_tocar != "player2"){
+                this.game.contador_toques++;
+                this.game.ultimo_tocar = "player2";
+            }
+            if(this.game.contador_toques >= 10){
+                this.pelota.tint = 0xffff00;
+		this.game.factor_slow_velocity = 1.2;
+            }
+
+
             if (this.time.now < OTROPLAYER.sprite.enfadaoTime && OTROPLAYER.sprite.enfadao){
                 //this.acho_audio2.play("",0,0.3);
                 
@@ -1170,7 +1196,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
     empieza: function (quien) {
 
-
+	//this.game.contador_toques = 0;
         if (primeraVez){
 
             //Creo la pelota
