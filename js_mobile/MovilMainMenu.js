@@ -6,9 +6,10 @@ DudeVolley.MovilMainMenu = function (game) {
     this.ready = false;
     this.UN_JUGADOR = 0;
     this.JUGAR_ONLINE = 1;
-    this.ENTRENAMIENTO = 2;
-    this.MEJORES_PUNTUACIONES = 3;
-    this.CREDITOS = 4;
+    this.JUGAR_TWITTER = 2;
+    this.ENTRENAMIENTO = 3;
+    this.MEJORES_PUNTUACIONES = 4;
+    this.CREDITOS = 5;
 
 };
 
@@ -213,6 +214,9 @@ DudeVolley.MovilMainMenu.prototype = {
                 break;
             case this.JUGAR_ONLINE:
                 this.state.start('GameMultiplayer');
+                break;
+            case this.JUGAR_TWITTER:
+                window.location.replace("twitter");
                 break;
             case this.ENTRENAMIENTO:
                 this.state.start('Entrenamiento');

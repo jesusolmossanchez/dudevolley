@@ -7,9 +7,10 @@ DudeVolley.MainMenu = function (game) {
     this.UN_JUGADOR = 0;
     this.DOS_JUGADORES = 1;
     this.JUGAR_ONLINE = 2;
-    this.ENTRENAMIENTO = 3;
-    this.MEJORES_PUNTUACIONES = 4;
-    this.CREDITOS = 5;
+    this.JUGAR_TWITTER = 3;
+    this.ENTRENAMIENTO = 4;
+    this.MEJORES_PUNTUACIONES = 5;
+    this.CREDITOS = 6;
 
 };
 
@@ -168,7 +169,7 @@ DudeVolley.MainMenu.prototype = {
             this.muevearriba = false;
             this.cambia_menu = this.time.now + 200;
             if (this.menu_principal.frame==0){
-                this.menu_principal.frame = 5;
+                this.menu_principal.frame = 6;
             }
             else{
                 this.menu_principal.frame--;
@@ -193,6 +194,9 @@ DudeVolley.MainMenu.prototype = {
                 break;
             case this.JUGAR_ONLINE:
                 this.state.start('GameMultiplayer');
+                break;
+            case this.JUGAR_TWITTER:
+                window.location.replace("twitter");
                 break;
             case this.ENTRENAMIENTO:
                 this.state.start('Entrenamiento');

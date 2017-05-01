@@ -1,9 +1,10 @@
-Redirect /entrenamiento /?modo=entrenamiento
-Redirect /multiplayer /?modo=multiplayer
-Redirect /2jugadores /?modo=2jugadores
-Redirect /1jugadores /?modo=1jugador
-Redirect /partymode /?modo=party
+RewriteRule entrenamiento ?modo=entrenamiento
+RewriteRule multiplayer ?modo=multiplayer
+RewriteRule 2jugadores ?modo=2jugadores
+RewriteRule 1jugadores ?modo=1jugador
+RewriteRule partymode ?modo=party
 
 RewriteEngine On
+RewriteCond %{HTTP_HOST} ^dudevolley\.com [NC]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]

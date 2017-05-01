@@ -53,11 +53,11 @@ DudeVolley.Preloader.prototype = {
       
 
         if (this.game.device.desktop){
-            this.load.spritesheet('menu_principal', 'assets/menu_sprite.png', 400, 400); // MENU PRINCIPAL
+            this.load.spritesheet('menu_principal', 'assets/menu_sprite_new.png', 400, 400); // MENU PRINCIPAL
             
         }
         else{
-            this.load.spritesheet('menu_principal', 'assets/menu_sprite_movil.png', 400, 400); // MENU PRINCIPAL
+            this.load.spritesheet('menu_principal', 'assets/menu_sprite_movil_new.png', 400, 400); // MENU PRINCIPAL
             this.load.image('joy_back', 'assets/joy_back2.png');
             this.load.image('joy_front', 'assets/joy_front.png');
             this.load.image('pika', 'assets/pika.png');
