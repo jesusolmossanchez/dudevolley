@@ -42,6 +42,26 @@
     <link rel="shortcut icon" href="assets/favicon.ico">
 
 
+    <script type="text/javascript">
+    <?php
+    	if(isset($_GET["nuevo_modo"])){
+    		if($_GET["nuevo_modo"] == "chico_chica"){
+				echo 'window.tipo_jugador_1 = 1;';
+				echo 'window.tipo_jugador_2 = 2;';
+    		}
+    		if($_GET["nuevo_modo"] == "chica_chica"){
+				echo 'window.tipo_jugador_1 = 2;';
+				echo 'window.tipo_jugador_2 = 2;';
+    		}
+    		if($_GET["nuevo_modo"] == "chica_chico"){
+				echo 'window.tipo_jugador_1 = 2;';
+				echo 'window.tipo_jugador_2 = 1;';
+    		}
+		}
+	?>
+	console.log(window.tipo_jugador_2);
+    </script>
+
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="js/lib/phaser_dudevolley.min.js"></script>
 	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->

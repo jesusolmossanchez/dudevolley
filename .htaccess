@@ -1,8 +1,11 @@
 RewriteRule entrenamiento ?modo=entrenamiento
 RewriteRule multiplayer ?modo=multiplayer
 RewriteRule 2jugadores ?modo=2jugadores
-RewriteRule 1jugadores ?modo=1jugador
+RewriteRule 1jugador ?modo=1jugador
 RewriteRule partymode ?modo=party
+RewriteRule chico_chica ?modo=1jugador&nuevo_modo=chico_chica
+RewriteRule chica_chica ?modo=1jugador&nuevo_modo=chica_chica
+RewriteRule chica_chico ?modo=1jugador&nuevo_modo=chica_chico
 
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^dudevolley\.com [NC]

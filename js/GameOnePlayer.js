@@ -74,9 +74,22 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
 
+        if(window.tipo_jugador_1 == 1){
+            Player1 = new Player(this.game, "player1", false, false, 1);
+        }
+        else if(window.tipo_jugador_1 == 2){
+            Player1 = new Player(this.game, "player1_chick", false, false, 2);
 
-        Player1 = new Player(this.game, "player1", false);
-        PlayerCPU = new Player(this.game, "cpu", false);
+        }
+   
+
+        if(window.tipo_jugador_2 == 1){
+            PlayerCPU = new Player(this.game, "cpu", false, false, 1);
+        }
+        else if(window.tipo_jugador_2 == 2){
+            PlayerCPU = new Player(this.game, "cpu_chick", false, false, 2);
+        }   
+        
 
         //TODO: LEVEL
         this.game.level = 2;
@@ -194,11 +207,11 @@ DudeVolley.GameOnePlayer.prototype = {
         this.sombra_pelota.position.set(this.pelota.body.position.x, this.world.height - 144);
         
         if (this.time.now > this.esperaCollide1){
-            this.physics.arcade.collide(this.pelota, Player1.sprite, this.rebote, null, this);
+            this.physics.arcade.collide(this.pelota, Player1.sprite, function(){Player1.rebote(this)}, null, this);
         }
         
         if (this.time.now > this.esperaCollide2){
-            this.physics.arcade.collide(this.pelota, PlayerCPU.sprite, this.rebote_CPU, null, this);
+            this.physics.arcade.collide(this.pelota, PlayerCPU.sprite, function(){PlayerCPU.rebote_CPU(this)}, null, this);
         }
 
         this.physics.arcade.collide(this.pelota, platforms);
@@ -302,7 +315,8 @@ DudeVolley.GameOnePlayer.prototype = {
             }
 
 
-            this.procesa_movimientos_maquina();
+
+            PlayerCPU.procesa_movimientos_maquina(this);
 
             //LA PELOTA TOCA EL SUELO
             if(this.pelota.body.position.y > 500){
@@ -321,6 +335,10 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
     procesapunto: function () {
+
+        this.esperaCollide1 = this.time.now;
+        Player1.sprite.enfadaoTime = this.time.now;
+        PlayerCPU.sprite.enfadaoTime = this.time.now;
 
         this.explota = this.add.sprite(this.pelota.body.position.x, this.pelota.body.position.y+5, 'explota');
 
@@ -645,7 +663,12 @@ DudeVolley.GameOnePlayer.prototype = {
                 }
             }
             //si va a caer cerca, salto y me enfado
-            if(this.dondecae-PlayerCPU.sprite.position.x < 70 && x>440 && (PlayerCPU.sprite.position.y > this.world.height-200) && (Vx<120&&Vx>-120) && (this.pelota.position.y<this.world.height-300)){
+            if(this.dondecae-PlayerCPU.sprite.position.x < 70 
+                && x>440 && 
+                (PlayerCPU.sprite.position.y > this.world.height-200) && 
+                (Vx<120&&Vx>-120) && 
+                (this.pelota.position.y<this.world.height-300)){
+                
                 PlayerCPU.sprite.body.velocity.y = -550;
                 PlayerCPU.sprite.enfadao = true;
                 PlayerCPU.sprite.animations.play('senfada');
