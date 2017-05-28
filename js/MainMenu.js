@@ -48,6 +48,44 @@ DudeVolley.MainMenu.prototype = {
         this.music = this.add.audio('musica');
         //this.music.play(null, 0, 0.2, true);
 
+       var _juego = this;
+
+       $(window).on('DOMMouseScroll mousewheel', function (e) {
+            var scroll;
+            if(e.originalEvent.detail === 0){
+                scroll = e.originalEvent.wheelDelta * (-1);
+            }
+            else{
+                scroll = e.originalEvent.detail * 9;
+            }
+
+
+            if(Math.abs(scroll) < 20){
+                return;
+            }
+
+            if (scroll > 0) {
+                _juego.mueveabajo = false;
+                _juego.cambia_menu = _juego.time.now + 200;
+                if (_juego.menu_principal.frame<5){
+                    _juego.menu_principal.frame++;
+                }
+                else{
+                    _juego.menu_principal.frame = 0;
+                }
+            }
+            else {
+                _juego.muevearriba = false;
+                _juego.cambia_menu = _juego.time.now + 200;
+                if (_juego.menu_principal.frame==0){
+                    _juego.menu_principal.frame = 6;
+                }
+                else{
+                    _juego.menu_principal.frame--;
+                }
+            }
+       });
+
     },
 
     get_creditos: function (){
