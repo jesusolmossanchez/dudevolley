@@ -318,6 +318,8 @@ DudeVolley.GameOnePlayer.prototype = {
 
             PlayerCPU.procesa_movimientos_maquina(this);
 
+            //this.procesa_movimientos_maquina();
+
             //LA PELOTA TOCA EL SUELO
             if(this.pelota.body.position.y > 500){
                 this.procesapunto();

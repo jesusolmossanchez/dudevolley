@@ -286,29 +286,19 @@ var Player = function(juego, quien, entrenamiento, id, tipo) {
             //si pongo aqui el gorrino, no se equivoca
         }
         else{
-            
+
             juego.cincoMovimientos = (++juego.cincoMovimientos % 60);
             
             if (juego.cincoMovimientos > 58){
                 ale = Math.random();
-
-                var probabilidad_alante = 0.5;
-                var probabilidad_atras = 0.5;
-                var probabilidad_saltar = 0.9;
-                if(this.tipo = 2){
-                    probabilidad_saltar = 0.8;
-                    probabilidad_alante = 0.3;
-                    probabilidad_atras = 0.7;
-
-                }
                 
-                if (ale > probabilidad_saltar && this.sprite.position.y > juego.world.height-200){
-                    this.sprite.body.velocity.y = cuanto_salta;
+                if (ale > 0.9 && this.sprite.position.y > juego.world.height-200){
+                    this.sprite.body.velocity.y = -cuanto_salta;
                 }
-                if (ale>probabilidad_alante && this.sprite.body.position.x > (juego.world.width/2 + 40)){
+                if (ale>0.5 && this.sprite.body.position.x > 440){
                     this.sprite.body.velocity.x = -100;
                 }
-                else if(ale < probabilidad_atras){
+                else if(ale <0.5){
                     this.sprite.body.velocity.x = 100;
                 }
                 juego.dondeVaCpu = this.sprite.body.velocity.x;
@@ -444,7 +434,6 @@ var Player = function(juego, quien, entrenamiento, id, tipo) {
 
 
         juego.pelota.body.gravity.y = this.gravedad_rebote_normal;
-
         juego.pelota.body.velocity.y = this.velocidad_rebote_normal;
 
         var posXPelota = juego.pelota.body.position.x;
