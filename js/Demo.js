@@ -52,7 +52,7 @@ DudeVolley.Demo.prototype = {
         this.avion.body.gravity.y = 0;
         this.avion.body.collideWorldBounds = false;
         this.avion.inputEnabled = true;
-        this.avion.input.sprite.events.onInputDown.add(function(){window.open('http://www.google.com', '_blank');}, this);
+        this.avion.input.sprite.events.onInputDown.add(function(){window.open(window.ad_url, '_blank');}, this);
 
         /***********************************************************************
         ***********************************************************************
