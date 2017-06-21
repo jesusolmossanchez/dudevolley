@@ -45,6 +45,8 @@ DudeVolley.Preloader.prototype = {
         this.load.spritesheet('cpu','cpu_player/cpu_player.png',80,110);
         this.load.spritesheet('cpu_chick','cpu_player/cpu_player_chick.png',80,110);
 
+        //avion publicitario
+        this.load.spritesheet('avion','assets/avion.png',502,101);
 
         this.load.image('volver', 'assets/volver.png');
         this.load.image('tip1', 'assets/muevete.png');
