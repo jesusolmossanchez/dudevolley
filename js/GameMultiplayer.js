@@ -478,6 +478,31 @@ DudeVolley.GameMultiplayer.prototype = {
         //Red
         var red = platforms.create(390, this.world.height-320, 'red');
         red.body.immovable = true;
+
+        
+        
+        
+        /***********************************************************************
+        ***********************************************************************
+                        START -- PUBLICIDAD
+        ***********************************************************************
+        ***********************************************************************/
+
+        this.avion = this.add.sprite(-(this.world.width + 10), 100, 'avion');
+        this.avion.anchor.setTo(0.5, 0.5);
+        this.physics.arcade.enable(this.avion);
+        this.avion.body.gravity.y = 0;
+        this.avion.body.collideWorldBounds = false;
+        this.avion.inputEnabled = true;
+        this.avion.input.sprite.events.onInputDown.add(function(){window.open(window.ad_url, '_blank');}, this);
+
+        /***********************************************************************
+        ***********************************************************************
+                        END -- PUBLICIDAD
+        ***********************************************************************
+        ***********************************************************************/
+
+        
         //Sombras
         this.sombra1 = this.add.sprite(32, this.world.height-200, 'sombra');
         this.sombraPelota = this.add.sprite(32, this.world.height-200, 'sombra');
@@ -886,6 +911,31 @@ DudeVolley.GameMultiplayer.prototype = {
         ***********************************************************************/  
 
         
+
+        this.publicidad();
+       
+
+    },
+
+
+
+
+    publicidad: function () {
+        if(this.avion.body.position.x < (-this.world.width)){
+            var random = Math.random();
+            var v_random = random * 200 + 80;
+            var scale = 0.5 + random;
+            this.avion.scale.setTo(-scale,scale);
+            this.avion.body.velocity.x = v_random;
+        }
+        if(this.avion.body.position.x > (2*this.world.width)){
+            this.avion.scale.x = 1;
+            var random = Math.random();
+            var v_random = random * 200 + 80;
+            var scale = 1 - random;
+            this.avion.scale.setTo(scale,scale);
+            this.avion.body.velocity.x = -v_random;
+        }
     },
 
     quitGame: function (pointer) {

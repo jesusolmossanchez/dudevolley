@@ -13,7 +13,7 @@ var Player = function(juego, quien, entrenamiento, id, tipo) {
         this.tipo = tipo;
     }
 
-    console.log(this.tipo)
+    //console.log(this.tipo)
 
 	if (quien === "cpu" || quien === "cpu_chick"){
         this.sprite =juego.add.sprite(juego.world.width - 52, juego.world.height - 250, quien);

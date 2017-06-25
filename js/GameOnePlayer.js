@@ -47,6 +47,31 @@ DudeVolley.GameOnePlayer.prototype = {
         var red = platforms.create(390, this.world.height-320, 'red');
         red.body.immovable = true;
 
+
+        
+        
+        /***********************************************************************
+        ***********************************************************************
+                        START -- PUBLICIDAD
+        ***********************************************************************
+        ***********************************************************************/
+
+        this.avion = this.add.sprite(-(this.world.width + 10), 100, 'avion');
+        this.avion.anchor.setTo(0.5, 0.5);
+        this.physics.arcade.enable(this.avion);
+        this.avion.body.gravity.y = 0;
+        this.avion.body.collideWorldBounds = false;
+        this.avion.inputEnabled = true;
+        this.avion.input.sprite.events.onInputDown.add(function(){window.open(window.ad_url, '_blank');}, this);
+
+        /***********************************************************************
+        ***********************************************************************
+                        END -- PUBLICIDAD
+        ***********************************************************************
+        ***********************************************************************/
+
+
+
         this.pelota = this.add.sprite(32, 0, 'pelota');
         this.pelota.anchor.setTo(0.5, 0.5);
         this.physics.arcade.enable(this.pelota);
@@ -100,6 +125,8 @@ DudeVolley.GameOnePlayer.prototype = {
         this.game.empieza = this.time.now;
 
 
+        this.cartel_punto = this.add.text(this.world.width/2, this.world.height/2 - 200, '', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
+        this.cartel_punto.anchor.setTo(0.5);
 
         this.scoreText1 = this.add.text(16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
         this.scoreText2 = this.add.text(this.world.width - 16, 16, '0', { font: '44px ArcadeClassic', fill: "#eaff02", align: "center" });
@@ -225,6 +252,7 @@ DudeVolley.GameOnePlayer.prototype = {
                 this.punto = false;
                 this.explota.kill();
                 this.empieza(this.quienEmpieza);
+                this.quita_cartel_punto();
             }
             Player1.sprite.body.velocity.x = 0;
         }
@@ -289,29 +317,23 @@ DudeVolley.GameOnePlayer.prototype = {
 
 
             //MOVIMIENTOS
-            if (this.game.device.desktop){
-                if (IZQUIERDA.isDown){
-                    Player1.mueve("izquierda");
-                    
-                }
-                else if(DERECHA.isDown){
-                    Player1.mueve("derecha");
-                }
-                else{
-                    Player1.mueve("parao");
-                }
-
-                if(ARRIBA.isDown){
-                    Player1.mueve("arriba");
-                }
-                if(ABAJO.isDown){
-                    
-                }
+            
+            if (IZQUIERDA.isDown){
+                Player1.mueve("izquierda");
+                
+            }
+            else if(DERECHA.isDown){
+                Player1.mueve("derecha");
             }
             else{
-                this.joy.update();
-                this.joy.holder.events.onMove.add(this.procesaDragg, this);
-                this.joy.holder.events.onUp.add(this.paraDragg, this);
+                Player1.mueve("parao");
+            }
+
+            if(ARRIBA.isDown){
+                Player1.mueve("arriba");
+            }
+            if(ABAJO.isDown){
+                
             }
 
 
@@ -329,9 +351,30 @@ DudeVolley.GameOnePlayer.prototype = {
 
         
 
-        
+        this.publicidad();
        
 
+    },
+
+
+
+
+    publicidad: function () {
+        if(this.avion.body.position.x < (-this.world.width)){
+            var random = Math.random();
+            var v_random = random * 200 + 80;
+            var scale = 0.5 + random;
+            this.avion.scale.setTo(-scale,scale);
+            this.avion.body.velocity.x = v_random;
+        }
+        if(this.avion.body.position.x > (2*this.world.width)){
+            this.avion.scale.x = 1;
+            var random = Math.random();
+            var v_random = random * 200 + 80;
+            var scale = 1 - random;
+            this.avion.scale.setTo(scale,scale);
+            this.avion.body.velocity.x = -v_random;
+        }
     },
 
 
@@ -362,9 +405,25 @@ DudeVolley.GameOnePlayer.prototype = {
             this.quienEmpieza = "uno";
             this.punto = true;
             if (this.game.puntosPlayer1 >= 10){
-                this.game.ganador = Player1.sprite;
-                this.game.perdedor = PlayerCPU.sprite;
-                this.state.start('GameOver');
+                if(PlayerCPU.tipo === 1){
+                    PlayerCPU.sprite.destroy();
+                    PlayerCPU = new Player(this.game, "cpu_chick", false, false, 2);
+                    this.game.puntosTotales1 = this.game.puntosPlayer1;
+                    this.game.puntosTotalesCPU = this.game.puntosPlayer2;
+                    this.game.puntosPlayer1 = 0;
+                    this.game.puntosPlayer2 = 0;
+                    this.scoreText1.text = this.game.puntosPlayer1;
+                    this.scoreText2.text = this.game.puntosPlayer2;
+                    this.enunratico = this.time.now + 7500;
+                    this.pinta_cartel_punto();
+                }
+                else{
+                    this.game.puntosPlayer1 = this.game.puntosTotales1 + this.game.puntosPlayer1;
+                    this.game.puntosPlayer2 = this.game.puntosTotalesCPU + this.game.puntosPlayer2;
+                    this.game.ganador = Player1.sprite;
+                    this.game.perdedor = PlayerCPU.sprite;
+                    this.state.start('GameOver');
+                }
             }
         }
         else{
@@ -416,56 +475,12 @@ DudeVolley.GameOnePlayer.prototype = {
 
     },
 
-    paraDragg: function (pointer) {
-
-        Player1.mueve("parao");
-        this.mueveizquierda = false;
-        this.muevederecha = false;
-        this.muevearriba = false;
-        this.mueveabajo = false;
-
+    pinta_cartel_punto: function () {
+        this.cartel_punto.text = "Level 2!.. en BETA";
     },
 
-    procesaDragg: function (a, distance, radianes) {
-
-        var angulo = radianes*180/Math.PI;
-
-        if (distance < 30){
-            Player1.mueve("parao");
-            this.mueveizquierda = false;
-            this.muevederecha = false;
-            this.muevearriba = false;
-            this.mueveabajo = false;
-            return;
-        }
-
-        if (angulo > -90 && angulo < 90){
-            Player1.mueve("derecha");
-            this.mueveizquierda = false;
-            this.muevederecha = true;
-        }
-        if (angulo > 90 || angulo < -90){
-            
-            Player1.mueve("izquierda");
-            this.mueveizquierda = true;
-            this.muevederecha = false;
-        }
-        
-        if (angulo > -135 && angulo < -45){
-            Player1.mueve("arriba");
-            this.muevearriba = true;
-        }
-        else{
-            this.muevearriba = false;
-        }
-        
-        if (angulo < 135 && angulo > 45){
-            this.mueveabajo = true;
-        }
-        else{
-            this.mueveabajo = false;
-        }
-
+    quita_cartel_punto: function () {
+        this.cartel_punto.text = "";
 
     },
 
