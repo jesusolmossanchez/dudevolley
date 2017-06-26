@@ -63,6 +63,9 @@ DudeVolley.GameOnePlayer.prototype = {
         this.avion.body.collideWorldBounds = false;
         this.avion.inputEnabled = true;
         this.avion.input.sprite.events.onInputDown.add(function(){window.open(window.ad_url, '_blank');}, this);
+        
+        this.avion.animations.add('vuela', [0,1,2], 12, true);
+        this.avion.animations.play('vuela');
 
         /***********************************************************************
         ***********************************************************************
