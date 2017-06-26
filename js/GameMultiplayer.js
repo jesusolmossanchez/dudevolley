@@ -929,7 +929,7 @@ DudeVolley.GameMultiplayer.prototype = {
             var random = Math.random();
             var v_random = random * 200 + 80;
             var scale = 0.5 + random;
-            this.avion.scale.setTo(-scale,scale);
+            this.avion.scale.setTo(scale,scale);
             this.avion.body.velocity.x = v_random;
             this.avion.animations.play('vuela_der');
         }
