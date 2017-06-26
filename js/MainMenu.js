@@ -46,7 +46,7 @@ DudeVolley.MainMenu.prototype = {
         this.game.best_player_got = false;
 
         this.music = this.add.audio('musica');
-        //this.music.play(null, 0, 0.2, true);
+        this.music.play(null, 0, 0.2, true);
 
        var _juego = this;
 

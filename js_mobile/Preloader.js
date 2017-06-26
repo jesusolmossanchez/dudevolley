@@ -43,6 +43,9 @@ DudeVolley.Preloader.prototype = {
         this.load.spritesheet('player1','assets/default_player.png',80,110);
         this.load.spritesheet('cpu','cpu_player/cpu_player.png',80,110);
 
+        //avion publicitario
+        this.load.spritesheet('avion','assets/avion.png',502,101);
+
 
         this.load.image('volver', 'assets/volver.png');
         this.load.image('tip1', 'assets/muevete.png');
@@ -60,6 +63,7 @@ DudeVolley.Preloader.prototype = {
             this.load.spritesheet('menu_principal', 'assets/menu_sprite_movil_new.png', 400, 400); // MENU PRINCIPAL
             this.load.image('joy_back', 'assets/joy_back2.png');
             this.load.image('joy_front', 'assets/joy_front.png');
+            this.load.image('vacio', 'assets/vacio.png');
             this.load.image('pika', 'assets/pika.png');
         }
 

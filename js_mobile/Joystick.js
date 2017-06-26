@@ -22,7 +22,7 @@ var Joystick = function(juego, x, y) {
 	this.holder.addChild(this.pin);
 
 	/* Invisible sprite that players actually drag */
-	var dragger = this.dragger = juego.add.sprite(0, 0, "null");
+	var dragger = this.dragger = juego.add.sprite(0, 0, "vacio");
 		dragger.anchor.setTo(0.5, 0.5);
 		dragger.width = dragger.height = 181;
 		dragger.inputEnabled = true;
