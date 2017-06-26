@@ -340,6 +340,29 @@ function requestFullScreen() {
 	}
 }
 
+
+<?php
+    if(isset($_GET["nuevo_modo"])){
+        if($_GET["nuevo_modo"] == "chico_chica"){
+            echo 'window.tipo_jugador_1 = 1;';
+            echo 'window.tipo_jugador_2 = 2;';
+        }
+        if($_GET["nuevo_modo"] == "chica_chica"){
+            echo 'window.tipo_jugador_1 = 2;';
+            echo 'window.tipo_jugador_2 = 2;';
+        }
+        if($_GET["nuevo_modo"] == "chica_chico"){
+            echo 'window.tipo_jugador_1 = 2;';
+            echo 'window.tipo_jugador_2 = 1;';
+        }
+}
+else{
+    echo 'window.tipo_jugador_1 = 1;';
+            echo 'window.tipo_jugador_2 = 1;';
+}
+?>
+window.ad_url = "http://google.com";
+
 window.onload = function() {
     
     window.token = '<?php echo $token;?>';

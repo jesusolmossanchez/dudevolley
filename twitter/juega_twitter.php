@@ -244,7 +244,7 @@ class CircleCrop{
 
 
     ?>
-
+    
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -274,6 +274,29 @@ class CircleCrop{
 </div>
 
 
+<script type="text/javascript">
+<?php
+    if(isset($_GET["nuevo_modo"])){
+        if($_GET["nuevo_modo"] == "chico_chica"){
+            echo 'window.tipo_jugador_1 = 1;';
+            echo 'window.tipo_jugador_2 = 2;';
+        }
+        if($_GET["nuevo_modo"] == "chica_chica"){
+            echo 'window.tipo_jugador_1 = 2;';
+            echo 'window.tipo_jugador_2 = 2;';
+        }
+        if($_GET["nuevo_modo"] == "chica_chico"){
+            echo 'window.tipo_jugador_1 = 2;';
+            echo 'window.tipo_jugador_2 = 1;';
+        }
+}
+else{
+    echo 'window.tipo_jugador_1 = 1;';
+            echo 'window.tipo_jugador_2 = 1;';
+}
+?>
+window.ad_url = "http://google.com";
+</script>
 <script type="text/javascript">
 
 window.onload = function() {
