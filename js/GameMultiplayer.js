@@ -481,7 +481,7 @@ DudeVolley.GameMultiplayer.prototype = {
 
         
         
-        
+            
         /***********************************************************************
         ***********************************************************************
                         START -- PUBLICIDAD
@@ -495,6 +495,10 @@ DudeVolley.GameMultiplayer.prototype = {
         this.avion.body.collideWorldBounds = false;
         this.avion.inputEnabled = true;
         this.avion.input.sprite.events.onInputDown.add(function(){window.open(window.ad_url, '_blank');}, this);
+        
+        this.avion.animations.add('vuela_izq', [0,1,2], 12, true);
+        this.avion.animations.add('vuela_der', [3,4,5], 12, true);
+        this.avion.animations.play('vuela_der');
 
         /***********************************************************************
         ***********************************************************************
@@ -927,6 +931,7 @@ DudeVolley.GameMultiplayer.prototype = {
             var scale = 0.5 + random;
             this.avion.scale.setTo(-scale,scale);
             this.avion.body.velocity.x = v_random;
+            this.avion.animations.play('vuela_der');
         }
         if(this.avion.body.position.x > (2*this.world.width)){
             this.avion.scale.x = 1;
@@ -935,6 +940,7 @@ DudeVolley.GameMultiplayer.prototype = {
             var scale = 1 - random;
             this.avion.scale.setTo(scale,scale);
             this.avion.body.velocity.x = -v_random;
+            this.avion.animations.play('vuela_izq');
         }
     },
 
