@@ -204,6 +204,7 @@ canvas{
     right: 0;
 }
 #contiene_clasificacion{
+    top: -250px;
     color: #f5f823;
     font-size: 40px;
     font-size: 3vw;
@@ -450,6 +451,9 @@ canvas{
     }
     #contiene_mandapuntos {
         top: 40vh;
+    }
+    #contiene_clasificacion{
+        top: -30vh;
     }
     #creditos li.nombre_credito {
         font-size: 2.5vw;
