@@ -386,11 +386,11 @@ canvas{
 #volver_menu {
     color: #f5f823;
     font-size: 40px;
-    font-size: 4vw;
-    background: none;
-    border: 1vw solid #f5f823;
-    padding: 1vw;
-    margin-top: 1vw;
+    font-size: 4vh;
+    background: 0 0;
+    border: 1vh solid #f5f823;
+    padding: 1vh;
+    margin-top: 1vh;
 }
 
 #explica_sube > span{
@@ -419,7 +419,7 @@ canvas{
 #creditos li.titulo_credito{
     color: #f5f823;
     font-size: 40px;
-    font-size: 4vw;
+    font-size: 4vh;
     list-style: none;
 }
 #creditos li.nombre_credito{
