@@ -442,6 +442,8 @@ DudeVolley.GameOnePlayer.prototype = {
                 this.game.hasperdio = true;
                 this.game.perdedor = Player1.sprite;
                 this.game.ganador = PlayerCPU.sprite;
+                this.game.puntosPlayer1 = this.game.puntosTotales1 + this.game.puntosPlayer1;
+                this.game.puntosPlayer2 = this.game.puntosTotalesCPU + this.game.puntosPlayer2;
                 this.state.start('GameOver');
             }
         }
