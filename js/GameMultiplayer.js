@@ -344,18 +344,12 @@ DudeVolley.GameMultiplayer.prototype = {
         }
 
         function onGoGameOver(data){
-            if (data.ganador_id == Player1.id){
-                eljuego.game.hasperdio = true;
-                eljuego.game.perdedor = OTROPLAYER.sprite;
-                eljuego.game.ganador = Player1.sprite;
-                eljuego.game.nombre_ganador = Player1.nombre;
-            }
-            else{
-                eljuego.game.hasperdio = false;
-                eljuego.game.perdedor = Player1.sprite;
-                eljuego.game.ganador = OTROPLAYER.sprite;
-                eljuego.game.nombre_ganador = OTROPLAYER.nombre;
-            }
+                   
+            eljuego.game.hasperdio = true; //este da igual
+            eljuego.game.perdedor = OTROPLAYER.sprite;
+            eljuego.game.ganador = Player1.sprite;
+            eljuego.game.nombre_ganador = data.ganador;
+		
             //p2p.emit("disconnect");
             eljuego.state.start('GameOver');
         }
