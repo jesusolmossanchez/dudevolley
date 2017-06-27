@@ -75,8 +75,15 @@ function onClientDisconnect() {
     util.log(players_ready);
     */
     //this.leave(this.room);
-    //players_ready.splice(players_ready.indexOf(this.id), 1);
+    util.log("antes");
+    util.log(players_ready);
+    util.log(rooms_players);
+    players_ready.splice(players_ready.indexOf(this.id), 1);
+    rooms_players.splice(players_ready.indexOf(this.id), 1);
     io.to(this.room).emit("disconnect");
+    util.log("despues");
+    util.log(players_ready);
+    util.log(rooms_players)
 };
 
 //propaga el movimiento
