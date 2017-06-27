@@ -168,8 +168,7 @@ canvas{
     display: none;
     text-align: center;
     position: absolute;
-    top: 50px;
-    top: 4vw;
+    top: 270px;
     /* margin-top: -400px; */
     margin-left: auto;
     margin-right: auto;
@@ -450,7 +449,7 @@ canvas{
         top: 20vh;
     }
     #contiene_mandapuntos {
-        top: 20vh;
+        top: 40vh;
     }
     #creditos li.nombre_credito {
         font-size: 2.5vw;
