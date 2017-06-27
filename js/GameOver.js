@@ -17,11 +17,11 @@ DudeVolley.GameOver.prototype = {
         //relacion = 1-relacion;
         if (relacion < 1){
             //relacion=relacion+1.5;
-            letra1 = $(window).height()/9;
-            letra2 = $(window).height()/14;
-            letra3 = $(window).height()/20;
+            letra1 = $(window).height()/14;
+            letra2 = $(window).height()/18;
+            letra3 = $(window).height()/24;
 
-            borde = $(window).height()/40;
+            borde = $(window).height()/60;
             ancho = $(window).height()/2;
 
             $("#puntos").css("font-size",letra1+"px");
