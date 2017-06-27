@@ -208,13 +208,13 @@ DudeVolley.GameOver.prototype = {
 
         else{
             var nombreGanador;
-            
+            console.log(this.game.nombre_ganador)
             var elotrosehapirao = "";
             if (this.game.multiplayer){
                 nombreGanador = this.game.nombre_ganador;
                 socket.emit("disconect",window.te_reto);
                 if (this.game.desconectado){
-                    var elotrosehapirao = "</br>...el otro se ha pirao";
+                    elotrosehapirao = "\n...el otro se ha pirao";
                 }
             }
             else if(this.game.hasperdio){
@@ -236,7 +236,7 @@ DudeVolley.GameOver.prototype = {
             this.resultado_text = this.add.text(this.world.width/2, 120, "Ganador: "+nombreGanador.replace("<br>","")+elotrosehapirao, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_text.anchor.setTo(0.5, 0.5);
 
-            this.resultado_puntos_text = this.add.text(this.world.width/2, 200, this.game.puntosPlayer1+" - "+this.game.puntosPlayer2, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
+            this.resultado_puntos_text = this.add.text(this.world.width/2, 280, this.game.puntosPlayer1+" - "+this.game.puntosPlayer2, { font: '65px ArcadeClassic', fill: "#eaff02", align: "center" });
             this.resultado_puntos_text.anchor.setTo(0.5, 0.5);
         }
         
