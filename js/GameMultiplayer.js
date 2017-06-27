@@ -105,13 +105,17 @@ DudeVolley.GameMultiplayer.prototype = {
 
         function onSocketDisconnect() {
             eljuego.game.desconectado = true;
-            
             eljuego.game.hasperdio = false;
-            eljuego.game.perdedor = OTROPLAYER.sprite;
-            eljuego.game.ganador = Player1.sprite;
-            eljuego.game.nombre_ganador = Player1.nombre;
-
-
+            if(Player1.soyplayer1){
+                eljuego.game.perdedor = OTROPLAYER.sprite;
+                eljuego.game.ganador = Player1.sprite;
+                eljuego.game.nombre_ganador = Player1.nombre;
+            }
+            else{
+                eljuego.game.perdedor = Player1.sprite;
+                eljuego.game.ganador = OTROPLAYER.sprite;
+                eljuego.game.nombre_ganador = OTROPLAYER.nombre;
+            }
             eljuego.state.start('GameOver');
 
         };
