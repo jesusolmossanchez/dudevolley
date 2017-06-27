@@ -167,7 +167,7 @@ DudeVolley.GameMultiplayer.prototype = {
             eljuego.nombre1.text = data[0];
             Player1.nombre = data[0];
             eljuego.nombre2.text = data[1];
-            OTROPLAYER.nombre = data[0];
+            OTROPLAYER.nombre = data[1];
             $("#socket_overlay").hide();
 
             //Puedo empezar... empiezo
