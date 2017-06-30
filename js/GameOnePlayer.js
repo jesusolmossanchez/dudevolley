@@ -138,7 +138,7 @@ DudeVolley.GameOnePlayer.prototype = {
         this.game.puntosPlayer1 = 0;
         this.game.puntosPlayer2 = 0;
         this.game.puntosTotales1 = 0;
-        this.game.puntosTotales2 = 0;
+        this.game.puntosTotalesCPU = 0;
         
         this.esperaCollide1 = this.time.now;
         this.esperaCollide2 = this.time.now;
