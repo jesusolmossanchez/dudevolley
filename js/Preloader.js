@@ -39,7 +39,7 @@ DudeVolley.Preloader.prototype = {
         //this.load.image('swipe_to_play', 'assets/swipe_to_play.png');
 
         if(window.luismi){
-            this.load.spritesheet('player1','assets/luismi.png',80,110);
+            this.load.spritesheet('player1','assets/aaaaaaaaa.png',80,110);
         }
         else{
             this.load.spritesheet('player1','assets/default_player.png',80,110);
