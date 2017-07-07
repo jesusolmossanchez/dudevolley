@@ -7,7 +7,7 @@ DudeVolley.PreOnePlayer.prototype = {
 	preload: function (){
 		if (this.game.normalplayer){
 			if(window.luismi){
-				this.load.spritesheet('player1','assets/luismi.png',80,110);
+				this.load.spritesheet('player1','assets/aaaaaaaaa.png',80,110);
 			}
 			else{
 				this.load.spritesheet('player1','assets/default_player.png',80,110);
