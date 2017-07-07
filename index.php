@@ -67,7 +67,7 @@
 	}
 	      
 	?>
-	window.ad_url = "http://google.com";
+	window.ad_url = "https://revivokit.com";
     </script>
 
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
