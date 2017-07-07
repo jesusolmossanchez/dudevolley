@@ -62,6 +62,10 @@
 		echo 'window.tipo_jugador_1 = 1;';
                 echo 'window.tipo_jugador_2 = 1;';
 	}
+	if(isset($_GET["luismi"])){
+		echo 'window.luismi = 1;';
+	}
+	      
 	?>
 	window.ad_url = "http://google.com";
     </script>
