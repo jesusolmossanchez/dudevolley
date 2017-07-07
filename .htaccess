@@ -6,6 +6,7 @@ RewriteRule partymode ?modo=party
 RewriteRule chico_chica ?modo=1jugador&nuevo_modo=chico_chica
 RewriteRule chica_chica ?modo=1jugador&nuevo_modo=chica_chica
 RewriteRule chica_chico ?modo=1jugador&nuevo_modo=chica_chico
+RewriteRule luismi ?modo=1jugador&luismi=true
 
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^dudevolley\.com [NC]
